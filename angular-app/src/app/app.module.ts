@@ -26,6 +26,7 @@ import { QueryParametersComponent } from './project-view/query-view/query-parame
 import { QueryVisualComponent } from './project-view/query-view/query-visual-view/query-visual/query-visual.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DirectoriesService } from './directories.service';
+import { NavigationComponent } from './navigation/navigation.component';
 import { TestFindDirectoriesComponent } from './test-find-directories/test-find-directories.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -54,7 +55,7 @@ import { DemoMaterialModule } from './material-module';
     QueryMenuComponent,
     QueryParametersComponent,
     QueryVisualComponent,
-    TestFindDirectoriesComponent
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +66,7 @@ import { DemoMaterialModule } from './material-module';
     ReactiveFormsModule,
     DemoMaterialModule
   ],
-  providers: [DirectoriesService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
