@@ -58,7 +58,7 @@ import { NavigationComponent } from './navigation/navigation.component';
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  providers: [DirectoriesService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
