@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FBServiceService} from './fb-service.service';
 
 @Component({
@@ -7,14 +7,14 @@ import {FBServiceService} from './fb-service.service';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title = 'socianalysis';
+
 
     constructor(private fbService: FBServiceService) {
-       // fbService.fbInit();
     }
 
-    funfunc(){
-        this.fbService.fbInit();
+    // Dette er login tingen!
+    funfunc() {
+        this.fbService.login();
     }
 
 }
