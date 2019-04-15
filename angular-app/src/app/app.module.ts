@@ -25,6 +25,7 @@ import { QueryMenuComponent } from './project-view/query-view/query-menu/query-m
 import { QueryParametersComponent } from './project-view/query-view/query-parameters/query-parameters.component';
 import { QueryVisualComponent } from './project-view/query-view/query-visual-view/query-visual/query-visual.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DirectoriesService } from './directories.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [DirectoriesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
