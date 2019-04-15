@@ -69,19 +69,16 @@ export class TestFindDirectoriesComponent {
           if (projectExists === false) {
             console.log("Project with the following title does not exists yet: ", title);
             console.log("Creating such project directory now...")
-            let groupArr: Group[];
+            var groupArr: Group[] = [];
             let group = new Group("Gamer Group", "this is a definition");
             let group2 = new Group("Gamer Group", "this is a definition");
+            let att = {groups:[group,group2]}
             groupArr.push(group);
             groupArr.push(group2);
-            this.service.createProjectDirectory(this.selectedUser, title.trim().replace(/ /g, "_"),groupArr).subscribe((result) => {
-              if (result === true) {
-                console.log("Project created -> ", title, " from -> ", this.selectedUser);
-              } else{
-                console.log("Error", result)
-              }
-            });
-          } else{
+            console.log("GROUPARRAY: ", groupArr);
+
+            this.service.createProjectDirectory(this.selectedUser, title.trim().replace(/ /g, "_"), groupArr);
+          } else {
             console.log("Project with the following title already exists: ", title)
           }
         });

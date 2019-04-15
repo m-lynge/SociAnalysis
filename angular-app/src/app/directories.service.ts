@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { createDirective } from '@angular/compiler/src/core';
 import { Group } from './Group';
+import { all } from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -39,22 +40,39 @@ export class DirectoriesService {
   }
 
   public createProjectDirectory(user: string, project: string, allGroups: Group[]) {
-    // this.createGroupJSON()
-    return this.createDirectory(user + '/' + project);
+    // firstly, this method creates a directory for the project
+    return this.createDirectory(user + '/' + project).subscribe((directoryCreated) => {
+      if (directoryCreated) {
+        // if the directory was created, it then creates the two folders (group, query) to
+        //    segment the two json types
+        this.createDirectory(user + '/' + project + '/' + 'group').subscribe((res) => {
+          if (res) {
+            this.createDirectory(user + '/' + project + '/' + 'query').subscribe((res) => {
+              if (res)
+                // then if both were succesfull, createGroupJSON is called using passed json-element "allGroups"
+                this.createGroupJSON(user, project, allGroups).subscribe((resp) => {
+                  if (resp)
+                    console.log("JSON file created")
+                });
+            })
+          }
+        })
+      }
+    })
   }
 
   public createGroupJSON(user: string, project: string, allGroups: Group[]) {
-    return this.createJSON(user, project, JSON.stringify(allGroups));
+    return this.createJSON(user, project, "group", JSON.stringify(allGroups));
   }
 
   public createQueryJSON(user: string, project: string, query: string) {
 
   }
 
-  public createJSON(user: string, project: string, jsonParsed: string) {
+  public createJSON(user: string, project: string, GroupOrQuery: string, jsonParsed: string) {
     return this
       .http
-      .get(`${this.uri}/saveJSON/${user}/${project}/${jsonParsed}`);
+      .get(`${this.uri}/saveJSON/${user}/${project}/${GroupOrQuery}/${jsonParsed}`);
   }
 
   /**
