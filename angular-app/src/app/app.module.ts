@@ -55,7 +55,8 @@ import { DemoMaterialModule } from './material-module';
     QueryMenuComponent,
     QueryParametersComponent,
     QueryVisualComponent,
-    NavigationComponent
+    NavigationComponent,
+    TestFindDirectoriesComponent
   ],
   imports: [
     BrowserModule,

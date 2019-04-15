@@ -4,7 +4,7 @@ import { MatInput } from '@angular/material';
 import { Group } from '../Group';
 
 @Component({
-  selector: 'app-test-find-directories',
+  selector: 'app-test',
   templateUrl: './test-find-directories.component.html',
   styleUrls: ['./test-find-directories.component.css']
 })
