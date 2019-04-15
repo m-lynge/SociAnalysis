@@ -26,6 +26,7 @@ import { QueryParametersComponent } from './project-view/query-view/query-parame
 import { QueryVisualComponent } from './project-view/query-view/query-visual-view/query-visual/query-visual.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DirectoriesService } from './directories.service';
+import { NavigationComponent } from './navigation/navigation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +50,8 @@ import { DirectoriesService } from './directories.service';
     QueryVisualViewComponent,
     QueryMenuComponent,
     QueryParametersComponent,
-    QueryVisualComponent
+    QueryVisualComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
