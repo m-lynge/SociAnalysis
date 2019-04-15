@@ -24,6 +24,7 @@ import { QueryVisualViewComponent } from './project-view/query-view/query-visual
 import { QueryMenuComponent } from './project-view/query-view/query-menu/query-menu.component';
 import { QueryParametersComponent } from './project-view/query-view/query-parameters/query-parameters.component';
 import { QueryVisualComponent } from './project-view/query-view/query-visual-view/query-visual/query-visual.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { QueryVisualComponent } from './project-view/query-view/query-visual-vie
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
