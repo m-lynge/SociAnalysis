@@ -79,4 +79,12 @@ directoryRoute.route('/makeDir/:user/:project').get(function (req, res) {
     })
 })
 
+directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req,res) {
+    const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
+    
+    console.log("groups title: ", req.params.object.title);
+    fs.writeFile(req.params.object.title + '.json', req.params.object, 'utf8', callback);
+    // fs.writeFile('myjsonfile.json', json, 'utf8', callback);
+})
+
 module.exports = directoryRoute;

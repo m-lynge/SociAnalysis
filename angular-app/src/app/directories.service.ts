@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { createDirective } from '@angular/compiler/src/core';
+import { Group } from './Group';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,8 @@ export class DirectoriesService {
     return this.directoryExists(user);
   }
 
-  public projectExists(user: string, project: string){
-    const path = user + "/" + project;
+  public projectExists(user: string, project: string) {
+    const path = user + '/' + project;
     return this.directoryExists(path);
   }
 
@@ -37,8 +38,23 @@ export class DirectoriesService {
     return this.createDirectory(user);
   }
 
-  public createProjectDirectory(user: string, project: string) {
-    return this.createDirectory(user + "/" + project)
+  public createProjectDirectory(user: string, project: string, allGroups: Group[]) {
+    // this.createGroupJSON()
+    return this.createDirectory(user + '/' + project);
+  }
+
+  public createGroupJSON(user: string, project: string, allGroups: Group[]) {
+    return this.createJSON(user, project, JSON.stringify(allGroups));
+  }
+
+  public createQueryJSON(user: string, project: string, query: string) {
+
+  }
+
+  public createJSON(user: string, project: string, jsonParsed: string) {
+    return this
+      .http
+      .get(`${this.uri}/saveJSON/${user}/${project}/${jsonParsed}`);
   }
 
   /**
@@ -57,7 +73,7 @@ export class DirectoriesService {
  * each element signifying a user
  * @returns A string[]
  */
-  public findAllUsers_paths() {
+  public retrieveAllUserPaths() {
     return this
       .http
       .get(`${this.uri}/getUsers`);
@@ -69,7 +85,7 @@ export class DirectoriesService {
  * @param user - From which user should the function return projects of?
  * @returns A string[]
  */
-  public findAllProjects_paths(user: string) {
+  public retrieveAllProjectPaths(user: string) {
     return this
       .http
       .get(`${this.uri}/getProjects/${user}`);
@@ -82,11 +98,15 @@ export class DirectoriesService {
  * @param project - From which project should the function return searches of?
  * @returns A string[]
  */
-  public findAllSearches_paths(user: string, project: string) {
+  public retrieveAllQueryPaths(user: string, project: string) {
     return this
       .http
       .get(`${this.uri}/getSearches/${user}/${project}`);
   }
+
+
+
+
 
   /**
  * Setter method to set private variable usersInSystem: string[]
