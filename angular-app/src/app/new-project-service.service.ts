@@ -1,39 +1,23 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class NewProjectServiceService {
 
+    name: string;
+    descr: string;
+    listOfGroups: string[];
 
-  private _name: string;
-  private _descr: string;
-  private _addedGroups: string[];
+    setName(name: string) {
+        this.name = name;
+    }
 
-  constructor() { }
+    setDescription(descr: string) {
+        this.descr = descr;
+    }
 
-
-  get name(): string {
-    return this._name;
-  }
-
-  set name(value: string) {
-    this._name = value;
-  }
-
-  get descr(): string {
-    return this._descr;
-  }
-
-  set descr(value: string) {
-    this._descr = value;
-  }
-
-  get addedGroups(): string[] {
-    return this._addedGroups;
-  }
-
-  set addedGroups(value: string[]) {
-    this._addedGroups = value;
-  }
+    setListOfGroups(listOfGroups: string[]) {
+        this.listOfGroups = listOfGroups;
+    }
 }

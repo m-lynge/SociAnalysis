@@ -6,7 +6,7 @@ import {Injectable} from '@angular/core';
 export class FBServiceService {
 
     constructor() {
-        (window as any).fbAsyncInit = function () {
+        (window as any).fbAsyncInit = () => {
             FB.init({
                 appId: '582581992245168',
                 cookie: true,
@@ -16,23 +16,21 @@ export class FBServiceService {
             FB.AppEvents.logPageView();
         };
 
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
+        (((d, s, id) => {
+            let js;
+            const fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) {
                 return;
             }
             js = d.createElement(s);
             js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            js.src = 'https://connect.facebook.net/en_US/sdk.js';
             fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
+        })(document, 'script', 'facebook-jssdk'));
     }
 
-    fbInit() {
-
-
-
-        console.log("submit login to facebook");
+    login() {
+        console.log('submit login to facebook');
         // FB.login();
         FB.login((response) => {
             console.log('submitLogin', response);
