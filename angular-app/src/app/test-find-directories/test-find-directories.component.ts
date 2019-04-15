@@ -47,7 +47,9 @@ export class TestFindDirectoriesComponent {
       this.allUsersProjects = this.service.getProjects();
       this.selectedProject = this.allUsersProjects[0];
       this.findSearchPaths(this.selectedUser, this.selectedProject);
+      this.service.setSelectedUser(this.selectedUser); 
     })
+    
   }
 
   // Calls findAllSearches_paths method from directoriesService,
@@ -58,6 +60,7 @@ export class TestFindDirectoriesComponent {
       console.log(data);
       this.service.setSearches(data);
       this.allUsersProjectsSearches = this.service.getSearches();
+      this.service.setSelectedProject(this.selectedProject); 
     })
   }
 

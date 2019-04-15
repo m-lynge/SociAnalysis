@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { createDirective } from '@angular/compiler/src/core';
 import { Group } from './Group';
 import { all } from 'q';
+import { Selected } from './Selected';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,11 @@ export class DirectoriesService {
   private projectsFromSelectedUser: string[];
   private searchesInProjectsFromSelectedUser: string[];
 
-  constructor(private http: HttpClient) { }
+  private selected: Selected 
+
+  constructor(private http: HttpClient,  ) { 
+    this.selected = new Selected(null,null,null);
+  }
 
   /**
 * Checks if user provided exists
@@ -172,5 +177,21 @@ export class DirectoriesService {
 */
   public getSearches() {
     return this.searchesInProjectsFromSelectedUser;
+  }
+
+  public setSelectedUser(user: string) {
+    this.selected.user = user;
+  }
+
+  public setSelectedProject(project: string) {
+    this.selected.project = project;
+  }
+
+  public setSelectedQuery(query: string) {
+    this.selected.query = query
+  }
+
+  public getSelected() {
+    return this.selected;
   }
 }

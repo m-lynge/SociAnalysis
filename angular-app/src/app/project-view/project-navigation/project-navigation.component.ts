@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DirectoriesService } from '../../directories.service';
+import { Selected } from '../../Selected'
 
 @Component({
   selector: 'app-project-navigation',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectNavigationComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(private directoryService: DirectoriesService) { }
+
+  private projectName: String
+  
 
   ngOnInit() {
+    this.projectName = "TESTING"
   }
 
+  callUpdate(){
+    console.log("BUTTON CLICKED");
+    console.log("USER CHOSEN: ", this.directoryService.getSelected().user)
+    this.projectName = this.directoryService.getSelected().project;
+  }
 }
