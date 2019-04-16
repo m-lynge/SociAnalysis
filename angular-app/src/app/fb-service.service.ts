@@ -29,7 +29,7 @@ export class FBServiceService {
         })(document, 'script', 'facebook-jssdk'));
     }
 
-    login() {
+    login(): boolean {
         console.log('submit login to facebook');
         // FB.login();
         FB.login((response) => {
@@ -42,12 +42,14 @@ export class FBServiceService {
                 return false;
             }
         }, {auth_type: 'reauthenticate'});
+        return;
     }
 
-    logout() {
+    logout(): boolean {
         FB.logout(response => {
             return true;
         });
+        return;
     }
 
 
