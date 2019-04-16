@@ -50,6 +50,10 @@ export class FBServiceService {
         });
     }
 
+    retrieveGroups(){
+
+    }
+
 
 }
 
