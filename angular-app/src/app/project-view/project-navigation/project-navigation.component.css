@@ -3,10 +3,32 @@
     height: 50px;
     width: 50px;
     background-color: #555;
-    display: inline-flex;
-    padding-left: 20px
+    display: table-cell;
+    border-spacing: 10px;
+    /* padding-left: 20px */
 }
 .projectName{
-    display: contents;
+    display: table-cell;
     vertical-align: middle;
+    font-size: 2rem;
+    float: left;
+    padding-right: 40px;
+}
+.container{
+    height: 100%;
+
+    display: table;
+    border-spacing: 10px 0px;
+    margin-left: 0;
+   
+}
+
+.iconcontainer{
+    display: table-cell;
+    /* padding-left: 40px; */
+    float: right;
+}
+.navigator{
+    width: 100%;
+    background: pink;
 }

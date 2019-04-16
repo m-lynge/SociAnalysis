@@ -14,10 +14,10 @@ export class DirectoriesService {
   private projectsFromSelectedUser: string[];
   private searchesInProjectsFromSelectedUser: string[];
 
-  private selected: Selected 
+  private selected: Selected
 
-  constructor(private http: HttpClient,  ) { 
-    this.selected = new Selected(null,null,null);
+  constructor(private http: HttpClient, ) {
+    this.selected = new Selected(null, null, null);
   }
 
   /**
@@ -48,36 +48,47 @@ export class DirectoriesService {
     // firstly, this method creates a directory for the project
     return this.createDirectory(user + '/' + project).subscribe((directoryCreated) => {
       if (directoryCreated) {
-        // if the directory was created, it then creates the two folders (group, query) to
-        //    segment the two json types
-        this.createDirectory(user + '/' + project + '/' + 'group').subscribe((res) => {
+        // if the directory was created, it then creates a folder for the queries and saves
+        // the specified groups into a separete json file under the project folder
+        this.createDirectory(user + '/' + project + '/' + 'query').subscribe((res) => {
           if (res) {
-            this.createDirectory(user + '/' + project + '/' + 'query').subscribe((res) => {
-              if (res)
-                // then if both were succesfull, createGroupJSON is called using passed json-element "allGroups"
-                this.createGroupJSON(user, project, allGroups).subscribe((resp) => {
-                  if (resp)
-                    console.log("JSON file created")
-                });
-            })
+            // then if both were succesfull, createGroupJSON is called using passed json-element "allGroups"
+            this.createGroupJSON(user, project, allGroups).subscribe((resp) => {
+              if (resp) {
+                console.log('JSON file created');
+              }
+            });
           }
-        })
+        });
       }
-    })
+    });
   }
 
   public createGroupJSON(user: string, project: string, allGroups: Group[]) {
-    return this.createJSON(user, project, "group", JSON.stringify(allGroups));
+    return this.createJSON(user, project, { title: 'group', jsonString: JSON.stringify(allGroups) });
   }
 
-  public createQueryJSON(user: string, project: string, query: string) {
-
+  public createQueryJSON(user: string, project: string, query: object) {
+    return this.createJSON(user, project, { title: 'query', jsonString: JSON.stringify(query) });
   }
 
-  public createJSON(user: string, project: string, GroupOrQuery: string, jsonParsed: string) {
+
+  /**
+* Creates a json file at the path provided
+* @param user - for which user to save the json file under
+* @param project - for which project to save the json file under
+* @param jsonObject - Object of the following structure: {title: , jsonString: }
+* @returns true if directory was succesfully created, else an error is thrown
+*/
+  private createJSON(user: string, project: string, jsonObject: any) {
+    if (jsonObject.hasOwnProperty('title') && jsonObject.title === 'group') {
+      return this
+        .http
+        .get(`${this.uri}/saveJSON/${user}/${project}/${jsonObject.jsonString}`);
+    }
     return this
       .http
-      .get(`${this.uri}/saveJSON/${user}/${project}/${GroupOrQuery}/${jsonParsed}`);
+      .get(`${this.uri}/saveJSON/${user}/${project}/${jsonObject.title}/${jsonObject.jsonString}`);
   }
 
   /**
@@ -188,7 +199,7 @@ export class DirectoriesService {
   }
 
   public setSelectedQuery(query: string) {
-    this.selected.query = query
+    this.selected.query = query;
   }
 
   public getSelected() {

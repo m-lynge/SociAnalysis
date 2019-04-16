@@ -91,23 +91,31 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
     })
 })
 
+
+// Route for saving JSON files (object:string)
 directoryRoute.route('/saveJSON/:user/:project/:groupOrQuery/:object').get(function (req, res) {
-    const finalPath = './users/' + req.params.user + '/' + req.params.project + '/' + req.params.groupOrQuery + '/';
-    // The JSON file being written is the group.json
-    if (req.params.groupOrQuery === "group") {
+    if (req.params.groupOrQuery === 'group') {
+        // The JSON file being written is the group.json
+        const finalPath = './users/' + req.params.user + '/' + req.params.project +  '/';
         fs.writeFile(finalPath + "groups" + '.json', req.params.object, (err) => {
             if (err) {
-                console.log("error:", err)
                 res.json(err)
             } else {
-                console.log("fun:")
                 res.json(true)
             }
         });
-    } else {
-    // The JSON file being written is a query.json file
+    } else if (req.params.groupOrQuery === 'query') {
+        // The JSON file being written is a query.json file
+        const finalPath = './users/' + req.params.user + '/' + req.params.project + '/' + req.params.groupOrQuery + '/';
+        // set queryname to correct later
+        fs.writeFile(finalPath + "queryname" + '.json', req.params.object, (err) => {
+            if (err) {
+                res.json(err)
+            } else {
+                res.json(true)
+            }
+        });
     }
-
 })
 
 module.exports = directoryRoute;
