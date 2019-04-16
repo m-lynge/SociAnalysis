@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FBServiceService } from '../fb-service.service';
 
 @Component({
   selector: 'app-login-view',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fbService: FBServiceService) { }
+
 
   ngOnInit() {
   }
+
+ loginToFacebook() {
+   this.fbService.login();
+ }
 
 }
