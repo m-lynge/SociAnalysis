@@ -36,11 +36,20 @@ export class FBServiceService {
             console.log('submitLogin', response);
             if (response.authResponse) {
                 console.log(response.authResponse);
-
+                return true;
             } else {
                 console.log('User login failed');
+                return false;
             }
         }, {auth_type: 'reauthenticate'});
     }
+
+    logout() {
+        FB.logout(response => {
+            return true;
+        });
+    }
+
+
 }
 
