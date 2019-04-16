@@ -16,6 +16,7 @@ directoryRoute.route('/getUsers').get(function (req, res) {
 directoryRoute.route('/getProjects/:user').get(function (req, res) {
     const path = './users/' + req.params.user + '/';
     fs.readdir(path, function (err, items) {
+        console.log("ITEMS: \n: ", items)
         finalProejct = items.map((projectName) => {
             newPath = path + projectName + '/' + 'projectinfo.json';
             projectInfo = fs.readFileSync(newPath, 'utf8', (err, data) => {
@@ -101,29 +102,32 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
 
 
 // Route for saving JSON files (object:string)
-directoryRoute.route('/saveJSON/:user/:project/:groupOrQuery/:object').get(function (req, res) {
-    if (req.params.groupOrQuery === 'group') {
-        // The JSON file being written is the group.json
-        const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
-        fs.writeFile(finalPath + "groups" + '.json', req.params.object, (err) => {
-            if (err) {
-                res.json(err)
-            } else {
-                res.json(true)
-            }
-        });
-    } else if (req.params.groupOrQuery === 'query') {
-        // The JSON file being written is a query.json file
-        const finalPath = './users/' + req.params.user + '/' + req.params.project + '/' + req.params.groupOrQuery + '/';
-        // set queryname to correct later
-        fs.writeFile(finalPath + "queryname" + '.json', req.params.object, (err) => {
-            if (err) {
-                res.json(err)
-            } else {
-                res.json(true)
-            }
-        });
-    }
+directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req, res) {
+    // The JSON file being written is the group.json
+    const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
+    fs.writeFile(finalPath + 'projectinfo' + '.json', String(req.params.object).replace(/[_]/g, '/'), (err) => {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(true)
+        }
+    });
+})
+
+
+
+directoryRoute.route('/saveJSON/:user/:project/:query/:object').get(function (req, res) {
+
+    // The JSON file being written is a query.json file
+    const finalPath = './users/' + req.params.user + '/' + req.params.project + '/' + req.params.query + '/';
+    // set queryname to correct later
+    fs.writeFile(finalPath + "queryname" + '.json', req.params.object, (err) => {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(true)
+        }
+    });
 })
 
 module.exports = directoryRoute;

@@ -4,7 +4,7 @@
     <mat-form-field>
       <mat-label>Select a user</mat-label>
       <mat-select [(value)]="selectedUser"
-        (selectionChange)="this.service.selectedUser = selectedUser; findProjectPaths()">
+        (selectionChange)="this.service.selectedUser = selectedUser;findProjectPaths()">
         <mat-option *ngFor="let user of allUsers" value={{user}}>{{user}}</mat-option>
       </mat-select>
     </mat-form-field>

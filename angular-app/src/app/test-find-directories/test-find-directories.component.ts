@@ -53,16 +53,13 @@ export class TestFindDirectoriesComponent {
   // Calls findAllProjects_paths method from directoriesService,
   // to find all the projects of the passed user
   findProjectPaths() {
+    this.allUsersProjects = [];
+    this.allUsersProjectsSearches = [];
     this.service.getAllProjects(this.service.selectedUser).subscribe((data: ProjectInterface[]) => {
       console.log("Printing projects from chosen user");
       console.log(data);
       this.allUsersProjects = data;
-      console.log("name of first project:", this.allUsersProjects[0].name)
-      // this.selectedProject = this.allUsersProjects[0].name;
-      // this.service.selectedProject = this.allUsersProjects[0].name;
-      let temproject: ProjectInterface = { name: this.selectedProject.trim().replace(/ /g, "_"), desc: null, group: null };
-      this.findSearchPaths();
-      // this.service.selectedUser = this.selectedUser;
+      this.service.selectedProject = data[0].name;
     })
 
   }
@@ -71,18 +68,16 @@ export class TestFindDirectoriesComponent {
   // to find all the searches of the passed project and user
   findSearchPaths() {
     let temproject: ProjectInterface = { name: this.service.selectedProject.trim().replace(/ /g, "_"), desc: null, group: null };
-
     this.service.getAllQueries(this.service.selectedUser, temproject).subscribe((data: string[]) => {
       console.log("Printing searches paths from chosen project");
       console.log(data);
       this.allUsersProjectsSearches = data;
-      // this.service.selectedProject = this.selectedProject;
     })
   }
 
   createNewProject(title: string, description: string) {
     if (title !== undefined && description !== undefined) {
-      if (this.selectedUser !== '') {
+      if (this.service.selectedUser !== '') {
         console.log("Checking if title with the following title already exists: ", title)
 
         //DUMMY DATA
@@ -93,12 +88,13 @@ export class TestFindDirectoriesComponent {
         groupArr.push(group);
         groupArr.push(group2);
 
-        let projectTitleExport: ProjectInterface = { name: title.trim().replace(/ /g, "_"), desc: description, group: groupArr };
-        this.service.projectExists(this.selectedUser, projectTitleExport).subscribe((projectExists) => {
+        let trimmedName = title.trim().replace(/ /g, "_");
+        let projectTitleExport: ProjectInterface = { name: trimmedName, desc: description, group: groupArr };
+        this.service.projectExists(this.service.selectedUser, projectTitleExport).subscribe((projectExists) => {
           if (projectExists === false) {
             console.log("Project with the following title does not exists yet: ", projectTitleExport.name);
             console.log("Creating such project directory now...")
-            this.service.createProjectDirectory(this.selectedUser, projectTitleExport, groupArr);
+            this.service.createProjectDirectory(this.selectedUser, projectTitleExport);
           } else {
             console.log("Project with the following title already exists: ", title)
           }

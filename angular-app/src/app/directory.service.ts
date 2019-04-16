@@ -74,7 +74,8 @@ export class DirectoryService {
   }
 
   public projectExists(user: string, project: ProjectInterface) {
-    const path = user + '/' + project;
+    const path = user + '/' + project.name;
+    console.log("CHECK: ", path)
     return this.directoryExists(path);
   }
 
@@ -84,16 +85,16 @@ export class DirectoryService {
       .get(`${this.uri}/dirExists/${path}`);
   }
 
-  public createProjectDirectory(user: string, project: ProjectInterface, allGroups: Group[]) {
+  public createProjectDirectory(user: string, project: ProjectInterface) {
     // firstly, this method creates a directory for the project
-    return this.createDirectory(user + '/' + project).subscribe((directoryCreated) => {
+    return this.createDirectory(user + '/' + project.name).subscribe((directoryCreated) => {
       if (directoryCreated) {
         // if the directory was created, it then creates a folder for the queries and saves
-        // the specified groups into a separete json file under the project folder
-        this.createDirectory(user + '/' + project + '/' + 'query').subscribe((res) => {
+        // the specified groups and project info into a separate json file within the project folder
+        this.createDirectory(user + '/' + project.name + '/' + 'query').subscribe((res) => {
           if (res) {
             // then if both were succesfull, createGroupJSON is called using passed json-element "allGroups"
-            this.createGroupJSON(user, project, allGroups).subscribe((resp) => {
+            this.createProjectInfoJSON(user, project.name, project).subscribe((resp) => {
               if (resp) {
                 console.log('JSON file created');
               }
@@ -110,29 +111,15 @@ export class DirectoryService {
       .get(`${this.uri}/makeDir/${path}`);
   }
 
-  public createGroupJSON(user: string, project: ProjectInterface, allGroups: Group[]) {
-    return this.createJSON(user, project, { title: 'group', jsonString: JSON.stringify(allGroups) });
-  }
-
-  public createQueryJSON(user: string, project: ProjectInterface, query: object) {
-    return this.createJSON(user, project, { title: 'query', jsonString: JSON.stringify(query) });
-  }
-
-  private createJSON(user: string, project: ProjectInterface, jsonObject: any) {
-    if (jsonObject.hasOwnProperty('title') && jsonObject.title === 'group') {
-      return this
-        .http
-        .get(`${this.uri}/saveJSON/${user}/${project.name}/${jsonObject.jsonString}`);
-    }
+  public createProjectInfoJSON(user: string, project: string, projectInfoObject: ProjectInterface) {
     return this
       .http
-      .get(`${this.uri}/saveJSON/${user}/${project.name}/${jsonObject.title}/${jsonObject.jsonString}`);
+      .get(`${this.uri}/saveJSON/${user}/${project}/${JSON.stringify(projectInfoObject)}`);
   }
 
-
-
-
-
-
-
+  public createQueryJSON(user: string, project: string, query: object) {
+    return this
+      .http
+      .get(`${this.uri}/saveJSON/${user}/${project}/'query'/${query}`);
+  }
 }
