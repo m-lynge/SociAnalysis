@@ -1,28 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { FBServiceService } from '../fb-service.service';
-import { Router } from '@angular/router';
-
-
+import { Component, OnInit } from "@angular/core";
+import { FBServiceService } from "../fb-service.service";
+import { Router } from "@angular/router";
+import { NavigationService } from "../navigation.service";
 @Component({
-  selector: 'app-login-view',
-  templateUrl: './login-view.component.html',
-  styleUrls: ['./login-view.component.css']
+  selector: "app-login-view",
+  templateUrl: "./login-view.component.html",
+  styleUrls: ["./login-view.component.css"]
 })
-
-
 export class LoginViewComponent implements OnInit {
   returnValue: boolean;
-  constructor(private fbService: FBServiceService, private router: Router) {}
+  loading: boolean;
+  failed: boolean;
+  showButton: boolean;
+
+  constructor(
+    private fbService: FBServiceService,
+    private router: Router,
+    private navigationservice: NavigationService
+  ) {
+    this.loading = false;
+    this.failed = false;
+    this.showButton = true;
+  }
 
   ngOnInit() {}
 
   loginToFacebook() {
-    this.returnValue = this.fbService.login();
-    this.router.navigate(['/loading']);
-    if (this.returnValue) {
-      console.log('Loggedin');
-    } else {
-      console.log('returning to early');
-    }
+    this.loading = true;
+    this.showButton = false;
+    this.failed = false;
+    this.fbService
+      .login()
+      .then(id => {
+        this.navigationservice.setNavi(true);
+        this.router.navigate(['/home']);
+      })
+      .catch(error => {
+        console.log('Error: not logged in');
+        this.showButton = true;
+        this.loading = false;
+        this.failed = true;
+      });
   }
 }

@@ -1,1 +1,5 @@
-<button (click)="loginToFacebook()" class="buttonCenter"> Log ind </button>
+<div>
+    <button *ngIf="showButton" (click)="loginToFacebook()" class="boxCenter" > Log ind </button>
+    <app-loading-view *ngIf="loading"></app-loading-view>
+    <p *ngIf="failed">Login failed, please try again!</p>
+</div>

@@ -4,5 +4,10 @@
   flex: 1 1 auto;
 }
 .navigationBar {
- position: fixed;
+  top: 0;
+  position: fixed;
 }
+.addMargin{
+  height: 100px;
+}
+

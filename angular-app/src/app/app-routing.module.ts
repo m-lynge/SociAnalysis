@@ -3,10 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginViewComponent } from './login-view/login-view.component';
 import { LoadingViewComponent } from './loading-view/loading-view.component';
 import { HomeViewComponent } from './home-view/home-view.component';
+import { NewProjectViewComponent } from './new-project-view/new-project-view.component';
 
-const routes: Routes = [{path: 'login', component: LoginViewComponent},
+const routes: Routes = [  {path: '', component: LoginViewComponent},
 {path: 'loading', component: LoadingViewComponent},
- {path: 'home', component: HomeViewComponent}];
+ {path: 'home', component: HomeViewComponent}, {path: 'opretprojekt', component: NewProjectViewComponent}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

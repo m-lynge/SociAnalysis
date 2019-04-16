@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FBServiceService } from '../fb-service.service';
+import { NavigationService } from '../navigation.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
@@ -7,13 +9,16 @@ import { FBServiceService } from '../fb-service.service';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
-  returnValue: boolean;
-  constructor(private fbservice: FBServiceService) { }
+  constructor(private fbservice: FBServiceService, private navigationservice: NavigationService, private router: Router) {
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   logoutOfFacebook() {
     this.fbservice.logout();
+    this.navigationservice.setNavi(false);
+    this.router.navigate(['']);
   }
 
 
