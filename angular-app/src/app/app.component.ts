@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FBServiceService} from './fb-service.service';
 
 @Component({
@@ -14,7 +14,18 @@ export class AppComponent {
 
     // Dette er login tingen!
     funfunc() {
-        this.fbService.login();
+        this.fbService.login().then(id => {
+            console.log(id);
+        }).catch(lort => {
+            console.log(lort);
+        });
+
+
+    }
+
+    helloGroupsWorld() {
+        const groups = this.fbService.retrieveGroups();
+        console.log(groups);
     }
 
 }
