@@ -31,6 +31,9 @@ import { TestFindDirectoriesComponent } from './test-find-directories/test-find-
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DemoMaterialModule } from './material-module';
+import { Routes, RouterModule } from '@angular/router';
+
+
 @NgModule({
   declarations: [
     AppComponent,
