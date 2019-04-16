@@ -52,6 +52,10 @@ export class FBServiceService {
         return;
     }
 
+    retrieveGroups(){
+
+    }
+
 
 }
 
