@@ -47,9 +47,9 @@ export class TestFindDirectoriesComponent {
       this.allUsersProjects = this.service.getProjects();
       this.selectedProject = this.allUsersProjects[0];
       this.findSearchPaths(this.selectedUser, this.selectedProject);
-      this.service.setSelectedUser(this.selectedUser); 
+      this.service.setSelectedUser(this.selectedUser);
     })
-    
+
   }
 
   // Calls findAllSearches_paths method from directoriesService,
@@ -58,9 +58,9 @@ export class TestFindDirectoriesComponent {
     this.service.retrieveAllQueryPaths(user, project).subscribe((data: string[]) => {
       console.log("Printing searches paths from chosen project");
       console.log(data);
-      this.service.setSearches(data);
-      this.allUsersProjectsSearches = this.service.getSearches();
-      this.service.setSelectedProject(this.selectedProject); 
+      this.service.setQueries(data);
+      this.allUsersProjectsSearches = this.service.getQueries();
+      this.service.setSelectedProject(this.selectedProject);
     })
   }
 
@@ -75,7 +75,7 @@ export class TestFindDirectoriesComponent {
             var groupArr: Group[] = [];
             let group = new Group("Gamer Group", "this is a definition");
             let group2 = new Group("Gamer Group", "this is a definition");
-            let att = {groups:[group,group2]}
+            let att = { groups: [group, group2] }
             groupArr.push(group);
             groupArr.push(group2);
             console.log("GROUPARRAY: ", groupArr);

@@ -18,9 +18,81 @@ directoryRoute.route('/getUsers').get(function (req, res) {
 directoryRoute.route('/getProjects/:user').get(function (req, res) {
     const path = './users/' + req.params.user + '/';
     fs.readdir(path, function (err, items) {
-        // console.log("Printing projects from", path);
-        // console.log(items);
+        let project = {
+            name: null,
+            desc: null,
+            group: {
+                name: null,
+                desc: null
+            }
+        }
+        // project = {...items}
+        project.name = {
+            ...items
+        }
+        // heyyouBaby: any[0];
+
+
+        finalProejct = items.map((projectName) => {
+            newPath = path + projectName + '/' + 'projectinfo.json';
+            var obj;
+            test = fs.readFileSync(newPath, 'utf8', (err, data) => {
+                if (err) throw err;
+                projectInfo = JSON.parse(data);
+                groupObject = projectInfo.group.map((group) => {
+                    return {
+                        name: group.name,
+                        desc: group.desc
+                    }
+                })
+                obj = {
+                    name: projectName,
+                    desc: projectInfo.desc,
+                    group: groupObject
+                }
+            })
+            console.log("OBJECT:", test)
+            //ADD ONTO TEST, RETURN FINISHED VARIABLE
+            var heyhey;
+
+            // console.log(test);
+            heyhey = {
+                "name": projectName,
+                "desc": JSON.parse(test).desc,
+                "group": JSON.parse(test).group
+            }
+            // });
+            console.log(heyhey)
+            return heyhey;
+        })
+        console.log("OUTPUT:",finalProejct)
+        if (finalProejct.group)
+        finalProejct.group.forEach(group=>{
+            console.log(element)
+        })
+        // console.log("TEST:", finalProejct[0].group)
+        finalProejct.forEach(element => {
+
+            // console.log(JSON.parse(element))
+        });
+
         res.json(items);
+        // for loop that runs through all the found projects
+        // items.forEach(project => {
+        newPath = path + project + '/';
+        // in the found project, retrieve:
+        // projDescription, projGroups (name, description)
+
+
+        // projectInfoPath = path + 'projectinfo.json'
+        // fs.readFile(projectInfoPath, (err, data) => {
+        //     if (err) throw err;
+        //     returnJsonObject = {
+        //         items,
+        //         ...data
+        //     }
+        //     res.json(returnJsonObject);
+        // })
     });
 })
 
@@ -96,7 +168,7 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
 directoryRoute.route('/saveJSON/:user/:project/:groupOrQuery/:object').get(function (req, res) {
     if (req.params.groupOrQuery === 'group') {
         // The JSON file being written is the group.json
-        const finalPath = './users/' + req.params.user + '/' + req.params.project +  '/';
+        const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
         fs.writeFile(finalPath + "groups" + '.json', req.params.object, (err) => {
             if (err) {
                 res.json(err)

@@ -14,7 +14,7 @@ export class DirectoriesService {
   private projectsFromSelectedUser: string[];
   private searchesInProjectsFromSelectedUser: string[];
 
-  private selected: Selected
+  private selected: Selected;
 
   constructor(private http: HttpClient, ) {
     this.selected = new Selected(null, null, null);
@@ -139,9 +139,6 @@ export class DirectoriesService {
   }
 
 
-
-
-
   /**
  * Setter method to set private variable usersInSystem: string[]
  * @param input - The users in the system
@@ -178,7 +175,7 @@ export class DirectoriesService {
  * Setter method to set private variable searchesInProjectsFromSelectedUser: string[]
  * @param input - The searches in the system
  */
-  public setSearches(input: string[]) {
+  public setQueries(input: string[]) {
     this.searchesInProjectsFromSelectedUser = input;
   }
 
@@ -186,7 +183,7 @@ export class DirectoriesService {
 * Getter method to retrieve private variable searchesInProjectsFromSelectedUser: string[] 
 * @returns The searches in the system
 */
-  public getSearches() {
+  public getQueries() {
     return this.searchesInProjectsFromSelectedUser;
   }
 
