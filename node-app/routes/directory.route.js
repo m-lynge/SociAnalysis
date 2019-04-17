@@ -105,7 +105,7 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
 directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req, res) {
     // The JSON file being written is the group.json
     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
-    fs.writeFile(finalPath + 'projectinfo' + '.json', String(req.params.object).replace(/[_]/g, '/'), (err) => {
+    fs.writeFile(finalPath + 'projectinfo' + '.json', String(req.params.object), (err) => {
         if (err) {
             res.json(err)
         } else {
