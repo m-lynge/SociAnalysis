@@ -1,7 +1,6 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { NewProjectService } from 'src/app/new-project.service';
-import { NewProjectGroupsComponent } from '../new-project-groups/new-project-groups.component';
-import {CommonModule} from '@angular/common';
+
 
 
 @Component({
