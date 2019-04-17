@@ -17,7 +17,7 @@ export class LoginViewComponent implements OnInit {
   ngOnInit() {}
 
   loginToFacebook() {
-    this.returnValue = this.fbService.login();
+   // this.returnValue = this.fbService.login();
     this.router.navigate(['/loading']);
     if (this.returnValue) {
       console.log('Loggedin');
