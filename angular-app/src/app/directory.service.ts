@@ -3,13 +3,8 @@ import { Selected } from './Selected';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Group } from './Group';
+import { Project } from './Project';
 
-
-interface ProjectInterface {
-  name: string;
-  desc: string;
-  group: Group[];
-}
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +58,7 @@ export class DirectoryService {
       .get(`${this.uri}/getProjects/${user}`);
   }
 
-  public getAllQueries(user: string, project: ProjectInterface): Observable<object> {
+  public getAllQueries(user: string, project: Project): Observable<object> {
     return this
       .http
       .get(`${this.uri}/getQueries/${user}/${project.name}`);
@@ -73,9 +68,9 @@ export class DirectoryService {
     return this.directoryExists(user);
   }
 
-  public projectExists(user: string, project: ProjectInterface) {
+  public projectExists(user: string, project: Project) {
     const path = user + '/' + project.name;
-    console.log("CHECK: ", path)
+    console.log("CHECK: ", path);
     return this.directoryExists(path);
   }
 
@@ -85,7 +80,7 @@ export class DirectoryService {
       .get(`${this.uri}/dirExists/${path}`);
   }
 
-  public createProjectDirectory(user: string, project: ProjectInterface) {
+  public createProjectDirectory(user: string, project: Project) {
     // firstly, this method creates a directory for the project
     return this.createDirectory(user + '/' + project.name).subscribe((directoryCreated) => {
       if (directoryCreated) {
@@ -111,7 +106,7 @@ export class DirectoryService {
       .get(`${this.uri}/makeDir/${path}`);
   }
 
-  public createProjectInfoJSON(user: string, project: string, projectInfoObject: ProjectInterface) {
+  public createProjectInfoJSON(user: string, project: string, projectInfoObject: Project) {
     return this
       .http
       .get(`${this.uri}/saveJSON/${user}/${project}/${JSON.stringify(projectInfoObject)}`);

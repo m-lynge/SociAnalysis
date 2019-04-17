@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DirectoriesService } from '../../directories.service';
+import { DirectoriesService } from '../../DEPRECATEDdirectories.service';
 import { Selected } from '../../Selected'
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
-import { DirectoriesService } from 'src/app/directories.service';
+import { DirectoriesService } from 'src/app/DEPRECATEDdirectories.service';
 
 @Component({
   selector: 'app-query-filter',
