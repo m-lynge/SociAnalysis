@@ -1,33 +1,33 @@
 <button (click)="findUserPaths()">Retrieve the users logged in</button>
+<div style="background-color:black">
+  <div *ngIf="allUsers.length > 0">
+    <mat-form-field>
+      <mat-label>Select a user</mat-label>
+      <mat-select [(value)]="selectedUser"
+        (selectionChange)="this.service.selectedUser = selectedUser;findProjectPaths()">
+        <mat-option *ngFor="let user of allUsers" value={{user}}>{{user}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-<div *ngIf="allUsers.length > 0">
-  <mat-form-field >
-    <mat-label>Select a user</mat-label>
-    <mat-select [(value)]="selectedUser" (selectionChange) = "findProjectPaths(selectedUser)">
-      <mat-option *ngFor="let user of allUsers" value={{user}}>{{user}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <span class="createNewProject" (click)="createNewProject(projectName, projectDesc)"
+      id="createNewProject">&#43;</span>
+    <span id="createNewProject">create new project</span>
+    <span><input type="text" [(ngModel)]="projectName" id=""></span>
+    <span><input type="text" [(ngModel)]="projectDesc" id=""></span>
+  </div>
 
-  <span class="createNewProject" (click)="createNewProject(projectName)" id="createNewProject">&#43;</span> 
-  <span id="createNewProject">create new project</span>
-  <span><input type="text" [(ngModel)]="projectName" id=""></span>
+  <div *ngIf="allUsersProjects.length > 0">
+    <mat-form-field>
+      <mat-label>Select a Project</mat-label>
+      <mat-select [(value)]="selectedProject" (selectionChange)="this.service.selectedProject = selectedProject; findSearchPaths()">
+        <mat-option *ngFor="let project of allUsersProjects" value={{project.name}}>{{project.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="allUsersProjectsSearches !== null && allUsersProjectsSearches.length > 0">
+    <ul>
+      <li *ngFor="let search of allUsersProjectsSearches">{{search}}</li>
+    </ul>
+  </div>
 </div>
-
-<div *ngIf="allUsersProjects.length > 0">
-  <mat-form-field>
-    <mat-label>Select a Project</mat-label>
-    <mat-select [(value)]="selectedProject" (selectionChange) = "findSearchPaths(selectedUser, selectedProject)">
-      <mat-option *ngFor="let project of allUsersProjects" value={{project}}>{{project}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-
-<div *ngIf="allUsersProjectsSearches !== null && allUsersProjectsSearches.length > 0">
-  <ul>
-    <li *ngFor="let search of allUsersProjectsSearches">{{search}}</li>
-  </ul>
-</div>
-
-
-
-

@@ -1,6 +1,6 @@
 export class Group {
     constructor(
-        public title: String,
-        public description: String
+        public name: String,
+        public desc: String
     ) { }
 }
