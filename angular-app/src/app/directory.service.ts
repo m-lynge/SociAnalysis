@@ -100,6 +100,10 @@ export class DirectoryService {
     });
   }
 
+  public createUserDirectory(user: string) {
+    return this.createDirectory(user);
+  }
+
   private createDirectory(path: string) {
     return this
       .http

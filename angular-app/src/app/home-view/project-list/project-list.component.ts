@@ -13,7 +13,6 @@ export class ProjectListComponent implements OnInit {
   projects: Project[];
 
   constructor(private directoryservice: DirectoryService, private router: Router) {
-    directoryservice.selectedUser = '01';
     directoryservice.getAllProjects(directoryservice.selectedUser).subscribe((element) => {
       this.projects = element;
     });
