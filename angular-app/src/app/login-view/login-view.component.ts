@@ -21,6 +21,7 @@ export class LoginViewComponent implements OnInit {
     this.loading = false;
     this.failed = false;
     this.showButton = true;
+    navigationservice.setNavi(false);
   }
 
   ngOnInit() {}
