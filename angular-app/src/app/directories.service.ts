@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { createDirective } from '@angular/compiler/src/core';
 import { Group } from './Group';
+import { all } from 'q';
+import { Selected } from './Selected';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,11 @@ export class DirectoriesService {
   private projectsFromSelectedUser: string[];
   private searchesInProjectsFromSelectedUser: string[];
 
-  constructor(private http: HttpClient) { }
+  private selected: Selected;
+
+  constructor(private http: HttpClient, ) {
+    this.selected = new Selected(null, null, null);
+  }
 
   /**
 * Checks if user provided exists
@@ -39,22 +45,50 @@ export class DirectoriesService {
   }
 
   public createProjectDirectory(user: string, project: string, allGroups: Group[]) {
-    // this.createGroupJSON()
-    return this.createDirectory(user + '/' + project);
+    // firstly, this method creates a directory for the project
+    return this.createDirectory(user + '/' + project).subscribe((directoryCreated) => {
+      if (directoryCreated) {
+        // if the directory was created, it then creates a folder for the queries and saves
+        // the specified groups into a separete json file under the project folder
+        this.createDirectory(user + '/' + project + '/' + 'query').subscribe((res) => {
+          if (res) {
+            // then if both were succesfull, createGroupJSON is called using passed json-element "allGroups"
+            this.createGroupJSON(user, project, allGroups).subscribe((resp) => {
+              if (resp) {
+                console.log('JSON file created');
+              }
+            });
+          }
+        });
+      }
+    });
   }
 
   public createGroupJSON(user: string, project: string, allGroups: Group[]) {
-    return this.createJSON(user, project, JSON.stringify(allGroups));
+    return this.createJSON(user, project, { title: 'group', jsonString: JSON.stringify(allGroups) });
   }
 
-  public createQueryJSON(user: string, project: string, query: string) {
-
+  public createQueryJSON(user: string, project: string, query: object) {
+    return this.createJSON(user, project, { title: 'query', jsonString: JSON.stringify(query) });
   }
 
-  public createJSON(user: string, project: string, jsonParsed: string) {
+
+  /**
+* Creates a json file at the path provided
+* @param user - for which user to save the json file under
+* @param project - for which project to save the json file under
+* @param jsonObject - Object of the following structure: {title: , jsonString: }
+* @returns true if directory was succesfully created, else an error is thrown
+*/
+  private createJSON(user: string, project: string, jsonObject: any) {
+    if (jsonObject.hasOwnProperty('title') && jsonObject.title === 'group') {
+      return this
+        .http
+        .get(`${this.uri}/saveJSON/${user}/${project}/${jsonObject.jsonString}`);
+    }
     return this
       .http
-      .get(`${this.uri}/saveJSON/${user}/${project}/${jsonParsed}`);
+      .get(`${this.uri}/saveJSON/${user}/${project}/${jsonObject.title}/${jsonObject.jsonString}`);
   }
 
   /**
@@ -105,9 +139,6 @@ export class DirectoriesService {
   }
 
 
-
-
-
   /**
  * Setter method to set private variable usersInSystem: string[]
  * @param input - The users in the system
@@ -144,7 +175,7 @@ export class DirectoriesService {
  * Setter method to set private variable searchesInProjectsFromSelectedUser: string[]
  * @param input - The searches in the system
  */
-  public setSearches(input: string[]) {
+  public setQueries(input: string[]) {
     this.searchesInProjectsFromSelectedUser = input;
   }
 
@@ -152,7 +183,23 @@ export class DirectoriesService {
 * Getter method to retrieve private variable searchesInProjectsFromSelectedUser: string[] 
 * @returns The searches in the system
 */
-  public getSearches() {
+  public getQueries() {
     return this.searchesInProjectsFromSelectedUser;
+  }
+
+  public setSelectedUser(user: string) {
+    this.selected.user = user;
+  }
+
+  public setSelectedProject(project: string) {
+    this.selected.project = project;
+  }
+
+  public setSelectedQuery(query: string) {
+    this.selected.query = query;
+  }
+
+  public getSelected() {
+    return this.selected;
   }
 }

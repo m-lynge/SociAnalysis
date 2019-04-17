@@ -1,0 +1,10 @@
+{
+    "desc": "this is a project's description",
+    "group": [{
+        "name": "Group number 1",
+        "desc": "Group 1's description"
+    }, {
+        "name": "Group number 2",
+        "desc": "Group 2's description"
+    }]
+}
