@@ -15,8 +15,7 @@
     padding-right: 40px;
 }
 .container{
-    height: 100%;
-
+    padding: 5px;
     display: table;
     border-spacing: 10px 0px;
     margin-left: 0;

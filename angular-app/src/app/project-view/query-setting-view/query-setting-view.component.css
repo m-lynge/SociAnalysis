@@ -1,0 +1,75 @@
+.example-form {
+
+}
+h2{
+    margin-top: 25px;
+}
+.formContainer{
+    width: 60%;
+    margin-top: 50px;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+.example-chip-list{
+    width: 200%;
+}
+.notSelected{
+    background-color: red;
+}
+.selected {
+    background-color: green;
+}
+h3{
+    font-size: 20px;
+}
+.noHeight{
+    height: 100% !important;
+}
+.cardContainer{
+    width: 100%;
+}
+.fullsizeFormElement{
+    width: 100%;
+    display: table;
+}
+.periodField mat-form-field:first-child{
+    width: 100%;
+}
+.matFormDate{
+    width: 45%;
+    margin: 2%;
+}
+.header{
+    text-align: left;
+    margin: 3%;
+}
+.leftFull{
+    left: 0;
+}
+.cardContainer mat-card{
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+.noGrid{
+    display: inline-block !important;
+}
+.halfWidth{
+    width: 49%;
+    height: 100%;
+    margin-top: 25px;
+    float: left;
+    text-align: left;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 20px;
+}
+.halfWidth mat-checkbox{
+    width: 50%;
+}
+.example-full-width {
+    width: 40%;
+    margin-right: auto;
+    margin-left: auto;
+}
