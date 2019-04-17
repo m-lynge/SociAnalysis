@@ -9,12 +9,6 @@ import { ProjectViewComponent } from './project-view/project-view.component';
 const routes: Routes = [{ path: '', component: LoginViewComponent },
 { path: 'loading', component: LoadingViewComponent },
 { path: 'home', component: HomeViewComponent },
-{ path: 'opretprojekt', component: NewProjectViewComponent }, { path: 'opretsogning', component: ProjectViewComponent }
-];
-
-const routes: Routes = [{ path: '', component: LoginViewComponent },
-{ path: 'loading', component: LoadingViewComponent },
-{ path: 'home', component: HomeViewComponent },
 { path: 'opretprojekt', component: NewProjectViewComponent },
 { path: 'projekt', component: ProjectViewComponent}];
 
