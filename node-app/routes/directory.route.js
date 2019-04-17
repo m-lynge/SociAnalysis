@@ -44,6 +44,29 @@ directoryRoute.route('/getQueries/:user/:project').get(function (req, res) {
     });
 })
 
+// returns the json file for a given project from a given user 
+directoryRoute.route('/getProject/:user/:project').get(function (req, res) {
+    const path = './users/' + req.params.user + '/' + req.params.project
+        + '/' + 'projectinfo.json';
+    returnProject = fs.readFileSync(path, 'utf8', (err, data) => {
+        if (err) throw err;
+    })
+    console.log("Project info json: ", returnProject)
+    res.json(returnProject)
+})
+
+// returns the json file for a given query from a given project 
+// from a given user 
+directoryRoute.route('/getQuery/:user/:project/:query').get(function (req, res) {
+    const path = './users/' + req.params.user + '/' + req.params.project
+        + '/' + 'query' + '/' + req.params.query;
+    returnQuery = fs.readFileSync(path, 'utf8', (err, data) => {
+        if (err) throw err;
+    })
+    console.log("Query json: ", returnQuery)
+    res.json(returnQuery)
+})
+
 // checks if directory given already exists, returns true or false
 directoryRoute.route('/dirExists/:path').get(function (req, res) {
     const finalPath = './users/' + req.params.path;

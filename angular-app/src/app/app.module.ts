@@ -19,7 +19,6 @@ import { ProjectNavigationComponent } from './project-view/project-navigation/pr
 import { QueryViewComponent } from './project-view/query-view/query-view.component';
 import { QueryTypeSelectionViewComponent } from './project-view/query-type-selection-view/query-type-selection-view.component';
 import { QuerySettingViewComponent } from './project-view/query-setting-view/query-setting-view.component';
-import { QuerySelectorComponent } from './project-view/query-view/query-selector/query-selector.component';
 import { QueryVisualViewComponent } from './project-view/query-view/query-visual-view/query-visual-view.component';
 import { QueryMenuComponent } from './project-view/query-view/query-menu/query-menu.component';
 import { QueryParametersComponent } from './project-view/query-view/query-parameters/query-parameters.component';
@@ -30,6 +29,7 @@ import { TestFindDirectoriesComponent } from './test-find-directories/test-find-
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DemoMaterialModule } from './material-module';
+import { QuerySelectorComponent } from './project-view/query-view/query-selector/query-selector.component';
 
 
 @NgModule({
