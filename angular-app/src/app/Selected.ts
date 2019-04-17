@@ -1,7 +1,7 @@
 export class Selected {
     constructor(
-        public user: String,
-        public project: String,
-        public query: String
+        public user: string,
+        public project: string,
+        public query: string
     ) { }
 }

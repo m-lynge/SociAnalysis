@@ -6,9 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
+  projects: string[];
 
-  constructor() { }
+  constructor() {
+    this.projects = ['project1', 'project2'];
+  }
 
+  selectProject(num: number) {
+    console.log('Selected project: ' + num);
+  }
   ngOnInit() {
   }
 

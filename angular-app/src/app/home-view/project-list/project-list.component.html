@@ -1,3 +1,6 @@
-<p>
-  project-list works!
-</p>
+
+<mat-list>
+  <mat-list-item *ngFor="let project of projects" (click)='selectProject(project)' >
+      <a> Test 1</a>
+  </mat-list-item>
+</mat-list>
