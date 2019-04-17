@@ -1,11 +1,16 @@
-<div class="center">
+<div class="center" *ngIf="projectGroupToggle; else groupP">
     <form>
         <h1>Projekt titel</h1>
-        <input type="text" name="projectName" value="" id="title">
-        <br>
+        <input type="text" name="projectName" value="" id="title" [(ngModel)]="title">
+        <br><br>
         <h2>Projekt Beskrivelse</h2>
-        <textarea rows="4" cols="50" name="ProjectDescription" id="Description">Beskriv dit projekt...</textarea>
+        <textarea rows="4" cols="50" name="ProjectDescription" id="Description" [(ngModel)]="description">Beskriv dit projekt...</textarea>
         <br>
-        <input type="submit" value="Submit" id="confirmBttn">
+        <input type="submit" value="Videre" id="confirmBttn" name="videreKnap" [(ngModel)]="projectGroupToggle" (click)="makefalse()" (click)="getTitle()" (click)="getDesc()" >
     </form>
 </div>
+
+<ng-template #groupP>
+<app-new-project-groups> </app-new-project-groups>
+</ng-template>
+

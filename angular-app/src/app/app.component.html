@@ -1,4 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
+
 <!-- <app-new-project-description></app-new-project-description>
 <button (click)="funfunc()">Hello</button>
 <router-outlet></router-outlet> -->
@@ -6,3 +7,12 @@
 <app-project-view></app-project-view>
 <!-- <p>HEY</p> -->
 <!-- <router-outlet></router-outlet> -->
+
+<app-navigation *ngIf="navigationservice.getNavi"></app-navigation>
+<router-outlet></router-outlet>
+
+
+<!--<button (click)="funfunc()">Hello</button>
+<button (click)="helloGroupsWorld()" mat-raised-button>GetGroups</button>
+
+
