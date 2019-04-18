@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked} from '@angular/core';
 import { DirectoryService } from 'src/app/directory.service';
 
 @Component({
@@ -6,9 +6,10 @@ import { DirectoryService } from 'src/app/directory.service';
   templateUrl: './project-navigation.component.html',
   styleUrls: ['./project-navigation.component.css']
 })
-export class ProjectNavigationComponent implements OnInit {
+export class ProjectNavigationComponent implements OnInit, AfterViewChecked {
+  projectName: string;
   constructor(private directoryservice: DirectoryService) { }
-  private projectName: string;
+
 
   ngOnInit() {
     this.projectName = 'PLACEHOLDERNAME';
@@ -16,9 +17,13 @@ export class ProjectNavigationComponent implements OnInit {
     // this.callUpdate();
   }
 
-  callUpdate(){
+  callUpdate() {
     console.log('BUTTON CLICKED');
     console.log('USER CHOSEN: ', this.directoryservice.selectedUser);
-    this.projectName =  this.directoryservice.selectedUser;
+    this.projectName = this.directoryservice.selectedProject;
+  }
+
+  ngAfterViewChecked(): void {
+    this.projectName = this.directoryservice.selectedProject;
   }
 }

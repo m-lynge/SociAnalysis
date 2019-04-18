@@ -1,3 +1,32 @@
-<p>
-  query-menu works!
-</p>
+<mat-divider>
+</mat-divider>
+
+
+<div class="menuItems">
+  <table class="table">
+    <tr class="clickable-row" (click)="newQuery()">
+      <th>
+        <div class="icon"></div>
+      </th>
+      <th class="tableHorizontal">
+        <p class="text">Ny forespørgsel</p>
+      </th>
+    </tr>
+    <tr class="clickable-row" (click)="updateQuery()">
+      <th class="icons">
+        <div class="icon"></div>
+      </th>
+      <th class="tableHorizontal">
+        <p class="text">Opdater forespørgsel</p>
+      </th>
+    </tr>
+    <tr class="clickable-row" (click)="exportQuery()">
+      <th>
+        <div class="icon"></div>
+      </th>
+      <th class="tableHorizontal">
+        <p class="text">Eksporter forespørgsel</p>
+      </th>
+    </tr>
+  </table>
+</div>

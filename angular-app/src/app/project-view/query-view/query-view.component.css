@@ -1,0 +1,16 @@
+.query-selector {
+    display: table-cell;
+    padding: 20px;
+}
+.query-menu {
+    display: table-cell;
+    padding: 20px;
+}
+.query-selector-container {
+    display: table;
+    width: 20%;
+}
+.query-menu-container{
+    display: table;
+    width: 20%;
+}

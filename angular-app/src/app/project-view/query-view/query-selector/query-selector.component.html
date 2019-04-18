@@ -1,7 +1,19 @@
-<li *ngFor="let queryName of retrievedQueryNames">{{queryName}}</li>
+<ng-container class="container">
+    <div>
+        <mat-form-field class="example-full-width">
+            <mat-label>Søg efter en forespørgsel</mat-label>
+            <input (ngModelChange)="findMatchingQueries()" [(ngModel)]="searchTerm" matInput placeholder="" value="">
+        </mat-form-field>
+    </div>
 
-<mat-form-field class="example-full-width">
-    <input (ngModelChange)="findMatchingQueries()" [(ngModel)]="searchTerm" matInput placeholder="søg forespørgsler" value="">
-</mat-form-field>
-
-<button  (click)="printSearchTerm()" mat-button>Press to print input search</button>
+    <div>
+        <mat-form-field class="example-full-width">
+            <mat-label>Vælg en forespørgsel</mat-label>
+            <mat-select (selectionChange)="newQuerySelected($event.value)">
+                <mat-option *ngFor="let query of shownQueryNames" [value]="query">
+                    {{query}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</ng-container>

@@ -10,6 +10,19 @@ export class QueryMenuComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
+
+  newQuery() {
+    console.log('new query clicked');
+  }
+
+  updateQuery() {
+    console.log('update query clicked');
+  }
+
+  exportQuery() {
+    console.log('export query clicked');
+  }
 }
