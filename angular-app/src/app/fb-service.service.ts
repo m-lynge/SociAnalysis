@@ -1,4 +1,4 @@
-import {Injectable, NgZone} from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
@@ -42,11 +42,11 @@ export class FBServiceService {
                     // console.log(response.authResponse);
                     this.userID = response.authResponse.userID;
                     this.recursiveFunction('');
-                    resolve('user: ' +  response.authResponse);
+                    resolve(response.authResponse);
                 } else {
                     reject('Login Failed');
                 }
-            }, {auth_type: 'reauthenticate'}  );
+            }, { auth_type: 'reauthenticate' });
         });
     }
 
@@ -109,7 +109,7 @@ export class FBServiceService {
         }
     }
 
-// Recursive function too make sure all groups are collected
+    // Recursive function too make sure all groups are collected
     doNewApiCAll(url: string) {
 
     }

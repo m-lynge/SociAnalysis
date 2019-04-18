@@ -3,6 +3,7 @@ import { FBServiceService } from "../fb-service.service";
 import { Router } from "@angular/router";
 import { NavigationService } from "../navigation.service";
 import { DirectoryService } from '../directory.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: "app-login-view",
   templateUrl: "./login-view.component.html",
@@ -18,7 +19,8 @@ export class LoginViewComponent implements OnInit {
     private fbService: FBServiceService,
     private router: Router,
     private navigationservice: NavigationService,
-    private directoryservice: DirectoryService
+    private directoryservice: DirectoryService,
+    public dialog: MatDialog
   ) {
     this.loading = false;
     this.failed = false;
@@ -34,20 +36,31 @@ export class LoginViewComponent implements OnInit {
     this.failed = false;
     this.fbService
       .login()
-      .then((id: string) => {
-        if (this.directoryservice.userExists(id)) {
-          this.directoryservice.createUserDirectory(id);
-        }
+      .then((id: any) => {
+        this.directoryservice.userExists(id.userID).subscribe((response) => {
+          if (!response) {
+            this.directoryservice.createUserDirectory(id.userID).subscribe((created) => {
+              this.directoryservice.selectedUser = id;
+              this.navigationservice.setNavi(true);
+              this.router.navigate(['/home']);
+              console.log('Created user path/', id.userID);
+            });
+          } else {
+            console.log('User path already exists /', id.userID);
+            this.directoryservice.selectedUser = id;
+            this.navigationservice.setNavi(true);
+            this.router.navigate(['/home']);
+          }
 
-        this.directoryservice.selectedUser = id;
-        this.navigationservice.setNavi(true);
-        this.router.navigate(['/home']);
+        });
+
       })
       .catch(error => {
         console.log('Error: not logged in');
         this.showButton = true;
         this.loading = false;
         this.failed = true;
+
       });
   }
 }

@@ -16,20 +16,26 @@ directoryRoute.route('/getUsers').get(function (req, res) {
 directoryRoute.route('/getProjects/:user').get(function (req, res) {
     const path = './users/' + req.params.user + '/';
     fs.readdir(path, function (err, items) {
+        console.log("ITEMS: \n: ")
         console.log("ITEMS: \n: ", items)
-        finalProejct = items.map((projectName) => {
-            newPath = path + projectName + '/' + 'projectinfo.json';
-            projectInfo = fs.readFileSync(newPath, 'utf8', (err, data) => {
-                if (err) throw err;
+        if (items) {
+            finalProejct = items.map((projectName) => {
+                newPath = path + projectName + '/' + 'projectinfo.json';
+                projectInfo = fs.readFileSync(newPath, 'utf8', (err, data) => {
+                    if (err) throw err;
+                })
+                return {
+                    "name": projectName,
+                    "desc": JSON.parse(projectInfo).desc,
+                    "group": JSON.parse(projectInfo).group
+                }
             })
-            return {
-                "name": projectName,
-                "desc": JSON.parse(projectInfo).desc,
-                "group": JSON.parse(projectInfo).group
-            }
-        })
-        console.log("OUTPUT: \n", JSON.stringify(finalProejct))
-        res.json(finalProejct);
+            console.log("OUTPUT: \n", JSON.stringify(finalProejct))
+            res.json(finalProejct);
+        }
+        else {
+            res.json([{}]);
+        }
     });
 })
 

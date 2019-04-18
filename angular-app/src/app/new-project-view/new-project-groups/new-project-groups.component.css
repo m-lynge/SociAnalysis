@@ -1,0 +1,18 @@
+#leftBox{
+    float: left;
+    width: 50%;
+    text-align: center;
+
+}
+#rightBox{
+    float: right;
+    width:50%;
+    text-align: center;
+}
+.vLine{
+    border-left: 6px solid rgb(114, 8, 105);
+    height: 100%;
+    position: absolute;
+    left:50%;
+    top:0;
+}

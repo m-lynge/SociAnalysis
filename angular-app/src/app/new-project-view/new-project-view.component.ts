@@ -6,9 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-project-view.component.css']
 })
 export class NewProjectViewComponent implements OnInit {
+  toggle: number;
+ 
+  constructor() {this.toggle = 0; }
 
-  constructor() { }
-
+  setToggle(num: number){
+    this.toggle = num;
+  }
   ngOnInit() {
   }
 
