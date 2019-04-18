@@ -5,9 +5,12 @@
 }
 .navigationBar {
   top: 0;
-  position: fixed;
+  position: sticky;
+  position: -webkit-sticky;
+  z-index: 3000;
+  width: 100%;
 }
 .addMargin{
-  height: 100px;
+  /* height: 9vh; */
 }
 

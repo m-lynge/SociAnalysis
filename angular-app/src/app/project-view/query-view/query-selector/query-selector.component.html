@@ -1,0 +1,7 @@
+<li *ngFor="let queryName of retrievedQueryNames">{{queryName}}</li>
+
+<mat-form-field class="example-full-width">
+    <input (ngModelChange)="findMatchingQueries()" [(ngModel)]="searchTerm" matInput placeholder="søg forespørgsler" value="">
+</mat-form-field>
+
+<button  (click)="printSearchTerm()" mat-button>Press to print input search</button>

@@ -68,7 +68,7 @@ export class TestFindDirectoriesComponent {
   // to find all the searches of the passed project and user
   findSearchPaths() {
     let temproject: ProjectInterface = { name: this.service.selectedProject.trim().replace(/ /g, "_"), desc: null, group: null };
-    this.service.getAllQueries(this.service.selectedUser, temproject).subscribe((data: string[]) => {
+    this.service.getAllQueries(this.service.selectedUser, temproject.name).subscribe((data: string[]) => {
       console.log("Printing searches paths from chosen project");
       console.log(data);
       this.allUsersProjectsSearches = data;

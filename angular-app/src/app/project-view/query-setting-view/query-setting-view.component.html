@@ -1,3 +1,98 @@
-<p>
-  query-setting-view works!
-</p>
+<div class="formContainer">
+
+    <p></p>
+
+    <form class="example-form">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Søge Navn" value=" ">
+        </mat-form-field>
+
+
+        <h2>Søge Parametrer</h2>
+
+        <div class="fullsizeFormElement">
+            <div class="halfWidth">
+                <mat-checkbox class="example-margin" [formControl]="postsCheck" >Posts</mat-checkbox>
+                <mat-checkbox class="example-margin" [formControl]="commentsCheck" >Kommentarer</mat-checkbox>
+                <mat-checkbox class="example-margin" [formControl]="likesCheck"  >Likes</mat-checkbox>
+                <mat-checkbox class="example-margin" [formControl]="reactionsCheck">Reaktioner</mat-checkbox>
+                <mat-checkbox class="example-margin" [formControl]="picturesCheck" >Billeder</mat-checkbox>
+                <mat-checkbox class="example-margin" [formControl]="linksCheck">Links</mat-checkbox>
+            </div>
+            <div class="halfWidth">
+
+            </div>
+        </div>
+
+        <h2>Søge Indstillinger</h2>
+
+
+        <div class="periodField">
+            <h3 class="header">Periode</h3>
+            <mat-form-field class="matFormDate">
+
+                <input matInput [matDatepicker]="picker1" placeholder="Fra" [formControl]="date">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="matFormDate">
+                <input matInput [matDatepicker]="picker2" placeholder="Til"
+                       [formControl]="serializedDate">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div class="fullsizeFormElement">
+            <div class="halfWidth">
+
+                <mat-form-field style="width: 100%">
+                    <input matInput placeholder="Max" value=" ">
+                </mat-form-field>
+            </div>
+
+            <div class="halfWidth">
+                <mat-form-field class="example-chip-list">
+                    <mat-chip-list #chipList>
+                        <mat-chip *ngFor="let tag of searchTags" [selectable]="selectable"
+                                  [removable]="removable" (removed)="remove(tag)">
+                            {{tag.tag}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input placeholder="Søge Tags... "
+                               [matChipInputFor]="chipList"
+                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                               [matChipInputAddOnBlur]="addOnBlur"
+                               (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                </mat-form-field>
+
+            </div>
+        </div>
+
+
+<h3 class="header">Inkluderet Grupper</h3>
+        <div class="fullsizeFormElement noHeight">
+            <div class="halfWidth noGrid">
+                <div class="cardContainer">
+                    <mat-card class="mat-card-content notSelected" *ngFor="let group of groupsAvailable; let i = index" (click)="addToSelected(i)">
+                        {{group.title}}
+                    </mat-card>
+                </div>
+            </div>
+
+            <div class="halfWidth noGrid">
+                <div class="cardContainer">
+                    <mat-card class="mat-card-content selected" *ngFor="let group of groupsSelected;  let i = index" (click)="addToAvailable(i)">
+                        {{group.title}}
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+
+
+        <button mat-raised-button color="primary" (click)="StartQuery()">SØG!</button>
+
+    </form>
+</div>

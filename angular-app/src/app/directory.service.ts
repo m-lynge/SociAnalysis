@@ -51,17 +51,29 @@ export class DirectoryService {
   }
 
 
-  //returns a javascript
+  //returns a javascript array
   public getAllProjects(user: string): Observable<any> {
     return this
       .http
       .get(`${this.uri}/getProjects/${user}`);
   }
 
-  public getAllQueries(user: string, project: Project): Observable<object> {
+  public getAllQueries(user: string, project: string): Observable<any> {
     return this
       .http
-      .get(`${this.uri}/getQueries/${user}/${project.name}`);
+      .get(`${this.uri}/getQueries/${user}/${project}`);
+  }
+
+  public getProject(user: string, project: string): Observable<any> {
+    return this
+      .http
+      .get(`${this.uri}/getProject/${user}/${project}`);
+  }
+
+  public getQuery(user: string, project: string, query: string): Observable<any> {
+    return this
+      .http
+      .get(`${this.uri}/getProject/${user}/${project}/${query}`);
   }
 
   public userExists(user: string) {
@@ -98,6 +110,10 @@ export class DirectoryService {
         });
       }
     });
+  }
+
+  public createUserDirectory(user: string) {
+    return this.createDirectory(user);
   }
 
   private createDirectory(path: string) {

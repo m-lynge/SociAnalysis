@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FBServiceService } from "../fb-service.service";
 import { Router } from "@angular/router";
 import { NavigationService } from "../navigation.service";
+import { DirectoryService } from '../directory.service';
 @Component({
   selector: "app-login-view",
   templateUrl: "./login-view.component.html",
@@ -16,7 +17,8 @@ export class LoginViewComponent implements OnInit {
   constructor(
     private fbService: FBServiceService,
     private router: Router,
-    private navigationservice: NavigationService
+    private navigationservice: NavigationService,
+    private directoryservice: DirectoryService
   ) {
     this.loading = false;
     this.failed = false;
@@ -24,7 +26,7 @@ export class LoginViewComponent implements OnInit {
     navigationservice.setNavi(false);
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   loginToFacebook() {
     this.loading = true;
@@ -32,7 +34,12 @@ export class LoginViewComponent implements OnInit {
     this.failed = false;
     this.fbService
       .login()
-      .then(id => {
+      .then((id: string) => {
+        if (this.directoryservice.userExists(id)) {
+          this.directoryservice.createUserDirectory(id);
+        }
+
+        this.directoryservice.selectedUser = id;
         this.navigationservice.setNavi(true);
         this.router.navigate(['/home']);
       })
