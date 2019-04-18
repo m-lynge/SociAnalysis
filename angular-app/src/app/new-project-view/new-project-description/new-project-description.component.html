@@ -1,18 +1,33 @@
-<div class="center" >
-    <form>
-        <mat-form-field class="textTitle">
-            <input matInput placeholder="Titel" value="" name="projectName" [(ngModel)]="title">
-        </mat-form-field>
-        <br><br><br>
-        <mat-form-field class="textBox">
-            <textarea matInput placeholder="Beskrivelse" name="ProjectDescription" id="Description"
-                [(ngModel)]="description"></textarea>
-        </mat-form-field>
-        <br><br><br>
-        <input type="submit" value="Videre" id="confirmBttn" name="" 
-            (click)="showNext()" (click)="getTitle()" (click)="getDesc()">
-    </form>
+<div class="center">
+  <form>
+    <mat-form-field class="textTitle">
+      <input
+        matInput
+        placeholder="Titel"
+        value=""
+        name="projectName"
+        [(ngModel)]="title"
+      />
+    </mat-form-field>
+    <br /><br /><br />
+    <mat-form-field class="textBox">
+      <textarea
+        matInput
+        placeholder="Beskrivelse"
+        name="ProjectDescription"
+        id="Description"
+        [(ngModel)]="description"
+      ></textarea>
+    </mat-form-field>
+    <br /><br /><br />
+    <input
+      type="submit"
+      value="Videre"
+      id="confirmBttn"
+      name=""
+      (click)="showNext()"
+      (click)="getTitle()"
+      (click)="getDesc()"
+    />
+  </form>
 </div>
-
-
-

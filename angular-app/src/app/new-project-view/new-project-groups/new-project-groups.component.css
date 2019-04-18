@@ -1,18 +1,52 @@
 #leftBox{
     float: left;
     width: 50%;
+    height: 500px;
     text-align: center;
 
 }
 #rightBox{
     float: right;
     width:50%;
+    height: 500px;
     text-align: center;
+}
+#rightGroup{
+    height:500px;
+    width:50%;
+}
+#leftGroup{
+    width:50%;
+    height:500px;
 }
 .vLine{
     border-left: 6px solid rgb(114, 8, 105);
-    height: 100%;
+    height: 250px;
     position: absolute;
     left:50%;
     top:0;
+}
+#confirmBttn {
+    background: rgb(110, 19, 75);
+    color: white;
+    height: 60px;
+    width: 110px;
+    text-align: left;
+    align-content: center;
+    
+}
+.buttonContainer{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    align-content:center;
+    left: 50%;
+}
+.center{
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    align-content: center;
+    
 }
