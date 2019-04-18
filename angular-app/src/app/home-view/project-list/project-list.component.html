@@ -1,4 +1,7 @@
-<mat-nav-list>
+<mat-list *ngIf='noProjects;'>
+  <mat-list-item>Ingen projekter at vise!</mat-list-item>
+</mat-list>
+<mat-nav-list *ngIf='!noProjects'>
   <mat-list-item *ngFor="let project of projects" (click)='this.directoryservice.selectedProject=project; selectProject(project.name)' >
       <a matLine>{{project.name}}</a>
       <p matLine> {{project.desc}}</p>

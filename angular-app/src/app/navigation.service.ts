@@ -5,13 +5,14 @@ import { Injectable } from "@angular/core";
 })
 export class NavigationService {
   private naviIsActive: boolean;
+  private backButtonIsActive: boolean;
   constructor() {
   }
   public get getNavi(): boolean {
     return this.naviIsActive;
   }
-  public setNavi(boo){
-    console.log('Navigationbar: '+boo);
+  public setNavi(boo: boolean) {
+    console.log('Navigationbar: ' + boo);
     this.naviIsActive = boo;
   }
 }
