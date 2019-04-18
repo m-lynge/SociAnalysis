@@ -1,6 +1,5 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NewProjectService } from 'src/app/new-project.service';
-
 
 
 @Component({
@@ -10,27 +9,30 @@ import { NewProjectService } from 'src/app/new-project.service';
 })
 
 export class NewProjectDescriptionComponent implements OnInit {
-//Variables used to store the input
-title: string ='';
-description: string ='';
-projectGroupToggle: boolean =true;
+  // Variables used to store the input
+  title: string = '';
+  description: string = '';
+  @Output() show: EventEmitter<number> = new EventEmitter();
 
-  constructor(private newService: NewProjectService) { }
+ constructor(private newService: NewProjectService) {}
 
   ngOnInit() {
   }
 
-getTitle(){
-  this.newService.setName(this.title);
-  //console.log(this.title);
+
+  // Combine functions later
+  getTitle() {
+    this.newService.setName(this.title);
+    // console.log(this.title);
+  }
+
+  getDesc() {
+    this.newService.setDescription(this.description);
+    // console.log(this.description);
+  }
+  showNext(): void {
+    this.show.emit(1);
+  }
+
 }
 
-getDesc(){
-  this.newService.setDescription(this.description);
-  //console.log(this.description);
-}
-makefalse(){
-  this.projectGroupToggle = !this.projectGroupToggle;
-}
-
-}
