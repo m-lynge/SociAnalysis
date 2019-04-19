@@ -10,15 +10,7 @@ export class AppComponent {
 
 
     constructor(private fbService: FBServiceService, public navigationservice: NavigationService) {
-        this.navigationservice.setNavi(true);
-    }
-
-
-
-
-    helloGroupsWorld() {
-        const groups = this.fbService.retrieveGroups();
-        console.log(groups);
+        this.navigationservice.setNavi = true;
     }
 
 }

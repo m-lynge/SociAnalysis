@@ -15,8 +15,7 @@ export class NavigationComponent implements OnInit {
               private router: Router,
               private location: Location
     ) {}
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   goBack() {
     this.location.back();
@@ -25,7 +24,7 @@ export class NavigationComponent implements OnInit {
 
   logoutOfFacebook() {
     this.fbservice.logout();
-    this.navigationservice.setNavi(false);
+    this.navigationservice.setNavi = false;
     this.router.navigate(['']);
   }
 

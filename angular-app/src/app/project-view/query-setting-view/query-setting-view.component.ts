@@ -1,9 +1,20 @@
-import {Component} from '@angular/core';
-import {MatChipInputEvent} from '@angular/material/chips';
-import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
-import {Group} from "../../Group";
-import {FormControl} from "@angular/forms";
+import { Component, AfterContentInit } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
+import { Group } from '../../Group';
+import { FormControl } from '@angular/forms';
+import { DirectoryService } from 'src/app/directory.service';
+import { FBServiceService } from 'src/app/fb-service.service';
 
+import { Project } from '../../Project';
+
+export interface QuerySettingsInterface {
+    name: string;
+    params: string[];
+    timeperiod: { from: string; till: string };
+    groups: string[];
+    filter: { max: number; tags: string[] };
+}
 
 export interface SearchTag {
     tag: string;
@@ -15,7 +26,10 @@ export interface SearchTag {
     styleUrls: ['./query-setting-view.component.css']
 })
 
-export class QuerySettingViewComponent {
+
+
+export class QuerySettingViewComponent implements AfterContentInit {
+    queryName: string;
 
 
     postsCheck = new FormControl(false);
@@ -24,6 +38,11 @@ export class QuerySettingViewComponent {
     reactionsCheck = new FormControl(false);
     picturesCheck = new FormControl(false);
     linksCheck = new FormControl(false);
+    beginDate = new FormControl(false);
+    endDate = new FormControl(false);
+
+
+
 
 
     visible = true;
@@ -42,6 +61,10 @@ export class QuerySettingViewComponent {
 
     groupsSelected: Group[] = [];
 
+
+    constructor(private directoryservice: DirectoryService, private fbservice: FBServiceService) {
+
+    }
     addToSelected(i: number) {
         this.groupsSelected.push(this.groupsAvailable[i]);
         this.groupsAvailable.splice(i, 1);
@@ -58,7 +81,7 @@ export class QuerySettingViewComponent {
 
         // Add our fruit
         if ((value || '').trim()) {
-            this.searchTags.push({tag: value.trim()});
+            this.searchTags.push({ tag: value.trim() });
         }
 
         // Reset the input value
@@ -77,16 +100,50 @@ export class QuerySettingViewComponent {
 
     StartQuery() {
 
-        console.log(this.searchTags);
+        console.log('search tags: ', this.searchTags);
 
-        console.log(
-            'Posts: ' + this.postsCheck.value +
-            '\n Comments: ' + this.commentsCheck.value +
-            '\n Likes: ' + this.likesCheck.value +
-            '\n Reactions: ' + this.reactionsCheck.value +
-            '\n Pictures: ' + this.picturesCheck.value +
-            '\n Links: ' + this.linksCheck.value
-        );
+        let allParams: any = [
+            { name: 'postsCheck', clicked: this.postsCheck.value },
+            { name: 'commentsCheck', clicked: this.commentsCheck.value },
+            { name: 'likesCheck', clicked: this.likesCheck.value },
+            { name: 'reactionCheck', clicked: this.reactionsCheck.value },
+            { name: 'picturesCheck', clicked: this.picturesCheck.value },
+            { name: 'linksCheck', clicked: this.linksCheck.value }
+        ];
+
+        const chosenParams = allParams.filter((param: any) => {
+            if (param.clicked === true) {
+                return param;
+            }
+        }).map((param: any) => {
+            return param.name;
+        });
+
+        console.log("chosen beginddate:", this.beginDate);
+        // This does not work yet
+        console.log("chosen beginddate:", JSON.stringify(this.beginDate.value.toJSON()));
+
+        //to fb service
+        let exportQuery = {
+            name: this.queryName,
+            params: chosenParams,
+            timeperiod: { from: '', till: '' },
+            groups: [''],
+            filter: { max: 0, tags: [''] }
+        };
+    }
+    ngAfterContentInit(): void {
+        // Lines for test perpose
+        this.directoryservice.selectedUser = '01';
+        this.directoryservice.selectedProject = 'Created_project';
+        this.directoryservice.getProject(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
+            .subscribe((projects: string) => {
+                const tempProject: Project = JSON.parse(projects);
+                console.log(tempProject);
+                this.groupsAvailable = tempProject.group;
+                console.log('groups:', this.groupsAvailable);
+
+            });
     }
 
 }
