@@ -1,0 +1,14 @@
+.buttoncontainer{
+    display:table;
+    border-spacing: 80px;
+    margin:auto;
+    padding-top: 25vh;
+}
+.buttons{
+    display:table-cell;
+    vertical-align: middle;
+    width: 60px;
+    text-align: center;
+    font-size: 0.6rem;
+    color:darkgrey;
+}

@@ -25,7 +25,7 @@ export class LoginViewComponent implements OnInit {
     this.loading = false;
     this.failed = false;
     this.showButton = true;
-    navigationservice.setNavi(false);
+    navigationservice.setNavi = false;
   }
 
   ngOnInit() { }
@@ -41,14 +41,14 @@ export class LoginViewComponent implements OnInit {
           if (!response) {
             this.directoryservice.createUserDirectory(id.userID).subscribe((created) => {
               this.directoryservice.selectedUser = id;
-              this.navigationservice.setNavi(true);
+              this.navigationservice.setNavi = true;
               this.router.navigate(['/home']);
               console.log('Created user path/', id.userID);
             });
           } else {
             console.log('User path already exists /', id.userID);
             this.directoryservice.selectedUser = id;
-            this.navigationservice.setNavi(true);
+            this.navigationservice.setNavi = true;
             this.router.navigate(['/home']);
           }
 

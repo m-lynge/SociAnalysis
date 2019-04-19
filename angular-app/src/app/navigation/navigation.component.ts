@@ -24,7 +24,7 @@ export class NavigationComponent implements OnInit {
 
   logoutOfFacebook() {
     this.fbservice.logout();
-    this.navigationservice.setNavi(false);
+    this.navigationservice.setNavi = false;
     this.router.navigate(['']);
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-loading-view',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./loading-view.component.css']
 })
 export class LoadingViewComponent implements OnInit {
+  @Input()
+  customTitle: string;
 
   constructor() { }
 

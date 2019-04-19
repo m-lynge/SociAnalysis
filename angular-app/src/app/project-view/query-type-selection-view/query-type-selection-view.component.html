@@ -1,3 +1,10 @@
-<p>
-  query-type-selection-view works!
-</p>
+<div class="buttoncontainer">
+  <div class="buttons">
+    <button (click)="changeView('standard')" mat-raised-button>Standard forespørgsel</button>
+    <p style="padding-top:4px">Henter alt tilgængelig data fra facebook, fra alle grupper tilhørende projekter</p>
+  </div>
+  <div class="buttons">
+    <button (click)="changeView('brugerdefineret')" mat-raised-button>Brugerdefineret forespørgsel</button>
+    <p style="padding-top:4px">Specificer din forespørgsel før data bliver hentet fra Facebook</p>
+  </div>
+</div>

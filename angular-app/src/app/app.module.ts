@@ -30,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DemoMaterialModule } from './material-module';
 import { QuerySelectorComponent } from './project-view/query-view/query-selector/query-selector.component';
+import { NewQueryViewComponent } from './project-view/new-query-view/new-query-view.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { QuerySelectorComponent } from './project-view/query-view/query-selector
     QueryParametersComponent,
     QueryVisualComponent,
     NavigationComponent,
-    TestFindDirectoriesComponent
+    TestFindDirectoriesComponent,
+    NewQueryViewComponent
   ],
   imports: [
     BrowserModule,
