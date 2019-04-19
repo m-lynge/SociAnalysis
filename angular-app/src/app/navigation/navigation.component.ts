@@ -15,8 +15,7 @@ export class NavigationComponent implements OnInit {
               private router: Router,
               private location: Location
     ) {}
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   goBack() {
     this.location.back();

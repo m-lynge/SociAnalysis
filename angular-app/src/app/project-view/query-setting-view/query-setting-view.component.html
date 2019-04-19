@@ -77,7 +77,7 @@
             <div class="halfWidth noGrid">
                 <div class="cardContainer">
                     <mat-card class="mat-card-content notSelected" *ngFor="let group of groupsAvailable; let i = index" (click)="addToSelected(i)">
-                        {{group.title}}
+                        {{group.name}}
                     </mat-card>
                 </div>
             </div>
@@ -85,7 +85,7 @@
             <div class="halfWidth noGrid">
                 <div class="cardContainer">
                     <mat-card class="mat-card-content selected" *ngFor="let group of groupsSelected;  let i = index" (click)="addToAvailable(i)">
-                        {{group.title}}
+                        {{group.name}}
                     </mat-card>
                 </div>
             </div>
