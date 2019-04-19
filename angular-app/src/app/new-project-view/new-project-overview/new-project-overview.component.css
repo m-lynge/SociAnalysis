@@ -1,0 +1,33 @@
+.vLine{
+    border-left: 3px solid rgb(0, 0, 0);
+    height: 80%;
+    position: absolute;
+    left:50%;
+    top:0;
+}
+.descView{
+    float: left;
+    width: 50%;
+    padding: 2%;
+}
+
+.groupview{
+    float: right;
+    width: 50%;
+    text-align: center;
+}
+#groupHD{
+    text-align: center;
+}
+#confirmBttn{
+    background: rgb(110, 19, 75);
+    color: white;
+    height: 100px;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+}
+#buttoncontainer{
+    
+}

@@ -12,8 +12,11 @@ export class NewProjectViewComponent implements OnInit {
 
   setToggle(num: number){
     this.toggle = num;
+
+    
   }
   ngOnInit() {
   }
+
 
 }

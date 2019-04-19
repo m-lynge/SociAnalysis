@@ -4,4 +4,4 @@
 
 <app-new-project-groups (show)='setToggle($event)' *ngIf='toggle === 1'> </app-new-project-groups>
     
-<app-new-project-overview *ngIf='toggle === 2'> </app-new-project-overview>
+<app-new-project-overview (show)='setToggle($event)' *ngIf='toggle === 2'> </app-new-project-overview>

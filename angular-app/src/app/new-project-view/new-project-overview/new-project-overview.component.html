@@ -1,3 +1,24 @@
-<p>
-  new-project-overview works!
-</p>
+<div>
+  <div class="descView">
+    <h2>Projekt titel:</h2>
+    <br />
+    <h3>{{ this.newprojectservice.Name }}</h3>
+    <br />
+    <h2>Projekt Beskrivelse:</h2>
+    <br />
+    <p>{{ this.newprojectservice.Description }}</p>
+  </div>
+  <div class="groupView">
+    <h1 id="groupHD">Valgte Facebook grupper</h1>
+  </div>
+  <div id="buttonContainer">
+    <form>
+      <input type="submit" value="OPRET PROJEKT" id="confirmBttn" name="" />
+      <input type="submit" value="redigér projekt beskrivelse" id="editBttn" name="" (click)="showNext()"
+      />
+    </form>
+  </div>
+</div>
+<div class="vLine"></div>
+
+<!--Lav en ret beskrivelse knap-->

@@ -20,8 +20,8 @@
     height:500px;
 }
 .vLine{
-    border-left: 6px solid rgb(114, 8, 105);
-    height: 250px;
+    border-left: 3px solid rgb(0, 0, 0);
+    height: 70%;
     position: absolute;
     left:50%;
     top:0;
