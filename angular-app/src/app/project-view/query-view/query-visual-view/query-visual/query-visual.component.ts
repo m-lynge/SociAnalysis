@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3-selection';
-import * as d3Scale from 'd3-scale';
-import * as d3Shape from 'd3-shape';
-import * as d3Array from 'd3-array';
-import * as d3Axis from 'd3-axis';
 import * as d3Force from 'd3-force';
 
 import { WORDS } from './words';
-import { style } from '@angular/animations';
-import { anchorDef } from '@angular/core/src/view';
 import { NavigationService } from 'src/app/navigation.service';
 
 @Component({
@@ -18,18 +12,19 @@ import { NavigationService } from 'src/app/navigation.service';
 })
 export class QueryVisualComponent implements OnInit {
 
-  height = 500;
-  width = 500;
+  private height: number;
+  private width: number;
   private svg: any;
   private circles: any;
   private chart: any;
 
-  private simulation = d3Force.forceSimulation()
-  .force('x', d3Force.forceX(this.width / 2).strength(0.5))
-  .force('y', d3Force.forceY(this.height / 2).strength(0.5));
+  private simulation: any;
 
   constructor(private navigationservice: NavigationService) {
     navigationservice.setNavi = false;
+    this.height = 500;
+    this.width = 500;
+
   }
 
   ngOnInit(): void {
@@ -48,23 +43,33 @@ export class QueryVisualComponent implements OnInit {
   }
 
   private DrawCirles() {
-    this.circles = this.svg.selectAll('.WORDS')
+    this.circles = this.svg.selectAll('.words')
       .data(WORDS)
       .enter()
       .append('circle')
       .attr('class', 'words')
       .attr('r', 10)
       .attr('fill', 'lightblue');
-    this.simulation.nodes(WORDS)
-      .on('tick', this.ticked());
-
+    
+    console.log(this.circles);
+    this.RunSimulation();
 
   }
   private ticked() {
-    console.log("run ticked");
+    console.log(this.circles);
+    console.log('run ticked');
     this.circles
       .attr('cx', (d) => d.x)
       .attr('cy', (d) => d.y);
+  }
+
+  private RunSimulation() {
+    this.simulation = d3Force.forceSimulation()
+      .force('charge', d3Force.forceManyBody().strength([-50]))
+      .force('x', d3Force.forceX(0))
+      .force('y', d3Force.forceY(0))
+      .nodes(WORDS)
+      .on('tick', this.ticked());
   }
 
 

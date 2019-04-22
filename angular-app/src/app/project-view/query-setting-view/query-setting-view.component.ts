@@ -132,7 +132,7 @@ export class QuerySettingViewComponent implements AfterContentInit {
             groups: this.groupsSelected,
             filter: { max: this.maxInput.value, tags: chosenTags }
         };
-        // THIS DOES NOT WORK :
+        // ---- THIS DOES NOT WORK ---->>>>>>> ERROR CODE: 98607452dh34562xs -- Code does not compile --
         // this.fbservice.doQueryApiCALL(exportQuery);
     }
     ngAfterContentInit(): void {
