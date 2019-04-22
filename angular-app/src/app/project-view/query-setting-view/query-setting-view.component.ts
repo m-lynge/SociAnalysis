@@ -7,6 +7,7 @@ import { DirectoryService } from 'src/app/directory.service';
 import { FBServiceService } from 'src/app/fb-service.service';
 
 import { Project } from '../../Project';
+import { NewQuery } from 'src/app/NewQuery';
 
 export interface QuerySettingsInterface {
     name: string;
@@ -41,7 +42,7 @@ export class QuerySettingViewComponent implements AfterContentInit {
     beginDate = new FormControl(false);
     endDate = new FormControl(false);
 
-
+    maxInput = new FormControl();
 
 
 
@@ -102,7 +103,7 @@ export class QuerySettingViewComponent implements AfterContentInit {
 
         console.log('search tags: ', this.searchTags);
 
-        let allParams: any = [
+        const allParams: any = [
             { name: 'postsCheck', clicked: this.postsCheck.value },
             { name: 'commentsCheck', clicked: this.commentsCheck.value },
             { name: 'likesCheck', clicked: this.likesCheck.value },
@@ -119,18 +120,20 @@ export class QuerySettingViewComponent implements AfterContentInit {
             return param.name;
         });
 
-        console.log("chosen beginddate:", this.beginDate);
-        // This does not work yet
-        console.log("chosen beginddate:", JSON.stringify(this.beginDate.value.toJSON()));
+        const chosenTags = this.searchTags.map((tag) => {
+            return tag.tag;
+        });
 
-        //to fb service
-        let exportQuery = {
+        // to fb service
+        const exportQuery: NewQuery = {
             name: this.queryName,
             params: chosenParams,
-            timeperiod: { from: '', till: '' },
-            groups: [''],
-            filter: { max: 0, tags: [''] }
+            timeperiod: { from: this.beginDate.value.toLocaleDateString(), till: this.endDate.value.toLocaleDateString() },
+            groups: this.groupsSelected,
+            filter: { max: this.maxInput.value, tags: chosenTags }
         };
+
+        this.fbservice.doQueryApiCALL(exportQuery);
     }
     ngAfterContentInit(): void {
         // Lines for test perpose
