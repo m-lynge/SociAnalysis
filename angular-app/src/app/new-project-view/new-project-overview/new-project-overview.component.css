@@ -28,6 +28,23 @@
     bottom: 0px;
     right: 0px;
 }
-#buttoncontainer{
-    
+#editBttn{
+    position: absolute;
+    font-size: 12px;
+    left: 0px;
+    margin-top: 25%;
+    background: rgb(110, 19, 75);
+    color: white;
+    height: 50px;
+    width: 150px;
+    align-content: center;
+}
+#wrapper{
+    margin: auto;
+    height: 100%;
+    width: 100%;
+}
+.rightGroup{
+    float:right;
+    width: 50%;
 }

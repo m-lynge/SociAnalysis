@@ -1,21 +1,58 @@
-
 <div class="center">
-<form >
-    
-  <div id="leftBox">
-    <h1>Tilgængelige grupper</h1>
-    <mat-card class="leftGroup"> </mat-card>
-  </div>
+  <form>
+    <div id="leftBox">
+      <h1>Tilgængelige grupper</h1>
+      <h4>Disse grupper er tilgængelige</h4>
+      <hr />
+      <div class="cardContainer">
+        <mat-card
+          class="leftGroup"
+          *ngFor="let group of groupsAvailable; let i = index"
+          (click)="addToSelected(i)"
+        >
+          <div style="">
+            <div style="display: block">
+              {{ group.name }}
+              <div style="color:blue">
+                {{ group.desc }}
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
 
-  <div id="rightBox">
-    <h1>Valgte grupper</h1>
-    <mat-card class="rightGroup"> </mat-card>
-  </div>
- 
-  <div >
-    <input type="submit" value="Videre" id="confirmBttn" name=""(click)="showNext()" />
-  </div>
+    <div id="rightBox">
+      <h1>Valgte grupper</h1>
+      <h4>Disse grupper har du valgt</h4>
+      <hr />
+      <div class="cardContainer">
+        <mat-card
+          class="rightGroup"
+          *ngFor="let group of groupsSelected; let i = index"
+          (click)="addToAvailable(i)"
+        >
+          <div style="">
+            <div style="display: block">
+              {{ group.name }}
+              <div style="color:blue">
+                {{ group.desc }}
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
 
-</form>
+    <div>
+      <input
+        type="submit"
+        value="Videre"
+        id="confirmBttn"
+        name=""
+        (click)="showNext()"
+      />
+    </div>
+  </form>
 </div>
 <div class="vLine"></div>

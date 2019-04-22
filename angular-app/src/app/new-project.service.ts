@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Group } from './Group';
 
 @Injectable({
   providedIn: "root"
@@ -6,7 +7,7 @@ import { Injectable } from "@angular/core";
 export class NewProjectService {
   private name: string;
   private descr: string;
-  private listOfGroups: string[];
+  private listOfGroups: Group[];
 
   public get Name(): string {
     return this.name;
@@ -21,7 +22,11 @@ export class NewProjectService {
     this.descr = descr;
   }
 
-  public set ListOfGroups(listOfGroups: string[]) {
+  public get ListOfGroups(): Group[] {
+    return this.listOfGroups;
+  }
+
+  public set ListOfGroups(listOfGroups: Group[]) {
     this.listOfGroups = listOfGroups;
   }
 }
