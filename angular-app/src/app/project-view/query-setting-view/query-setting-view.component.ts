@@ -132,8 +132,8 @@ export class QuerySettingViewComponent implements AfterContentInit {
             groups: this.groupsSelected,
             filter: { max: this.maxInput.value, tags: chosenTags }
         };
-
-        this.fbservice.doQueryApiCALL(exportQuery);
+        // THIS DOES NOT WORK :
+        // this.fbservice.doQueryApiCALL(exportQuery);
     }
     ngAfterContentInit(): void {
         // Lines for test perpose
