@@ -4,7 +4,8 @@
 
     <form class="example-form">
         <mat-form-field class="example-full-width">
-            <input matInput [(ngModel)]="queryName" [ngModelOptions]= "{standalone:true}" placeholder="Søge Navn" value=" ">
+            <input matInput [(ngModel)]="queryName" [ngModelOptions]="{standalone:true}" placeholder="Søge Navn"
+                value=" ">
         </mat-form-field>
 
 
@@ -47,7 +48,9 @@
             <div class="halfWidth">
 
                 <mat-form-field style="width: 100%">
-                    <input matInput placeholder="Max" value=" ">
+                    <input matInput placholder="Max" type="number" [formControl]="maxInput" placeholder="Max" id="myNumber" />
+
+                    <!-- <input matInput placeholder="Max" value=" "> -->
                 </mat-form-field>
             </div>
 
@@ -83,8 +86,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </mat-card>
                 </div>
             </div>

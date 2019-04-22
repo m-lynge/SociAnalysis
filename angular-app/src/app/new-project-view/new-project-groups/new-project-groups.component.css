@@ -21,7 +21,7 @@
 }
 .vLine{
     border-left: 3px solid rgb(0, 0, 0);
-    height: 70%;
+    height: 80%;
     position: absolute;
     left:50%;
     top:0;
@@ -48,5 +48,8 @@
     height: 100%;
     text-align: center;
     align-content: center;
-    
+ }
+ .cardContainer mat-card{
+    margin-bottom: 5px;
+    cursor: pointer;
 }

@@ -1,11 +1,13 @@
 <div class="center">
   <form>
+    <h2>Beskriv dit projekt</h2>
+    <br>
     <mat-form-field class="textTitle" hintlabel="Max 25 tegn">
       <input
         matInput
         #input
         maxlength="25"
-        placeholder="Titel"
+        placeholder="Projekt titel"
         value=""
         name="projectName"
         [(ngModel)]="this.newprojectservice.Name"
@@ -17,6 +19,7 @@
         input
         matInput
         #input
+        matTextareaAutosize matAutosizeMinRows=4 matAutosizeMaxRows=3
         maxlength="250"
         placeholder="Project beskrivelse"
         name="ProjectDescription"

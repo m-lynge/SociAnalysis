@@ -1,24 +1,38 @@
-<div>
-  <div class="descView">
-    <h2>Projekt titel:</h2>
-    <br />
-    <h3>{{ this.newprojectservice.Name }}</h3>
-    <br />
-    <h2>Projekt Beskrivelse:</h2>
-    <br />
-    <p>{{ this.newprojectservice.Description }}</p>
-  </div>
-  <div class="groupView">
-    <h1 id="groupHD">Valgte Facebook grupper</h1>
-  </div>
-  <div id="buttonContainer">
-    <form>
-      <input type="submit" value="OPRET PROJEKT" id="confirmBttn" name="" />
-      <input type="submit" value="redigér projekt beskrivelse" id="editBttn" name="" (click)="showNext()"
-      />
-    </form>
-  </div>
-</div>
-<div class="vLine"></div>
+<div id="wrapper">
+  <div>
+    <div class="descView">
+      <h2>Projekt titel:</h2>
+      <br />
+      <h3>{{ this.newprojectservice.Name }}</h3>
+      <br />
+      <h2>Projekt Beskrivelse:</h2>
+      <br />
+      <p>{{ this.newprojectservice.Description }}</p>
+    </div>
+    <div class="groupView">
+      <br>
+      <h2 id="groupHD">Valgte Facebook grupper</h2>
 
-<!--Lav en ret beskrivelse knap-->
+      <mat-card class="rightGroup" *ngFor="let group of this.newprojectservice.ListOfGroups; let i = index">
+        <div style="">
+          <div style="display: block">
+            {{ group.name }}
+            <div style="color:blue">
+              {{ group.desc }}
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+
+    </div>
+    <div id="buttonContainer">
+      <form>
+        <input type="submit" value="OPRET PROJEKT" id="confirmBttn" name="" />
+        <input type="submit" value="redigér projektbeskrivelse" id="editBttn" name="" (click)="showNext()" />
+      </form>
+    </div>
+  </div>
+  <div class="vLine"></div>
+</div>
+<!--  -->
