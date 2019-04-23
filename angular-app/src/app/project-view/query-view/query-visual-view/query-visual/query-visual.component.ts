@@ -5,8 +5,6 @@ import * as d3Scale from 'd3-scale';
 import * as d3Array from 'd3-array';
 import * as Occurences from 'Occurences';
 
-
-import { WORDS } from './words';
 import { NavigationService } from 'src/app/navigation.service';
 
 @Component({
@@ -22,11 +20,13 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
   private circles: any;
   private text: any;
   private ratioScale: any;
+  private max: any;
 
 
 
   // Variable used for the word freq counter:
-  private rawText = 'Hello this is a bla bla bla bla bla bla bla test bla bla bla, heine heine heine, how are you doing bla bla bla this is fun fun fun';
+// tslint:disable-next-line: max-line-length
+  private rawText = 'own considerable abilities  and nervously exaggerated them in his self  conceit  He knew he would play a prominant part of some sort  but Alyosha  who was attached to him  was distressed to see that his friend Rakitin was dishonorble  and quite unconscios of being so himself  considering  on the contrary  that because he would not steal moneey left on the table he was a man of the highest integrity  Neither Alyosha nor anyone else could have infleunced him in that Rakitin  of course  was a person of tooo little consecuense to be invited to the dinner  to which Father Iosif  Father Paissy  and one othr monk were the only inmates of the monastery invited  They were alraedy waiting when Miusov  Kalganov  and Ivan arrived  The other guest  Maximov  stood a little aside  waiting also  The Father Superior stepped into the middle of the room to receive his guests  He was a tall  thin  but still vigorous old man  with black hair streakd with grey  and a long  grave  ascetic face  He bowed to his guests in silence  But this time they approaced to receive his blessing  Miusov even tried to kiss his hand  but the Father Superior drew it back in time to aboid the salute  But Ivan and Kalganov went through the ceremony in the most simple  hearted and complete manner  kissing his hand as peesants do';
   private textOccurrences;
   private statsArray;
 
@@ -57,10 +57,18 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
       .append('g')
       .attr('transform', 'translate(250,250)');
 
+    // calculate max amount of words to make the domain correct:
+    this.max = 0;
+    for (const i in this.statsArray) {
+      if (this.statsArray[i].number > this.max) {
+        this.max = this.statsArray[i].number;
+      }
+    }
 
+    // mapping the domain to a range for calculating the correct radius for the circles
     this.ratioScale = d3Scale
       .scaleSqrt()
-      .domain([1, this.statsArray.length])
+      .domain([1, this.max])
       .range([30, 150]);
   }
 
@@ -106,6 +114,5 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
       return { word: key, number: this.textOccurrences.stats[key] };
     });
     console.log(this.statsArray);
-    console.log(WORDS);
   }
 }
