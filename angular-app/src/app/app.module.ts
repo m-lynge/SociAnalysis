@@ -26,7 +26,7 @@ import { QueryVisualComponent } from './project-view/query-view/query-visual-vie
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationComponent } from './navigation/navigation.component';
 import { TestFindDirectoriesComponent } from './test-find-directories/test-find-directories.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DemoMaterialModule } from './material-module';
 import { QuerySelectorComponent } from './project-view/query-view/query-selector/query-selector.component';
@@ -65,6 +65,7 @@ import { NewQueryViewComponent } from './project-view/new-query-view/new-query-v
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    HttpClientJsonpModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,

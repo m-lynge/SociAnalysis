@@ -3,11 +3,17 @@ const app = express();
 const directoryRoute = express.Router();
 const fs = require('fs')
 
+directoryRoute.get('/test', (req, res) => {
+    res.jsonp('heybaby')
+})
+
 // returns all the user's paths found in the directory
 directoryRoute.route('/getUsers').get(function (req, res) {
+    console.log("FUNCTION FROM SERVER CALLED");
     const path = './users/';
     fs.readdir(path, function (err, items) {
-        res.json(items);
+        console.log("RESPONSE:", req.query.callback + JSON.stringify(items));
+        res.jsonp(items);
     });
 })
 
@@ -31,10 +37,9 @@ directoryRoute.route('/getProjects/:user').get(function (req, res) {
                 }
             })
             console.log("OUTPUT: \n", JSON.stringify(finalProejct))
-            res.json(finalProejct);
-        }
-        else {
-            res.json([{}]);
+            res.jsonp(finalProejct);
+        } else {
+            res.jsonp([{}]);
         }
     });
 })
@@ -46,49 +51,49 @@ directoryRoute.route('/getQueries/:user/:project').get(function (req, res) {
     fs.readdir(path, function (err, items) {
         console.log("Printing searches from", path);
         console.log(items);
-        res.json(items);
+        res.jsonp(items);
     });
 })
 
 // returns the json file for a given project from a given user 
 directoryRoute.route('/getProject/:user/:project').get(function (req, res) {
-    const path = './users/' + req.params.user + '/' + req.params.project
-        + '/' + 'projectinfo.json';
+    const path = './users/' + req.params.user + '/' + req.params.project +
+        '/' + 'projectinfo.json';
     returnProject = fs.readFileSync(path, 'utf8', (err, data) => {
         if (err) throw err;
     })
     console.log("Project info json: ", returnProject)
-    res.json(returnProject)
+    res.jsonp(returnProject)
 })
 
 // returns the json file for a given query from a given project 
 // from a given user 
 directoryRoute.route('/getQuery/:user/:project/:query').get(function (req, res) {
-    const path = './users/' + req.params.user + '/' + req.params.project
-        + '/' + 'query' + '/' + req.params.query;
+    const path = './users/' + req.params.user + '/' + req.params.project +
+        '/' + 'query' + '/' + req.params.query;
     returnQuery = fs.readFileSync(path, 'utf8', (err, data) => {
         if (err) throw err;
     })
     console.log("Query json: ", returnQuery)
-    res.json(returnQuery)
+    res.jsonp(returnQuery)
 })
 
 // checks if directory given already exists, returns true or false
 directoryRoute.route('/dirExists/:path').get(function (req, res) {
     const finalPath = './users/' + req.params.path;
     if (fs.existsSync(finalPath)) {
-        res.json(true)
+        res.jsonp(true)
     } else {
-        res.json(false)
+        res.jsonp(false)
     }
 })
 // checks if directory given already exists, returns true or false
 directoryRoute.route('/dirExists/:user/:project').get(function (req, res) {
     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
     if (fs.existsSync(finalPath)) {
-        res.json(true)
+        res.jsonp(true)
     } else {
-        res.json(false)
+        res.jsonp(false)
     }
 })
 
@@ -98,9 +103,9 @@ directoryRoute.route('/makeDir/:user').get(function (req, res) {
     // asynchronously creates a directory
     fs.mkdir(path, (err) => {
         if (err) {
-            res.json(err)
+            res.jsonp(err)
         } else {
-            res.json(true)
+            res.jsonp(true)
         }
     })
 })
@@ -110,9 +115,9 @@ directoryRoute.route('/makeDir/:user/:project').get(function (req, res) {
     // asynchronously creates a directory
     fs.mkdir(finalPath, (err) => {
         if (err) {
-            res.json(err)
+            res.jsonp(err)
         } else {
-            res.json(true)
+            res.jsonp(true)
         }
     })
 })
@@ -122,9 +127,9 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
     // asynchronously creates a directory
     fs.mkdir(finalPath, (err) => {
         if (err) {
-            res.json(err)
+            res.jsonp(err)
         } else {
-            res.json(true)
+            res.jsonp(true)
         }
     })
 })
@@ -136,9 +141,9 @@ directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req, res)
     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
     fs.writeFile(finalPath + 'projectinfo' + '.json', String(req.params.object), (err) => {
         if (err) {
-            res.json(err)
+            res.jsonp(err)
         } else {
-            res.json(true)
+            res.jsonp(true)
         }
     });
 })
@@ -152,9 +157,9 @@ directoryRoute.route('/saveJSON/:user/:project/:query/:object').get(function (re
     // set queryname to correct later
     fs.writeFile(finalPath + "queryname" + '.json', req.params.object, (err) => {
         if (err) {
-            res.json(err)
+            res.jsonp(err)
         } else {
-            res.json(true)
+            res.jsonp(true)
         }
     });
 })

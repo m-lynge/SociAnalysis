@@ -4,6 +4,8 @@
     "outDir": "../out-tsc/app",
     "types": [
       "facebook-js-sdk" // facebook
+      ,
+      "jquery" //jquery
     ]
   },
   "exclude": [

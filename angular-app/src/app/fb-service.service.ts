@@ -80,14 +80,11 @@ export class FBServiceService {
             FB.api(
                 url,
                 response => {
-
                     if (response && !response.error) {
-
                         this.updateList(response.groups.data);
                         if (response.groups.paging) {
                             this.isFirst = false;
                             this.recursiveFunction(response.groups.paging.next);
-
                         }
                     }
                 },
