@@ -7,7 +7,10 @@ export class FBServiceService {
 
     userID = '';
     isFirst = true;
+    isFirstPosts = true;
+    accessToken = '';
     listOfGrpups = [];
+    listOfPosts = [];
 
     constructor(private zone: NgZone) {
         (window as any).fbAsyncInit = () => {
@@ -41,12 +44,13 @@ export class FBServiceService {
                 if (response.authResponse) {
                     // console.log(response.authResponse);
                     this.userID = response.authResponse.userID;
+                    this.accessToken = response.authResponse.accessToken;
                     this.recursiveFunction('');
-                    resolve(response.authResponse);
+                    resolve('user: ' + response.authResponse);
                 } else {
                     reject('Login Failed');
                 }
-            }, { auth_type: 'reauthenticate' });
+            }, {auth_type: 'reauthenticate'});
         });
     }
 
@@ -70,8 +74,23 @@ export class FBServiceService {
         }
     }
 
+    updatePostList(fun: any[]) {
+        if (fun !== undefined) {
+            this.zone.run(() =>
+                fun.map((object) => {
+                    // Check only save groups you're administrator off.
+                    this.listOfPosts.push(object);
+                }));
+        }
+    }
+
+
     retrieveGroups() {
         return this.listOfGrpups;
+    }
+
+    retrievePosts() {
+        return this.listOfPosts;
     }
 
     recursiveFunction(url: string) {
@@ -106,11 +125,42 @@ export class FBServiceService {
         }
     }
 
-    // Recursive function too make sure all groups are collected
-    doNewApiCAll(url: string) {
 
+    recursiveFunctionPosts(url: string, groupID: string) {
+        if (this.isFirstPosts) {
+            url = '/' + groupID + '/feed';
+            FB.api(
+                url,
+           //     {access_token: this.accessToken},
+                response => {
+
+                    if (response && !response.error) {
+                        console.log(response);
+
+                        this.updatePostList(response.data);
+                        if (response.paging) {
+                            this.isFirstPosts = false;
+                            this.recursiveFunctionPosts(response.paging.next, groupID);
+                        }
+                    }
+                },
+            );
+        } else {
+            FB.api(
+                url,
+                response => {
+                    if (response && !response.error) {
+                        this.updatePostList(response.data);
+                        if (response.paging) {
+                            this.recursiveFunctionPosts(response.paging.next, groupID);
+                        } else {
+                            console.log(this.listOfPosts);
+                            console.log('Done fetching groups!');
+                        }
+                    }
+                },
+            );
+        }
     }
-
-
 }
 
