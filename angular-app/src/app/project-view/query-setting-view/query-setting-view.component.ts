@@ -80,12 +80,10 @@ export class QuerySettingViewComponent implements AfterContentInit {
         const input = event.input;
         const value = event.value;
 
-        // Add our fruit
         if ((value || '').trim()) {
             this.searchTags.push({ tag: value.trim() });
         }
 
-        // Reset the input value
         if (input) {
             input.value = '';
         }
