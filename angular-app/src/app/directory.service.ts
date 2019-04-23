@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Selected } from './Selected';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientJsonpModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Group } from './Group';
 import { Project } from './Project';
+import * as $ from 'jquery';
 
 
 @Injectable({
@@ -12,10 +13,10 @@ import { Project } from './Project';
 
 export class DirectoryService {
 
-  private uri = 'http://localhost:4000/directory';
+  private uri = 'https://localhost:4000/directory';
   private selected: Selected;
 
-  constructor(private http: HttpClient, ) {
+  constructor(private http: HttpClient) {
     this.selected = new Selected(null, null, null);
   }
 
@@ -42,6 +43,32 @@ export class DirectoryService {
 
   public set selectedQuery(v: string) {
     this.selected.query = v;
+  }
+
+  public callback() {
+    console.log('well this is fun');
+  }
+
+  public fun() {
+    $.ajax({
+      dataType: 'jsonp',
+      jsonp: 'callback',
+      url: 'https://localhost:4000/directory/test?callback=?',
+      success: (response) => {
+        console.log('Got a response');
+        console.log(response);
+      },
+      error: (XHR, textStatus, errorThrown) => {
+        console.log('Got a error');
+        console.log(XHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+      }
+    });
+
+    // return this
+    //   .http
+    //   .jsonp(`${this.uri}/test`, 'callback');
   }
 
   public getAllUsers(): Observable<object> {
@@ -82,7 +109,7 @@ export class DirectoryService {
 
   public projectExists(user: string, project: Project) {
     const path = user + '/' + project.name;
-    console.log("CHECK: ", path);
+    console.log('CHECK: ', path);
     return this.directoryExists(path);
   }
 
@@ -100,7 +127,7 @@ export class DirectoryService {
         // the specified groups and project info into a separate json file within the project folder
         this.createDirectory(user + '/' + project.name + '/' + 'query').subscribe((res) => {
           if (res) {
-            // then if both were succesfull, createGroupJSON is called using passed json-element "allGroups"
+            // then if both were succesfull, createGroupJSON is called using passed json-element 'allGroups'
             this.createProjectInfoJSON(user, project.name, project).subscribe((resp) => {
               if (resp) {
                 console.log('JSON file created');
