@@ -50,7 +50,7 @@ export class FBServiceService {
                 } else {
                     reject('Login Failed');
                 }
-            }, {auth_type: 'reauthenticate'});
+            }, {scope: 'groups_access_member_info', auth_type: 'reauthenticate'});
         });
     }
 

@@ -45,31 +45,6 @@ export class DirectoryService {
     this.selected.query = v;
   }
 
-  public callback() {
-    console.log('well this is fun');
-  }
-
-  public fun() {
-    $.ajax({
-      dataType: 'jsonp',
-      jsonp: 'callback',
-      url: 'https://localhost:4000/directory/test?callback=?',
-      success: (response) => {
-        console.log('Got a response');
-        console.log(response);
-      },
-      error: (XHR, textStatus, errorThrown) => {
-        console.log('Got a error');
-        console.log(XHR);
-        console.log(textStatus);
-        console.log(errorThrown);
-      }
-    });
-
-    // return this
-    //   .http
-    //   .jsonp(`${this.uri}/test`, 'callback');
-  }
 
   public getAllUsers(): Observable<object> {
     return this
