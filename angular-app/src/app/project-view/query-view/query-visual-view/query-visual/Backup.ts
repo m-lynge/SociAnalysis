@@ -21,12 +21,13 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
   private svg: any;
   private circles: any;
   private text: any;
-  private ratioScale: any;
-
-
+  private ratioScale = d3Scale
+  .scaleSqrt()
+  .domain([1, 6])
+  .range([30, 150]);
 
   // Variable used for the word freq counter:
-  private rawText = 'Hello this is a bla bla bla bla bla bla bla test bla bla bla, heine heine heine, how are you doing bla bla bla this is fun fun fun';
+  private rawText = 'Hello this is a test bla bla bla, heine heine heine, how are you doing bla bla bla this is fun fun fun';
   private textOccurrences;
   private statsArray;
 
@@ -46,22 +47,18 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit(): void {
     this.countWords(this.rawText);
-    this.Init();
+    this.InitSVG();
     this.DrawCirles();
   }
 
-  private Init() {
+
+
+  private InitSVG() {
     this.svg = d3.select('svg')
       .attr('height', this.height)
       .attr('width', this.width)
       .append('g')
       .attr('transform', 'translate(250,250)');
-
-
-    this.ratioScale = d3Scale
-      .scaleSqrt()
-      .domain([1, this.statsArray.length])
-      .range([30, 150]);
   }
 
   private DrawCirles() {
@@ -72,7 +69,7 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
       .append('circle')
       .attr('class', 'words')
       .attr('r', (d) => this.ratioScale(d.number))
-      .attr('fill', (d) => d.number > 4 ? 'red' : 'green');
+      .attr('fill', 'lightblue');
     this.text = this.svg.selectAll('.text')
       .data(this.statsArray)
       .enter()
