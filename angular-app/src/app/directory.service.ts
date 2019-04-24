@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Selected} from './Selected';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Project} from './Project';
-import {Query} from "./Query";
+import { Injectable } from '@angular/core';
+import { Selected } from './Selected';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Project } from './Project';
+import { Query } from "./Query";
 
 
 @Injectable({
@@ -130,11 +130,16 @@ export class DirectoryService {
     }
 
     public createQueryJSON(user: string, project: string, query: Query) {
-        console.log("THIS IS A BIIG JSON STRING FUN: ", JSON.stringify((query)))
-        console.log('user:', user, '    project: ', project)
-        console.log('path taken to server: ', `${this.uri}/PIS/${user}/${project}`)
+        console.log("SEARCHING FOR PIS")
+        console.log('searching for path: ', `${this.uri}/PIS/${user}/${project}/${JSON.stringify(query)}`);
         return this
             .http
-            .get(`${this.uri}/PIS/${user}/${project}`);
+            .get(`${this.uri}/PIS/${user}/${project}/${JSON.stringify(query)}`);
+        // console.log("THIS IS A BIIG JSON STRING FUN: ", JSON.stringify((query)))
+        // console.log('user:', user, '    project: ', project)
+        // console.log('path taken to server: ', `${this.uri}/PIS/${user}/${project}/query/HEJDU`);
+        // return this
+        //     .http
+        //     .get(`${this.uri}/PIS/${user}/${project}/query/HEJDU`);
     }
 }

@@ -121,7 +121,7 @@ export class FBServiceService {
     retrievePosts() {
         this.FetchPosts(
             '',
-            '1853018638261806',
+            '536165083455957',
             new NewQuery('default',
                 ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
                 {from: '', till: ''},

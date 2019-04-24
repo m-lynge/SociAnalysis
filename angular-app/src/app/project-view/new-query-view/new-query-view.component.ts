@@ -8,7 +8,7 @@ import { NavigationService } from 'src/app/navigation.service';
 })
 export class NewQueryViewComponent implements OnInit {
 
-  private shownComponent = '0';
+  public shownComponent = '0';
 
   constructor(private nagivationservice: NavigationService) { }
 
