@@ -3,17 +3,17 @@
     <div id="leftBox">
       <h1>Tilgængelige grupper</h1>
       <h4>Disse grupper er tilgængelige</h4>
+      <mat-form-field >
+        <input  name="GroupSearcher" value="" (ngModelChange) ="findMatchingGroups()" [(ngModel)]="searchTerm"  matInput placeholder="Søg i grupper" >
+      </mat-form-field>
+
       <hr />
       <div class="cardContainer">
-        <mat-card
-          class="leftGroup"
-          *ngFor="let group of groupsAvailable; let i = index"
-          (click)="addToSelected(i)"
-        >
+        <mat-card class="leftGroup" *ngFor="let group of groupsShown; let i = index" (click)="addToSelected(i)">
           <div style="">
             <div style="display: block">
               {{ group.name }}
-              <div style="color:blue">
+              <div style="color:white">
                 {{ group.desc }}
               </div>
             </div>
@@ -27,15 +27,11 @@
       <h4>Disse grupper har du valgt</h4>
       <hr />
       <div class="cardContainer">
-        <mat-card
-          class="rightGroup"
-          *ngFor="let group of groupsSelected; let i = index"
-          (click)="addToAvailable(i)"
-        >
+        <mat-card class="rightGroup" *ngFor="let group of groupsSelected; let i = index" (click)="addToAvailable(i)">
           <div style="">
             <div style="display: block">
               {{ group.name }}
-              <div style="color:blue">
+              <div style="color:white">
                 {{ group.desc }}
               </div>
             </div>
@@ -45,13 +41,7 @@
     </div>
 
     <div>
-      <input
-        type="submit"
-        value="Videre"
-        id="confirmBttn"
-        name=""
-        (click)="showNext()"
-      />
+      <input type="submit" value="Videre" id="confirmBttn" name="" (click)="showNext()" />
     </div>
   </form>
 </div>
