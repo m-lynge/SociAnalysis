@@ -1,3 +1,9 @@
-<p>
-  query-parameters works!
-</p>
+<div>
+<p> <b>Navn:</b> {{QueryParams.name}}</p>
+<p><b>Søgeparametre:</b> <a *ngFor='let params of QueryParams.params'>#{{params}} </a></p>
+<p><b>Tidsperiode: Fra:</b> {{QueryParams.timeperiod.from}} <b>Til:</b> {{QueryParams.timeperiod.till}}</p>
+<p><b>Grupper:</b>  <a *ngFor='let groups of QueryParams.groups'> #{{groups.name}}</a></p>
+<p><b>Maks posts:</b> {{QueryParams.filter.max}}</p>
+<p><b>Tags: </b> <a *ngFor='let filter of this.QueryParams.filter.tags'>#{{filter}} </a></p>
+<p><b>Antal posts: </b>{{QueryParams.fbData.length}}</p>
+</div>

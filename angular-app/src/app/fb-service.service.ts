@@ -1,4 +1,7 @@
-import { Injectable, NgZone } from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
+import {DirectoryService} from './directory.service';
+import {NewQuery} from "./NewQuery";
+import {Query} from "./Query";
 
 @Injectable({
     providedIn: 'root'
@@ -9,10 +12,13 @@ export class FBServiceService {
     isFirst = true;
     isFirstPosts = true;
     accessToken = '';
-    listOfGrpups = [];
+    listOfGroups = [];
     listOfPosts = [];
+    hasRetrievedAllPosts = false;
+    canRetrieve = false;
 
-    constructor(private zone: NgZone) {
+
+    constructor(private zone: NgZone, private directoryService: DirectoryService) {
         (window as any).fbAsyncInit = () => {
             FB.init({
                 appId: '582581992245168',
@@ -44,13 +50,15 @@ export class FBServiceService {
                 if (response.authResponse) {
                     // console.log(response.authResponse);
                     this.userID = response.authResponse.userID;
+                    this.directoryService.selectedUser = response.authResponse.userID;
                     this.accessToken = response.authResponse.accessToken;
-                    this.recursiveFunction('');
-                    resolve('user: ' + response.authResponse);
+                    //  this.FetchGroups('');
+                    resolve(response.authResponse);
                 } else {
                     reject('Login Failed');
                 }
-            }, {scope: 'groups_access_member_info', auth_type: 'reauthenticate'});
+            }, {scope: 'groups_access_member_info'});
+            // , auth_type: 'reauthenticate'
         });
     }
 
@@ -61,14 +69,13 @@ export class FBServiceService {
         return;
     }
 
-    updateList(fun: any[]) {
-        if (fun !== undefined) {
+    updateListOfGroups(groupListTemp: any[]) {
+        if (groupListTemp !== undefined) {
             this.zone.run(() =>
-                fun.map((object) => {
-
+                groupListTemp.map((group) => {
                     // Check only save groups you're administrator off.
-                    if (object.administrator === true) {
-                        this.listOfGrpups.push(object);
+                    if (group.administrator === true) {
+                        this.listOfGroups.push(group);
                     }
                 }));
         }
@@ -84,83 +91,84 @@ export class FBServiceService {
         }
     }
 
-
     retrieveGroups() {
-        return this.listOfGrpups;
+        return this.listOfGroups;
+    }
+
+
+    FetchGroups(url?: string) {
+
+        FB.api(
+            url,
+            response => {
+
+                if (response && !response.error) {
+                    // this.updateListOfGroups(response.data);
+                    this.updateListOfGroups(response.data);
+                    console.log(response);
+                    if (response.paging.next) {
+                        this.FetchGroups(response.paging.next);
+                    } else {
+                        // console.log(this.listOfGroups);
+                        this.hasRetrievedAllPosts = true;
+                    }
+                } else {
+                    console.log(response.error);
+                }
+            },
+        );
     }
 
     retrievePosts() {
-        return this.listOfPosts;
+        this.FetchPosts(
+            '',
+            '536165083455957',
+            new NewQuery('default',
+                ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
+                {from: '', till: ''},
+                [],
+                {max: 100, tags: []}
+            )
+        );
     }
 
-    recursiveFunction(url: string) {
-        if (this.isFirst) {
-            url = '/' + this.userID + '?fields=groups{administrator,name}';
-            FB.api(
-                url,
-                response => {
-                    if (response && !response.error) {
-                        this.updateList(response.groups.data);
-                        if (response.groups.paging) {
-                            this.isFirst = false;
-                            this.recursiveFunction(response.groups.paging.next);
-                        }
-                    }
-                },
-            );
-        } else {
-            FB.api(
-                url,
-                response => {
-                    if (response && !response.error) {
-                        this.updateList(response.data);
-                        if (response.paging.next) {
-                            this.recursiveFunction(response.paging.next);
-                        } else {
-                            console.log('Done fetching groups!');
-                        }
-                    }
-                },
-            );
+    FetchPosts(url: string, groupID: string, params: NewQuery) {
+
+
+        if (groupID) {
+            url = '/' + groupID + '/feed?fields=' + params.params.map((check) => {
+                return check;
+            }) + '&limit=100';
+
         }
+
+        FB.api(
+            url,
+            response => {
+
+                if (response && !response.error) {
+                    console.log(response);
+                    this.updatePostList(response.data);
+
+                    if (response.paging) {
+                        this.FetchPosts(response.paging.next, '', params);
+                    } else {
+                        this.directoryService.createQueryJSON(
+                            this.directoryService.selectedUser,
+                            this.directoryService.selectedProject,
+                            new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts)
+                        );
+                        // const query = new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts);
+                        // console.log(query);
+                        // console.log('User: ' + this.directoryService.selectedUser);
+                        // console.log('Project: ' + this.directoryService.selectedProject);
+                    }
+                } else {
+                    console.log(response.error);
+                }
+            },
+        );
     }
 
-
-    recursiveFunctionPosts(url: string, groupID: string) {
-        if (this.isFirstPosts) {
-            url = '/' + groupID + '/feed';
-            FB.api(
-                url,
-           //     {access_token: this.accessToken},
-                response => {
-
-                    if (response && !response.error) {
-                        console.log(response);
-
-                        this.updatePostList(response.data);
-                        if (response.paging) {
-                            this.isFirstPosts = false;
-                            this.recursiveFunctionPosts(response.paging.next, groupID);
-                        }
-                    }
-                },
-            );
-        } else {
-            FB.api(
-                url,
-                response => {
-                    if (response && !response.error) {
-                        this.updatePostList(response.data);
-                        if (response.paging) {
-                            this.recursiveFunctionPosts(response.paging.next, groupID);
-                        } else {
-                            console.log(this.listOfPosts);
-                            console.log('Done fetching groups!');
-                        }
-                    }
-                },
-            );
-        }
-    }
 }
 
