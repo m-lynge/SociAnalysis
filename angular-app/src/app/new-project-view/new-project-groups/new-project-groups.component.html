@@ -1,48 +1,66 @@
-<div class="center">
+<div class="wrapper">
   <form>
-    <div id="leftBox">
-      <h1>Tilgængelige grupper</h1>
-      <h4>Disse grupper er tilgængelige</h4>
-      <mat-form-field >
-        <input  name="GroupSearcher" value="" (ngModelChange) ="findMatchingGroups()" [(ngModel)]="searchTerm"  matInput placeholder="Søg i grupper" >
-      </mat-form-field>
+
+
+    <div class="divContainer" id="leftBox">
+      <div>
+        <h1>Tilgængelige grupper</h1>
+        <h4>Disse grupper er tilgængelige</h4>
+        <mat-form-field>
+          <input name="GroupSearcher" value="" (ngModelChange)="findMatchingGroups()" [(ngModel)]="searchTerm" matInput
+            placeholder="Søg i grupper">
+        </mat-form-field>
+      </div>
 
       <hr />
-      <div class="cardContainer">
-        <mat-card class="leftGroup" *ngFor="let group of groupsShown; let i = index" (click)="addToSelected(i)">
-          <div style="">
-            <div style="display: block">
-              {{ group.name }}
-              <div style="color:white">
-                {{ group.desc }}
+      <div class="groupContainer">
+        <mat-card  *ngFor="let group of groupsShown; let i = index" (click)="addToSelected(i)">
+          <div class="card">
+            <span class="content">
+              <div style="display: block">
+                {{ group.name }}
+                <div style="color:white">
+                  {{ group.desc }}
+                </div>
               </div>
-            </div>
+            </span>
           </div>
         </mat-card>
       </div>
+
     </div>
 
-    <div id="rightBox">
-      <h1>Valgte grupper</h1>
-      <h4>Disse grupper har du valgt</h4>
+
+    <div class="divContainer" id="rightBox">
+      <div>
+        <h1>Valgte grupper</h1>
+        <h4>Disse grupper har du valgt</h4>
+      </div>
+
       <hr />
-      <div class="cardContainer">
-        <mat-card class="rightGroup" *ngFor="let group of groupsSelected; let i = index" (click)="addToAvailable(i)">
-          <div style="">
-            <div style="display: block">
-              {{ group.name }}
-              <div style="color:white">
-                {{ group.desc }}
+
+      <div class="groupContainer">
+        <mat-card  *ngFor="let group of groupsSelected; let i = index"
+          (click)="addToAvailable(i)">
+          <span class="card">
+            <div class="content">
+              <div style="display: block">
+                {{ group.name }}
+                <div style="color:white">
+                  {{ group.desc }}
+                </div>
               </div>
             </div>
-          </div>
+          </span>
         </mat-card>
       </div>
-    </div>
 
+
+
+    </div>
+    <div class="vLine"></div>
     <div>
       <input type="submit" value="Videre" id="confirmBttn" name="" (click)="showNext()" />
     </div>
   </form>
 </div>
-<div class="vLine"></div>

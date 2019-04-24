@@ -1,31 +1,25 @@
-#leftBox{
-    float: left;
-    width: 50%;
-    height: 500px;
-    text-align: center;
+#leftBox {
+
 
 }
-#rightBox{
-    float: right;
-    width:50%;
-    height: 500px;
-    text-align: center;
+
+#rightBox {
 }
-#rightGroup{
-    float:right;
-    width:50%;
+
+#rightGroup {
 }
-#leftGroup{
-    width:50%;
-    height:500px;
+
+#leftGroup {
 }
-.vLine{
+
+.vLine {
     border-left: 3px solid rgb(0, 0, 0);
-    height: 80%;
+    height: 100%;
     position: absolute;
-    left:50%;
-    top:0;
+    left: 50%;
+    /* top: 0; */
 }
+
 #confirmBttn {
     background: rgb(110, 19, 75);
     color: white;
@@ -33,26 +27,59 @@
     width: 110px;
     text-align: left;
     align-content: center;
-    
+
 }
-.buttonContainer{
+
+.buttonContainer {
     position: absolute;
     width: 100%;
     height: 100%;
-    align-content:center;
+    align-content: center;
     left: 50%;
 }
-.center{
-    margin: auto;
+
+.wrapper {
+    /* margin: auto; */
     width: 100%;
     height: 100%;
     text-align: center;
     align-content: center;
- }
- .cardContainer mat-card{
+}
+
+
+.groupContainer {
+    width: 100%;
+    height: 60vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-left: 10%;
+    padding-right: 10%;
+
+}
+.card{
     margin-bottom: 5px;
-    margin-right: 50px;
-    margin-left: 50px;
+    /* padding-bottom: 5px;
+    padding-right: 50px;
+    padding-left: 50px; */
     cursor: pointer;
-    background-color: blue;
+    background-color:rgb(60, 90, 153);
+    height: 10vh;
+    padding-left: 5%
+
+    /* white-space:nowrap; */
+}
+.content{
+    width:90%;
+    align-content: center;
+    overflow: hidden;
+}
+
+.divContainer{
+    width:50%
+}
+.divContainer#leftBox{
+    float: left;
+}
+.divContainer#rightBox{
+    float: right;
 }
