@@ -58,7 +58,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
     }
 
     ngOnInit() {
-        this.fbService.retrieveGroups();
+        this.groupsAvailable = this.fbService.retrieveGroups();
     }
 
 

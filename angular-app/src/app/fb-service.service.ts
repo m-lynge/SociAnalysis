@@ -11,6 +11,7 @@ export class FBServiceService {
     accessToken = '';
     listOfGroups = [];
     listOfPosts = [];
+    hasRetrievedAllPosts = false;
     canRetrieve = false;
 
 
@@ -86,7 +87,7 @@ export class FBServiceService {
     }
 
     retrieveGroups() {
-        this.FetchGroups('/' + this.userID + '/groups?fields=administrator,name,description');
+        return this.listOfGroups;
     }
 
     retrievePosts() {
@@ -101,21 +102,19 @@ export class FBServiceService {
 
                 if (response && !response.error) {
                     // this.updateListOfGroups(response.data);
-                    this.listOfGroups += response.data;
+                    this.updateListOfGroups(response.data);
                     console.log(response);
                     if (response.paging.next) {
-                        console.log("Yaay! fetching more!");
                         this.FetchGroups(response.paging.next);
                     } else {
-                        console.log(this.listOfGroups);
+                        // console.log(this.listOfGroups);
+                        this.hasRetrievedAllPosts = true;
                     }
                 } else {
                     console.log(response.error);
                 }
             },
         );
-
-
     }
 
     // FetchGroups(url: string) {
