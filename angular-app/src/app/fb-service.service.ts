@@ -50,9 +50,10 @@ export class FBServiceService {
                 if (response.authResponse) {
                     // console.log(response.authResponse);
                     this.userID = response.authResponse.userID;
+                    this.directoryService.selectedUser = response.authResponse.userID;
                     this.accessToken = response.authResponse.accessToken;
                     //  this.FetchGroups('');
-                    resolve('user: ' + response.authResponse);
+                    resolve(response.authResponse);
                 } else {
                     reject('Login Failed');
                 }
