@@ -58,7 +58,7 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
 
     // calculate max amount of words to make the domain correct:
     this.max = this.sortedStatsArray[0].number;
-    console.log(this.max);
+
 
     // mapping the domain to a range for calculating the correct radius for the circles
     this.ratioScale = d3Scale
@@ -84,8 +84,6 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
     this.RunSimulation();
   }
   private ticked() {
-    console.log(this.circles);
-    console.log('run ticked');
     this.circles
       .attr('cx', (d) => d.x)
       .attr('cy', (d) => d.y);
@@ -113,6 +111,5 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
     this.sortedStatsArray.reverse();
 
     this.sortedStatsArray = this.sortedStatsArray.slice(0, 10);
-    console.log(this.sortedStatsArray);
   }
 }
