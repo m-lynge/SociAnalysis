@@ -9,11 +9,13 @@
     float: left;
     width: 50%;
     padding: 2%;
+    height: 500px;
 }
 
-.groupview{
+#rightBox{
     float: right;
-    width: 50%;
+    width:50%;
+    height: 500px;
     text-align: center;
 }
 #groupHD{
@@ -32,7 +34,7 @@
     position: absolute;
     font-size: 12px;
     left: 0px;
-    margin-top: 25%;
+    margin-top: 30%;
     background: rgb(110, 19, 75);
     color: white;
     height: 50px;
@@ -40,11 +42,21 @@
     align-content: center;
 }
 #wrapper{
-    margin: auto;
     height: 100%;
     width: 100%;
 }
-.rightGroup{
-    float:right;
+#rightGroup{
+    float: right;
     width: 50%;
+}
+.cardContainer mat-card{
+    margin-bottom: 5px;
+    margin-right: 50px;
+    margin-left: 50px;
+    cursor: pointer;
+    background-color: blue;
+}
+
+#LEFT{
+    width:50%;
 }
