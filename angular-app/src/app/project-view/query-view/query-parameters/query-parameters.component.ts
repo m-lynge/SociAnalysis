@@ -10,14 +10,14 @@ import { TestBed } from '@angular/core/testing';
 export class QueryParametersComponent implements OnInit {
   QueryParams: Query;
   constructor() {
-    this.QueryParams = {
-      name: 'Test',
-      params: [],
-      timeperiod: {from:'10', till:'10'},
-      groups: [],
-      filter: {max: 50, tags: ['Hello', 'father']}
+    // this.QueryParams = {
+    //   name: 'Test',
+    //   params: [],
+    //   timeperiod: {from:'10', till:'10'},
+    //   groups: [],
+    //   filter: {max: 50, tags: ['Hello', 'father']}
       
-    }
+    // }
    }
 
   ngOnInit() {
