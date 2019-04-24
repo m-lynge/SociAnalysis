@@ -133,6 +133,6 @@ export class DirectoryService {
   public createQueryJSON(user: string, project: string, query: object) {
     return this
       .http
-      .get(`${this.uri}/saveJSON/${user}/${project}/'query'/${query}`);
+      .get(`${this.uri}/saveJSON/${user}/${project}/query/${query}`);
   }
 }

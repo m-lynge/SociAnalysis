@@ -102,12 +102,12 @@ export class QuerySettingViewComponent implements AfterContentInit {
         console.log('search tags: ', this.searchTags);
 
         const allParams: any = [
-            { name: 'postsCheck', clicked: this.postsCheck.value },
-            { name: 'commentsCheck', clicked: this.commentsCheck.value },
-            { name: 'likesCheck', clicked: this.likesCheck.value },
-            { name: 'reactionCheck', clicked: this.reactionsCheck.value },
-            { name: 'picturesCheck', clicked: this.picturesCheck.value },
-            { name: 'linksCheck', clicked: this.linksCheck.value }
+            { name: 'message', clicked: this.postsCheck.value },
+            { name: 'comments', clicked: this.commentsCheck.value },
+            { name: 'likes', clicked: this.likesCheck.value },
+            { name: 'reactions', clicked: this.reactionsCheck.value },
+            { name: 'picture', clicked: this.picturesCheck.value },
+            { name: 'link', clicked: this.linksCheck.value }
         ];
 
         const chosenParams = allParams.filter((param: any) => {

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Query } from '../../../Query';
 import { TestBed } from '@angular/core/testing';
-import { group } from '@angular/animations';
+
+import { Group } from 'src/app/Group';
 
 @Component({
   selector: 'app-query-parameters',
@@ -12,6 +13,9 @@ import { group } from '@angular/animations';
 export class QueryParametersComponent implements OnInit {
   private name: string;
   private params: string[];
+  private timeperiod: any;
+  private groups: Group[];
+  private filter: any;
   QueryParams: Query;
   constructor() {
     this.QueryParams = {
@@ -27,9 +31,5 @@ export class QueryParametersComponent implements OnInit {
   ngOnInit() {
   }
 
-  private setData(QueryParams: Query){
-    QueryParams.name
-
-  }
 
 }
