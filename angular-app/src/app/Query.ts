@@ -7,6 +7,6 @@ export class Query {
         public timeperiod: { from: string, till: string },
         public groups: Group[],
         public filter: { max: number, tags: string[] },
-        public fbData: [{name: string, data: object}]
+        public fbData: object[]
     ) { }
 }

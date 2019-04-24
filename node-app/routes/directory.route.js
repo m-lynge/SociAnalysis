@@ -138,6 +138,7 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
 // Route for saving JSON files (object:string)
 directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req, res) {
     // The JSON file being written is the group.json
+    console.log()
     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
     fs.writeFile(finalPath + 'projectinfo' + '.json', String(req.params.object), (err) => {
         if (err) {
@@ -150,15 +151,17 @@ directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req, res)
 
 
 
-directoryRoute.route('/saveJSON/:user/:project/:query/:object').get(function (req, res) {
-
+directoryRoute.route('/PIS/:user/:project').get(function (req, res) {
+    console.log('Hey im a comment and im run');
     // The JSON file being written is a query.json file
-    const finalPath = './users/' + req.params.user + '/' + req.params.project + '/' + req.params.query + '/';
+    const finalPath = './users/' + req.params.user + '/' + req.params.project + '/' + 'query' + '/';
     // set queryname to correct later
-    fs.writeFile(finalPath + "queryname" + '.json', req.params.object, (err) => {
+    fs.writeFile(finalPath + req.params.name + '.json', req.params.fbData, (err) => {
         if (err) {
+            console.log("funError");
             res.jsonp(err)
         } else {
+            console.log("funNOTERROR! HELLO IM A SIDE REF FUNCTION:    -    " + finalPath + req.params.name + '.json' );
             res.jsonp(true)
         }
     });
