@@ -1,4 +1,7 @@
 import {Injectable, NgZone} from '@angular/core';
+import {DirectoryService} from './directory.service';
+import {NewQuery} from "./NewQuery";
+import {Query} from "./Query";
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +18,7 @@ export class FBServiceService {
     canRetrieve = false;
 
 
-    constructor(private zone: NgZone) {
+    constructor(private zone: NgZone, private directoryService: DirectoryService) {
         (window as any).fbAsyncInit = () => {
             FB.init({
                 appId: '582581992245168',
@@ -47,9 +50,10 @@ export class FBServiceService {
                 if (response.authResponse) {
                     // console.log(response.authResponse);
                     this.userID = response.authResponse.userID;
+                    this.directoryService.selectedUser = response.authResponse.userID;
                     this.accessToken = response.authResponse.accessToken;
                     //  this.FetchGroups('');
-                    resolve('user: ' + response.authResponse);
+                    resolve(response.authResponse);
                 } else {
                     reject('Login Failed');
                 }
@@ -91,9 +95,6 @@ export class FBServiceService {
         return this.listOfGroups;
     }
 
-    retrievePosts() {
-        return this.listOfPosts;
-    }
 
     FetchGroups(url?: string) {
 
@@ -118,83 +119,56 @@ export class FBServiceService {
         );
     }
 
-    // FetchGroups(url: string) {
-    //     let tempList: any[];
-    //
-    //     if (this.isFirst) {
-    //         url = '/' + this.userID + '/groups?fields=administrator,name,description';
-    //         FB.api(
-    //             url,
-    //             response => {
-    //
-    //                 if (response && !response.error) {
-    //                     // this.updateListOfGroups(response.data);
-    //                     tempList += response.data;
-    //
-    //                     if (response.paging) {
-    //                         this.isFirst = false;
-    //                         this.FetchGroups(response.paging.next);
-    //                     }
-    //                 }
-    //             },
-    //         );
-    //     } else {
-    //         FB.api(
-    //             url,
-    //             response => {
-    //                 if (response && !response.error) {
-    //                     // this.updateListOfGroups(response.data);
-    //                     tempList += response.data;
-    //                     if (response.paging.next) {
-    //                         this.FetchGroups(response.paging.next);
-    //
-    //                     } else {
-    //                         //  this.canRetrieve = true;
-    //                         //  this.retrieveGroups();
-    //                         return tempList;
-    //                     }
-    //                 }
-    //             },
-    //         );
-    //     }
-    // }
-
-
-    recursiveFunctionPosts(url: string, groupID: string) {
-        if (this.isFirstPosts) {
-            url = '/' + groupID + '/feed';
-            FB.api(
-                url,
-                //     {access_token: this.accessToken},
-                response => {
-
-                    if (response && !response.error) {
-                        console.log(response);
-
-                        this.updatePostList(response.data);
-                        if (response.paging) {
-                            this.isFirstPosts = false;
-                            this.recursiveFunctionPosts(response.paging.next, groupID);
-                        }
-                    }
-                },
-            );
-        } else {
-            FB.api(
-                url,
-                response => {
-                    if (response && !response.error) {
-                        this.updatePostList(response.data);
-                        if (response.paging) {
-                            this.recursiveFunctionPosts(response.paging.next, groupID);
-                        } else {
-                            console.log(this.listOfPosts);
-                            console.log('Done fetching groups!');
-                        }
-                    }
-                },
-            );
-        }
+    retrievePosts() {
+        this.FetchPosts(
+            '',
+            '536165083455957',
+            new NewQuery('default',
+                ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
+                {from: '', till: ''},
+                [],
+                {max: 100, tags: []}
+            )
+        );
     }
+
+    FetchPosts(url: string, groupID: string, params: NewQuery) {
+
+
+        if (groupID) {
+            url = '/' + groupID + '/feed?fields=' + params.params.map((check) => {
+                return check;
+            }) + '&limit=100';
+
+        }
+
+        FB.api(
+            url,
+            response => {
+
+                if (response && !response.error) {
+                    console.log(response);
+                    this.updatePostList(response.data);
+
+                    if (response.paging) {
+                        this.FetchPosts(response.paging.next, '', params);
+                    } else {
+                        this.directoryService.createQueryJSON(
+                            this.directoryService.selectedUser,
+                            this.directoryService.selectedProject,
+                            new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts)
+                        );
+                        // const query = new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts);
+                        // console.log(query);
+                        // console.log('User: ' + this.directoryService.selectedUser);
+                        // console.log('Project: ' + this.directoryService.selectedProject);
+                    }
+                } else {
+                    console.log(response.error);
+                }
+            },
+        );
+    }
+
 }
 

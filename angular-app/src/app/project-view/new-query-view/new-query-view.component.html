@@ -1,4 +1,4 @@
-<app-query-type-selection-view (exportView)="changeView($event)" *ngIf="shownComponent == '0'">
+<app-query-type-selection-view (exportView)="changeView($event)" *ngIf="shownComponent === '0'">
 </app-query-type-selection-view>
-<app-query-setting-view *ngIf="shownComponent == '1'"></app-query-setting-view>
-<app-loading-view [customTitle]="'Henter data fra facebook...'" *ngIf="shownComponent == '2'"></app-loading-view>
+<app-query-setting-view *ngIf="shownComponent === '1'"></app-query-setting-view>
+<app-loading-view [customTitle]="'Henter data fra facebook...'" *ngIf="shownComponent === '2'"></app-loading-view>

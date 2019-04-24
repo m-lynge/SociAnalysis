@@ -20,23 +20,17 @@ export class ProjectListComponent implements OnInit, AfterContentInit {
     this.directoryservice.selectedUser = '01';
     //
     this.directoryservice.getAllProjects(this.directoryservice.selectedUser).subscribe((element) => {
-      console.log(element);
-
       this.projects = element;
-      console.log(this.projects[0]);
-      console.log(this.projects[0].hasOwnProperty('name'));
 
       if (!this.projects[0].hasOwnProperty('name')) {
         this.noProjects = true;
       } else {
         this.noProjects = false;
       }
-      console.log('noProjects: ', this.noProjects);
     });
   }
 
   selectProject(projectName: string) {
-    console.log('Selected project: ' + projectName);
     this.directoryservice.selectedProject = projectName;
     this.router.navigate(['/projekt']);
   }

@@ -37,20 +37,20 @@ export class LoginViewComponent implements OnInit {
     this.fbService
       .login()
       .then((id: any) => {
-          this.router.navigate(['/home']);
+        console.log(id);
         this.directoryservice.userExists(id.userID).subscribe((response) => {
           if (!response) {
             this.directoryservice.createUserDirectory(id.userID).subscribe((created) => {
-              this.directoryservice.selectedUser = id;
               this.navigationservice.setNavi = true;
               this.router.navigate(['/home']);
-              console.log('Created user path/', id.userID);
+              console.log('Created user path/ ', id.userID);
             });
           } else {
-            console.log('User path already exists /', id.userID);
             this.directoryservice.selectedUser = id;
             this.navigationservice.setNavi = true;
             this.router.navigate(['/home']);
+            console.log('User already exists/ ', id.userID);
+
           }
 
         });
