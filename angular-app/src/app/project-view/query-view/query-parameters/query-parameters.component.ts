@@ -11,20 +11,17 @@ import { Group } from 'src/app/Group';
 })
 
 export class QueryParametersComponent implements OnInit {
-  private name: string;
-  private params: string[];
-  private timeperiod: any;
-  private groups: Group[];
-  private filter: any;
+  group1 = new Group('venligboerne Sjælland', 'blabla');
+  group2 = new Group('venligboerne Jylland', 'blabla');
   QueryParams: Query;
   constructor() {
     this.QueryParams = {
-      name: 'Test',
+      name: 'Søgning venliboerne',
       params: ['messages', 'likes'],
       timeperiod: { from: '10/10-2018', till: '01/04-2019' },
-      groups: [],
-      filter: { max: 50, tags: ['Hello', 'father'] },
-      fbData: [{ name: 'post1', data: [] }]
+      groups: [this.group1, this.group2],
+      filter: { max: 50, tags: ['heine', 'hvad', 'nej' , 'rasmus', 'muslim'] },
+      fbData: [{ name: 'post1', data: [] },{ name: 'post1', data: [] },{ name: 'post1', data: [] },{ name: 'post1', data: [] }]
     }
   }
 
