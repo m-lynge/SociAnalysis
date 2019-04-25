@@ -16,8 +16,6 @@ const directoryRoute = require('./routes/directory.route');
 const privatekey = fs.readFileSync('../social.key', 'utf8')
 const certificate = fs.readFileSync('../social.crt', 'utf8')
 
-// console.log("key: ", privatekey);
-// console.log("certficate: ", certificate);
 
 const pf = 'mta19635';
 
@@ -29,13 +27,36 @@ const credentials = {
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+// app.use(cors());
+app.use(bodyParser.urlencoded({extended: true}) );
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://localhost:4201");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+app.get('/fun', function(req, res, next) {
+    // Handle the get for this route
+});
+
+app.post('/fun', function(req, res, next) {
+    // Handle the post for this route
+});
+
+app.options('/login', function (req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    res.end();
+});
+
 app.use('/directory', directoryRoute);
+
 
 const port = process.env.PORT || 4000;
 
-let httpsServer = https.createServer(credentials, app);
-
+ let httpsServer = https.createServer(credentials, app);
 
 httpsServer.listen(port, () => {
     console.log('Listening on port ', port);
@@ -43,7 +64,7 @@ httpsServer.listen(port, () => {
     httpsServer.listening);
 });
 
-
-// const server = app.listen(port, function () {
+//
+// app.listen(port, function () {
 //     console.log('Listening on port ', port);
 // });
