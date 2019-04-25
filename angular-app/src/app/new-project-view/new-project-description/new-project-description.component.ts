@@ -17,8 +17,8 @@ export class NewProjectDescriptionComponent implements OnInit {
 
   ngOnInit() {}
 
-  
   showNext(): void {
-    this.show.emit(1);
+    console.log('call shownext');
+    this.newprojectservice.Toggle = 1;
   }
 }

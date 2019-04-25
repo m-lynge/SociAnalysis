@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FBServiceService} from "../fb-service.service";
+import { NewProjectService } from '../new-project.service';
+
 
 @Component({
     selector: 'app-new-project-view',
@@ -9,7 +11,10 @@ import {FBServiceService} from "../fb-service.service";
 export class NewProjectViewComponent implements OnInit {
     toggle: number;
 
-    constructor(private fbService: FBServiceService) {
+    constructor(
+        private fbService: FBServiceService,
+        public newprojectservice: NewProjectService
+        ) {
         this.toggle = 0;
     }
 

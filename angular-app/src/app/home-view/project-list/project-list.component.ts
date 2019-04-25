@@ -2,6 +2,8 @@ import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { DirectoryService } from 'src/app/directory.service';
 import { Project } from '../../Project';
 import { Router } from '@angular/router';
+import { NewProjectService } from 'src/app/new-project.service';
+
 
 @Component({
   selector: 'app-project-list',
@@ -12,7 +14,11 @@ export class ProjectListComponent implements OnInit, AfterContentInit {
   projects: Project[];
   noProjects: boolean;
 
-  constructor(private directoryservice: DirectoryService, private router: Router) {
+  constructor(
+    private directoryservice: DirectoryService,
+    private router: Router,
+    private newprojectservice: NewProjectService
+     ) {
     this.noProjects = true;
   }
   ngAfterContentInit(): void {
@@ -32,6 +38,7 @@ export class ProjectListComponent implements OnInit, AfterContentInit {
 
   selectProject(projectName: string) {
     this.directoryservice.selectedProject = projectName;
+    this.newprojectservice.loadNewProject();
     this.router.navigate(['/projekt']);
   }
   ngOnInit() {
