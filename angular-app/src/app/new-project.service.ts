@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Group } from './Group';
 import { FBServiceService } from './fb-service.service';
+import { Project } from './Project';
 import { DirectoryService } from './directory.service';
-import { group } from '@angular/animations';
 
 
 @Injectable({
@@ -49,6 +49,9 @@ export class NewProjectService {
   public get MakeProjectButton(): string {
     return this.nextButton;
   }
+  public get NewProject(): boolean {
+    return this.newProject;
+  }
   // This is called from the home-view
   public loadNewProject() {
     console.log("loadnewclaled");
@@ -70,12 +73,14 @@ export class NewProjectService {
     this.newProject = false;
   }
 
-  public loadProject() {
-    // Get project info from directory service and set local parameters
+  public saveProject() {
+     // Should take the project parameters and save(if new project) / overwrite (if already existing project)
   }
 
-  public saveProject() {
-    // Should take the project parameters and save(if new project) / overwrite (if already existing project)
+  public loadProject() {
+    // Get project info from directory service and set local parameters
+    const project = new Project('test', 'test', []) ;
+
   }
 
   public getGroupsFromAPI() {
