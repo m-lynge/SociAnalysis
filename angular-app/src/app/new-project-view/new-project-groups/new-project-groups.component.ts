@@ -1,10 +1,9 @@
-import {AfterContentInit, Component, EventEmitter, OnInit, Output} from "@angular/core";
-import {MatChipInputEvent} from "@angular/material/chips";
-import {Group} from "../../Group";
-import {SearchTag} from 'src/app/project-view/query-setting-view/query-setting-view.component';
-import {NewProjectService} from 'src/app/new-project.service';
-import {DirectoryService} from 'src/app/directory.service';
-import {FBServiceService} from "../../fb-service.service";
+import { AfterContentInit, Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { MatChipInputEvent } from "@angular/material/chips";
+import { Group } from "../../Group";
+import { SearchTag } from 'src/app/project-view/query-setting-view/query-setting-view.component';
+import { NewProjectService } from 'src/app/new-project.service';
+import { DirectoryService } from 'src/app/directory.service';
 
 
 @Component({
@@ -26,8 +25,9 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
     groupsSelected: Group[] = [];
 
-    constructor(private fbService: FBServiceService, private newprojectservice: NewProjectService, private directoryservice: DirectoryService) {
-    }
+    constructor(
+        private newprojectservice: NewProjectService,
+        private directoryservice: DirectoryService) { }
 
     addToSelected(i: number) {
         this.groupsSelected.push(this.groupsShown[i]);
@@ -45,7 +45,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
         // Add our fruit
         if ((value || '').trim()) {
-            this.searchTags.push({tag: value.trim()});
+            this.searchTags.push({ tag: value.trim() });
         }
 
         // Reset the input value
@@ -65,22 +65,30 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
 
     ngOnInit() {
-        const tempGroups = this.fbService.retrieveGroups();
+        // const tempGroups = this.fbService.retrieveGroups();
 
-        this.groupsAvailable = tempGroups.map((group) => {
-            return new Group(group.name, group.description);
-        });
+        // this.groupsAvailable = tempGroups.map((group) => {
+        //     return new Group(group.name, group.description);
+        // });
     }
 
     ngAfterContentInit(): void {
-
+        console.log('ng after content call');
+        const tempGroups = this.newprojectservice.ListOfGroups;
+        if (tempGroups) {
+            this.groupsAvailable = tempGroups.map((group) => {
+                return new Group(group.name, group.desc);
+            });
+        } else {
+            this.groupsAvailable = [];
+        }
         this.directoryservice.selectedUser = '01';
         this.groupsShown = this.groupsAvailable;
     }
 
 
     findMatchingGroups(): void {
-        console.log('pls dont hate me Nicklas')
+        console.log('pls dont hate me Nicklas');
         this.groupsShown = this.groupsAvailable.filter((group: Group) => {
 
             return group.name.toLowerCase().includes(this.searchTerm.trim().toLowerCase());
@@ -90,7 +98,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
     showNext(): void {
         this.newprojectservice.ListOfGroups = this.groupsSelected;
-        this.show.emit(2);
+        this.newprojectservice.Toggle = 2;
     }
 
 }

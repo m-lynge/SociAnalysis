@@ -3,8 +3,9 @@ const app = express();
 const directoryRoute = express.Router();
 const fs = require('fs')
 
-directoryRoute.get('/test', (req, res) => {
-    res.jsonp('heybaby')
+directoryRoute.post('/test', (req, res) => {
+    console.log(req.body.fbData);
+    res.jsonp("fun");
 })
 
 // returns all the user's paths found in the directory
@@ -136,7 +137,6 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
     })
 })
 
-
 // Route for saving JSON files (object:string)
 directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req, res) {
     // The JSON file being written is the group.json
@@ -151,8 +151,6 @@ directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req, res)
     });
 })
 
-
-
 directoryRoute.route('/PIS/:user/:project/:object').get(function (req, res) {
     console.log('1Hey im a comment and im run');
     console.log('2Hey im a comment and im run');
@@ -162,13 +160,13 @@ directoryRoute.route('/PIS/:user/:project/:object').get(function (req, res) {
     // The JSON file being written is a query.json file
     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/' + 'query' + '/';
     // set queryname to correct later
-    console.log("the query object passed through: ",JSON.parse(req.params.jsonobject));
+    console.log("the query object passed through: ", JSON.parse(req.params.jsonobject));
     fs.writeFile(finalPath + req.params.jsonobject.name + '.json', req.params.jsonobject.fbData, (err) => {
         if (err) {
             console.log("funError");
             res.jsonp(err)
         } else {
-            console.log("funNOTERROR! HELLO IM A SIDE REF FUNCTION:    -    " + finalPath + req.params.name + '.json' );
+            console.log("funNOTERROR! HELLO IM A SIDE REF FUNCTION:    -    " + finalPath + req.params.name + '.json');
             res.jsonp(true)
         }
     });

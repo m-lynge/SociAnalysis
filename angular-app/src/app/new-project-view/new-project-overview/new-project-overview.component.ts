@@ -1,5 +1,10 @@
 import { Component, OnInit, EventEmitter, Output } from "@angular/core";
 import { NewProjectService } from "src/app/new-project.service";
+import { FBServiceService } from 'src/app/fb-service.service';
+import { Project } from '../../Project';
+import { DirectoryService } from 'src/app/directory.service';
+
+
 
 @Component({
   selector: 'app-new-project-overview',
@@ -9,10 +14,23 @@ import { NewProjectService } from "src/app/new-project.service";
 export class NewProjectOverviewComponent implements OnInit {
   @Output() show: EventEmitter<number> = new EventEmitter();
 
-  constructor(public newprojectservice: NewProjectService) {}
+  projectInfo: Project;
+  constructor(
+    public newprojectservice: NewProjectService,
+    private fbservice: FBServiceService,
+    private directoryservice: DirectoryService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
   showNext(): void {
     this.show.emit(0);
   }
+
+  createProject() {
+    this.projectInfo = new Project(
+      this.newprojectservice.Name,
+      this.newprojectservice.Description,
+      this.newprojectservice.ListOfGroups);
+  }
+  
 }
