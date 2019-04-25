@@ -4,6 +4,7 @@ import { Group } from "../../Group";
 import { SearchTag } from 'src/app/project-view/query-setting-view/query-setting-view.component';
 import { NewProjectService } from 'src/app/new-project.service';
 import { DirectoryService } from 'src/app/directory.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
     constructor(
         public newprojectservice: NewProjectService,
-        private directoryservice: DirectoryService) { }
+        private directoryservice: DirectoryService,
+        private router: Router) { }
 
     addToSelected(i: number) {
         this.groupsSelected.push(this.groupsShown[i]);
@@ -65,11 +67,6 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
 
     ngOnInit() {
-        // const tempGroups = this.fbService.retrieveGroups();
-
-        // this.groupsAvailable = tempGroups.map((group) => {
-        //     return new Group(group.name, group.description);
-        // });
     }
 
     ngAfterContentInit(): void {
@@ -88,17 +85,19 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
 
     findMatchingGroups(): void {
-        console.log('pls dont hate me Nicklas');
         this.groupsShown = this.groupsAvailable.filter((group: Group) => {
-
             return group.name.toLowerCase().includes(this.searchTerm.trim().toLowerCase());
-
         });
     }
 
     showNext(): void {
-        this.newprojectservice.ListOfGroups = this.groupsSelected;
-        this.newprojectservice.Toggle = 2;
+        if (this.newprojectservice.NewProject) {
+            this.newprojectservice.ListOfGroups = this.groupsSelected;
+            this.newprojectservice.Toggle = 2;
+        } else {
+            this.newprojectservice.saveProject();
+            this.router.navigate(['/projekt']);
+        }
     }
 
 }

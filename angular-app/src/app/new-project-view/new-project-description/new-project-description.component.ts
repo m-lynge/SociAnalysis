@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { NewProjectService } from "src/app/new-project.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-project-description',
@@ -10,16 +11,16 @@ export class NewProjectDescriptionComponent implements OnInit {
 
   @Output() show: EventEmitter<number> = new EventEmitter();
 
-  constructor(public newprojectservice: NewProjectService) {}
+  constructor(public newprojectservice: NewProjectService, private router: Router) {}
 
   ngOnInit() {}
 
   buttonClicked(): void {
     if (this.newprojectservice.NewProject) {
-      console.log('call shownext');
       this.newprojectservice.Toggle = 1;
     } else {
-      // functions for updating already existing project
+      this.newprojectservice.saveProject();
+      this.router.navigate(['/projekt']);
     }
   }
 }

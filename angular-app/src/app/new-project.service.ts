@@ -37,6 +37,9 @@ export class NewProjectService {
   public set ListOfGroups(listOfGroups: Group[]) {
     this.listOfSelectedGroups = listOfGroups;
   }
+  public get ListOfSelectedGroups(): Group[] {
+    return this.listOfSelectedGroups;
+  }
   public get Toggle(): number {
     return this.toggle;
   }
@@ -54,7 +57,6 @@ export class NewProjectService {
   }
   // This is called from the home-view
   public loadNewProject() {
-    console.log("loadnewclaled");
     this.clearAllVariables();
     this.getGroupsFromAPI();
     this.nextButton = 'Videre';
@@ -75,17 +77,22 @@ export class NewProjectService {
 
   public saveProject() {
      // Should take the project parameters and save(if new project) / overwrite (if already existing project)
+     const tempProject = new Project(this.Name, this.Description, this.ListOfSelectedGroups);
+     // ++++++++add code here to save the project into a JSON file with directory service 
   }
 
   public loadProject() {
     // Get project info from directory service and set local parameters
-    const project = new Project('test', 'test', []) ;
-
+    // ++++++++add code here to return current project JSON file from directory service
+    const currentProject = new Project('test', 'test', []) ;
+    this.Name = currentProject.name;
+    this.Description = currentProject.desc;
+    this.ListOfGroups = currentProject.group;
   }
 
   public getGroupsFromAPI() {
-    console.log("attempting to get groups");
-    console.log("selected user for api call: ", this.directoryservice.selectedUser);
+    console.log('attempting to get groups');
+    console.log('selected user for api call: ', this.directoryservice.selectedUser);
     this.fbservice.getGroups(
       '/' + this.directoryservice.selectedUser + '/groups?fields=administrator,name,description'
     ).then((groups) => {
