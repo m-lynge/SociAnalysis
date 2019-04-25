@@ -97,10 +97,12 @@ export class FBServiceService {
     }
 
     async wait(ms) {
+        console.log("Waiting: ", ms);
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
     async getGroups(url) {
+        console.log("heybaby");
         const fragment = await (this.getGroupFragment(url))
         if (fragment.nextPage) {
             return fragment.data.concat(await this.getGroups(fragment.nextPage));
@@ -111,22 +113,30 @@ export class FBServiceService {
 
     async getGroupFragment(url) {
         //apicall
+        console.log("FRAGMENT MADE")
         let responseTEST;
         FB.api(
             url,
             response => {
+                console.log("USED THIS URL: " + url)
                 if (response && !response.error) {
+                    console.log('response from api:', response);
                     responseTEST = response;
-                    console.log(response);
                 } else {
-                    console.log(response.error);
+                    console.log('response from api:', response.error);
                 }
             },
         );
-        await this.wait(500);
+        while (!responseTEST){
+            await this.wait(100);
+        }
+
+
+        console.log("response:", responseTEST);
+
         return {
             data: responseTEST.data,
-            nextPage: responseTEST.nextPage ? responseTEST.nextPage : undefined
+            nextPage: responseTEST.paging.next ? responseTEST.paging.next : undefined
         };
     }
 

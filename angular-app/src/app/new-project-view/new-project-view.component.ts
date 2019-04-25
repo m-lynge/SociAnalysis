@@ -36,7 +36,7 @@ export class NewProjectViewComponent implements OnInit, AfterViewInit {
         if (!this.directoryservice.selectedUser) {
             this.router.navigate(['/']);
         } else {
-            this.fbService.FetchGroups('/' + this.fbService.userID + '/groups?fields=administrator,name,description');
+            // this.fbService.FetchGroups('/' + this.fbService.userID + '/groups?fields=administrator,name,description');
         }
 
 

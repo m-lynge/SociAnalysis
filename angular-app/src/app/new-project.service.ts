@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Group } from './Group';
 import { FBServiceService } from './fb-service.service';
+import { DirectoryService } from './directory.service';
+import { group } from '@angular/animations';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewProjectService {
-  constructor(private fbservice: FBServiceService) {}
+  constructor(private fbservice: FBServiceService, private directoryservice: DirectoryService) { }
   private name: string;
   private descr: string;
   private listOfSelectedGroups: Group[];
@@ -30,7 +32,7 @@ export class NewProjectService {
     this.descr = descr;
   }
   public get ListOfGroups(): Group[] {
-    return this.listOfSelectedGroups;
+    return this.listOfAllGroups;
   }
   public set ListOfGroups(listOfGroups: Group[]) {
     this.listOfSelectedGroups = listOfGroups;
@@ -43,6 +45,7 @@ export class NewProjectService {
   }
   // This is called from the home-view
   public loadNewProject() {
+    console.log("loadnewclaled");
     this.clearAllVariables();
     this.getGroupsFromAPI();
     this.nextButton = 'Videre';
@@ -70,15 +73,26 @@ export class NewProjectService {
   }
 
   public getGroupsFromAPI() {
-    this.listOfAllGroups = this.fbservice.retrieveGroups();
+    console.log("attempting to get groups");
+    console.log("selected user for api call: ", this.directoryservice.selectedUser);
+    this.fbservice.getGroups(
+      '/' + this.directoryservice.selectedUser + '/groups?fields=administrator,name,description'
+    ).then((groups) => {
+      this.listOfAllGroups = groups.filter((singleGroup) => {
+        return singleGroup.administrator;
+      }).map((filteredGroup) => {
+        return new Group(filteredGroup.name, filteredGroup.description);
+      });
+      console.log("HEY GROUPS COLLECTED:", this.listOfAllGroups);
+    });
   }
 
   private clearAllVariables() {
-  this.name = '';
-  this.descr = '';
-  this.listOfSelectedGroups = [];
-  this.listOfAllGroups = [];
-  this.toggle = 0;
+    this.name = '';
+    this.descr = '';
+    this.listOfSelectedGroups = [];
+    this.listOfAllGroups = [];
+    this.toggle = 0;
   }
 
 

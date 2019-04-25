@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NewProjectService } from 'src/app/new-project.service';
 
 @Component({
   selector: 'app-new-project',
@@ -8,9 +9,10 @@ import { Router } from '@angular/router';
 })
 export class NewProjectComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private newprojectservice: NewProjectService) { }
 
   createNewProject(){
+    this.newprojectservice.loadNewProject();
     this.router.navigate(['opretprojekt']);
   }
   ngOnInit() {

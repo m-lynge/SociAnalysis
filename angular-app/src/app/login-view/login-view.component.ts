@@ -46,7 +46,8 @@ export class LoginViewComponent implements OnInit {
               console.log('Created user path/ ', id.userID);
             });
           } else {
-            this.directoryservice.selectedUser = id;
+            // IS ALREADY SET INSIDE FB SERVICE
+            // this.directoryservice.selectedUser = id;
             this.navigationservice.setNavi = true;
             this.router.navigate(['/home']);
             console.log('User already exists/ ', id.userID);
