@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DirectoriesService } from '../DEPRECATEDdirectories.service';
 import { MatInput } from '@angular/material';
 import { Group } from '../Group';
 import { DirectoryService } from '../directory.service';
