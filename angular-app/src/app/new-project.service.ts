@@ -41,6 +41,12 @@ export class NewProjectService {
   public set Toggle(toogle: number) {
     this.toggle = toogle;
   }
+  public get NextButton(): string {
+    return this.nextButton;
+  }
+  public get MakeProjectButton(): string {
+    return this.nextButton;
+  }
   // This is called from the home-view
   public loadNewProject() {
     this.clearAllVariables();

@@ -26,7 +26,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
     groupsSelected: Group[] = [];
 
     constructor(
-        private newprojectservice: NewProjectService,
+        public newprojectservice: NewProjectService,
         private directoryservice: DirectoryService) { }
 
     addToSelected(i: number) {
