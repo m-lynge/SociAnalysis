@@ -7,9 +7,6 @@ import { NewProjectService } from "src/app/new-project.service";
   styleUrls: ['./new-project-description.component.css']
 })
 export class NewProjectDescriptionComponent implements OnInit {
-  // Variables used to store the input
-  private title: string = "";
-  private description: string = "";
 
   @Output() show: EventEmitter<number> = new EventEmitter();
 
@@ -17,8 +14,12 @@ export class NewProjectDescriptionComponent implements OnInit {
 
   ngOnInit() {}
 
-  showNext(): void {
-    console.log('call shownext');
-    this.newprojectservice.Toggle = 1;
+  buttonClicked(): void {
+    if (this.newprojectservice.NewProject) {
+      console.log('call shownext');
+      this.newprojectservice.Toggle = 1;
+    } else {
+      // functions for updating already existing project
+    }
   }
 }
