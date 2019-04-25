@@ -1,7 +1,8 @@
-import {Injectable, NgZone} from '@angular/core';
-import {DirectoryService} from './directory.service';
-import {NewQuery} from "./NewQuery";
-import {Query} from "./Query";
+import { Injectable, NgZone } from '@angular/core';
+import { DirectoryService } from './directory.service';
+import { NewQuery } from "./NewQuery";
+import { Query } from "./Query";
+import { async } from 'q';
 
 @Injectable({
     providedIn: 'root'
@@ -57,7 +58,7 @@ export class FBServiceService {
                 } else {
                     reject('Login Failed');
                 }
-            }, {scope: 'groups_access_member_info'});
+            }, { scope: 'groups_access_member_info' });
             // , auth_type: 'reauthenticate'
         });
     }
@@ -95,8 +96,44 @@ export class FBServiceService {
         return this.listOfGroups;
     }
 
+    async wait(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async getGroups(url) {
+        const fragment = await (this.getGroupFragment(url))
+        if (fragment.nextPage) {
+            return fragment.data.concat(await this.getGroups(fragment.nextPage));
+        } else {
+            return fragment.data;
+        }
+    }
+
+    async getGroupFragment(url) {
+        //apicall
+        let responseTEST;
+        FB.api(
+            url,
+            response => {
+                if (response && !response.error) {
+                    responseTEST = response;
+                    console.log(response);
+                } else {
+                    console.log(response.error);
+                }
+            },
+        );
+        await this.wait(500);
+        return {
+            data: responseTEST.data,
+            nextPage: responseTEST.nextPage ? responseTEST.nextPage : undefined
+        };
+    }
 
     FetchGroups(url?: string) {
+
+
+
 
         FB.api(
             url,
@@ -125,9 +162,9 @@ export class FBServiceService {
             '536165083455957',
             new NewQuery('default',
                 ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
-                {from: '', till: ''},
+                { from: '', till: '' },
                 [],
-                {max: 100, tags: []}
+                { max: 100, tags: [] }
             )
         );
     }
