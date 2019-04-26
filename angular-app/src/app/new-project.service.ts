@@ -99,7 +99,7 @@ export class NewProjectService {
       this.listOfAllGroups = groups.filter((singleGroup) => {
         return singleGroup.administrator;
       }).map((filteredGroup) => {
-        return new Group(filteredGroup.name, filteredGroup.description);
+        return new Group(filteredGroup.name, filteredGroup.description, filteredGroup.id);
       });
       console.log("HEY GROUPS COLLECTED:", this.listOfAllGroups);
     });

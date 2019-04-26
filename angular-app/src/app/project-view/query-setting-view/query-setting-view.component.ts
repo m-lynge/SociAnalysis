@@ -1,13 +1,13 @@
-import { Component, AfterContentInit } from '@angular/core';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
-import { Group } from '../../Group';
-import { FormControl } from '@angular/forms';
-import { DirectoryService } from 'src/app/directory.service';
-import { FBServiceService } from 'src/app/fb-service.service';
+import {AfterContentInit, Component} from '@angular/core';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
+import {Group} from '../../Group';
+import {FormControl} from '@angular/forms';
+import {DirectoryService} from 'src/app/directory.service';
+import {FBServiceService} from 'src/app/fb-service.service';
 
-import { Project } from '../../Project';
-import { NewQuery } from 'src/app/NewQuery';
+import {Project} from '../../Project';
+import {NewQuery} from 'src/app/NewQuery';
 
 export interface QuerySettingsInterface {
     name: string;
@@ -28,7 +28,6 @@ export interface SearchTag {
 })
 
 
-
 export class QuerySettingViewComponent implements AfterContentInit {
     queryName: string;
 
@@ -43,7 +42,6 @@ export class QuerySettingViewComponent implements AfterContentInit {
     endDate = new FormControl(false);
 
     maxInput = new FormControl();
-
 
 
     visible = true;
@@ -66,6 +64,7 @@ export class QuerySettingViewComponent implements AfterContentInit {
     constructor(private directoryservice: DirectoryService, private fbservice: FBServiceService) {
 
     }
+
     addToSelected(i: number) {
         this.groupsSelected.push(this.groupsAvailable[i]);
         this.groupsAvailable.splice(i, 1);
@@ -81,7 +80,7 @@ export class QuerySettingViewComponent implements AfterContentInit {
         const value = event.value;
 
         if ((value || '').trim()) {
-            this.searchTags.push({ tag: value.trim() });
+            this.searchTags.push({tag: value.trim()});
         }
 
         if (input) {
@@ -102,12 +101,12 @@ export class QuerySettingViewComponent implements AfterContentInit {
         console.log('search tags: ', this.searchTags);
 
         const allParams: any = [
-            { name: 'message', clicked: this.postsCheck.value },
-            { name: 'comments', clicked: this.commentsCheck.value },
-            { name: 'likes', clicked: this.likesCheck.value },
-            { name: 'reactions', clicked: this.reactionsCheck.value },
-            { name: 'picture', clicked: this.picturesCheck.value },
-            { name: 'link', clicked: this.linksCheck.value }
+            {name: 'message', clicked: this.postsCheck.value},
+            {name: 'comments', clicked: this.commentsCheck.value},
+            {name: 'likes', clicked: this.likesCheck.value},
+            {name: 'reactions', clicked: this.reactionsCheck.value},
+            {name: 'picture', clicked: this.picturesCheck.value},
+            {name: 'link', clicked: this.linksCheck.value}
         ];
 
         const chosenParams = allParams.filter((param: any) => {
@@ -126,13 +125,17 @@ export class QuerySettingViewComponent implements AfterContentInit {
         const exportQuery: NewQuery = {
             name: this.queryName,
             params: chosenParams,
-            timeperiod: { from: this.beginDate.value.toLocaleDateString(), till: this.endDate.value.toLocaleDateString() },
+            timeperiod: {
+                from: this.beginDate.value.toLocaleDateString(),
+                till: this.endDate.value.toLocaleDateString()
+            },
             groups: this.groupsSelected,
-            filter: { max: this.maxInput.value, tags: chosenTags }
+            filter: {max: this.maxInput.value, tags: chosenTags}
         };
         // ---- THIS DOES NOT WORK ---->>>>>>> ERROR CODE: 98607452dh34562xs -- Code does not compile --
-        // this.fbservice.doQueryApiCALL(exportQuery);
+        this.fbservice.DoSearchForPosts(exportQuery);
     }
+
     ngAfterContentInit(): void {
         // Lines for test perpose
         this.directoryservice.selectedUser = '01';

@@ -1,8 +1,8 @@
-import { Injectable, NgZone } from '@angular/core';
-import { DirectoryService } from './directory.service';
-import { NewQuery } from "./NewQuery";
-import { Query } from "./Query";
-import { async } from 'q';
+import {Injectable, NgZone} from '@angular/core';
+import {DirectoryService} from './directory.service';
+import {NewQuery} from "./NewQuery";
+import {Query} from "./Query";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Injectable({
     providedIn: 'root'
@@ -58,7 +58,7 @@ export class FBServiceService {
                 } else {
                     reject('Login Failed');
                 }
-            }, { scope: 'groups_access_member_info' });
+            }, {scope: 'groups_access_member_info'});
             // , auth_type: 'reauthenticate'
         });
     }
@@ -127,7 +127,7 @@ export class FBServiceService {
                 }
             },
         );
-        while (!responseTEST){
+        while (!responseTEST) {
             await this.wait(100);
         }
 
@@ -163,15 +163,24 @@ export class FBServiceService {
         );
     }
 
+    DoSearchForPosts(newQuery: NewQuery) {
+
+        newQuery.groups.forEach((group) => {
+            const url = '/' + group.id + '/groups?fields=' + newQuery.params;
+            console.log(url);
+        });
+
+    }
+
     retrievePosts() {
         this.FetchPosts(
             '',
             '536165083455957',
             new NewQuery('default',
                 ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
-                { from: '', till: '' },
+                {from: '', till: ''},
                 [],
-                { max: 100, tags: [] }
+                {max: 100, tags: []}
             )
         );
     }
