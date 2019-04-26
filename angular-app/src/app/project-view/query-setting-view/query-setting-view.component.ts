@@ -51,12 +51,7 @@ export class QuerySettingViewComponent implements AfterContentInit {
     readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
 
     searchTags: SearchTag[] = [];
-    groupsAvailable: Group[] = [
-        new Group('group1', 'Desc1'),
-        new Group('group2', 'Desc2'),
-        new Group('group3', 'Desc3'),
-        new Group('group4', 'Desc4'),
-    ];
+    groupsAvailable: Group[] = [];
 
     groupsSelected: Group[] = [];
 
@@ -137,9 +132,7 @@ export class QuerySettingViewComponent implements AfterContentInit {
     }
 
     ngAfterContentInit(): void {
-        // Lines for test perpose
-        this.directoryservice.selectedUser = '01';
-        this.directoryservice.selectedProject = 'Created_project';
+
         this.directoryservice.getProject(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((projects: string) => {
                 const tempProject: Project = JSON.parse(projects);
