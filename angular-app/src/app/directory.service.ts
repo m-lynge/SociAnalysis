@@ -103,7 +103,6 @@ export class DirectoryService {
                     if (res) {
                         // then if both were succesfull, createGroupJSON is called using passed json-element 'allGroups'
                        this.createProjectInfoJSON(user, project.name, project);
-                        
                     }
                 });
             }
@@ -128,7 +127,7 @@ export class DirectoryService {
                 data: {user, project, projectInfoObject},
 
                 error: (XMLHttpRequest, textStatus, errorThrown) => {
-                    alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown);
                 } ,
             });
     }
@@ -153,6 +152,19 @@ export class DirectoryService {
 
             success: response => {
                 console.log(JSON.parse(response));
+            }
+        });
+    }
+    public getProjectJSON(user: string, projectName: string){
+        $.ajax({
+            url: this.uri + '/getProjectJson',
+            type: 'POST',
+            data: {user, projectName},
+
+            success: response => {
+                const newResponse = JSON.parse(response);
+                const newProject = new Project(newResponse.name, newResponse.desc, newResponse.group);
+                return(newProject);
             }
         });
     }
