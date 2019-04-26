@@ -19,6 +19,8 @@ export class NewProjectViewComponent implements OnInit, AfterViewInit {
         ) {
     }
 
+
+
     ngOnInit() {
     }
 

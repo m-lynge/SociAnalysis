@@ -11,7 +11,7 @@ export class NewProjectComponent implements OnInit {
 
   constructor(private router: Router, private newprojectservice: NewProjectService) { }
 
-  createNewProject(){
+  createNewProject() {
     this.newprojectservice.loadNewProject();
     this.router.navigate(['opretprojekt']);
   }

@@ -16,15 +16,15 @@ export class QuerySelectorComponent implements OnInit, AfterContentInit {
   constructor(private directoryservice: DirectoryService) { }
 
   ngOnInit() {
+
   }
 
   ngAfterContentInit(): void {
     //Called after ngOnInit when the component's or directive's content has been initialized.
-    this.directoryservice.selectedUser = "01";
-    this.directoryservice.selectedProject = "Created_project"
     this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
       .subscribe((queryArray) => {
         console.log('queries: ', queryArray);
+
         this.retrievedQueryNames = queryArray;
         this.shownQueryNames = this.retrievedQueryNames;
       });

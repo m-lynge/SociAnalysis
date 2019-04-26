@@ -33,7 +33,7 @@
     </div>
     <div id="buttonContainer">
       <form>
-        <input type="submit" value="{{this.newprojectservice.MakeProjectButton}}" id="confirmBttn" name="" />
+        <input type="submit" value="{{this.newprojectservice.MakeProjectButton}}" id="confirmBttn" name="" (click)="createProject()" />
         <input type="submit" value="redigér projektbeskrivelse" id="editBttn" name="" (click)="showNext()" />
       </form>
     </div>

@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { DirectoryService } from './directory.service';
 import { NewQuery } from "./NewQuery";
 import { Query } from "./Query";
-import { async } from 'q';
+import { forEach } from "@angular/router/src/utils/collection";
 
 @Injectable({
     providedIn: 'root'
@@ -111,11 +111,18 @@ export class FBServiceService {
 
     async getGroupFragment(url) {
         let responsePlaceholder;
-        FB.api(url, response => {
-            if (response && !response.error) {
-                responsePlaceholder = response;
+        FB.getLoginStatus((login) => {
+            if (login.status === 'connected') {
+                FB.api(url, response => {
+                    if (response && !response.error) {
+                        responsePlaceholder = response;
+                    }
+                });
+            } else{ 
+                console.error('User no longer logged in');
             }
         });
+
 
         while (!responsePlaceholder) {
             await this.wait(100);
@@ -174,6 +181,15 @@ export class FBServiceService {
                 }
             },
         );
+    }
+
+    DoSearchForPosts(newQuery: NewQuery) {
+
+        newQuery.groups.forEach((group) => {
+            const url = '/' + group.id + '/groups?fields=' + newQuery.params;
+            console.log(url);
+        });
+
     }
 
     retrievePosts() {

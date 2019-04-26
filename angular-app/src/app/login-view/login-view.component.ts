@@ -5,6 +5,7 @@ import { NavigationService } from "../navigation.service";
 import { DirectoryService } from '../directory.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {Query} from "../Query";
+import { Project } from '../Project';
 @Component({
   selector: "app-login-view",
   templateUrl: "./login-view.component.html",
@@ -57,6 +58,7 @@ export class LoginViewComponent implements OnInit {
           }
 
         });
+
 
       })
       .catch(error => {

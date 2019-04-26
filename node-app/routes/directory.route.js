@@ -151,24 +151,81 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
 //     });
 // })
 
-directoryRoute.post('/saveJSON', (req, res) => {
+directoryRoute.post('/saveQueryJSON', (req, res) => {
 
     const result = req;
     let username = result.body.user;
     let project = result.body.project;
-    let fbData = result.body.query;
+    let query = result.body.query;
 
     //   The JSON file being written is a query.json file
     const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/';
 
     console.log("Final Path: " + finalPath);
-    fs.writeFile(finalPath + fbData.name + '.json', JSON.stringify(fbData.fbData), (err) => {
+    fs.writeFile(finalPath + query.name + '.json', JSON.stringify(query), (err) => {
         if (err) {
             res.jsonp(err)
         } else {
             res.jsonp(true)
         }
     });
+});
+
+directoryRoute.post('/getQueryJson', (req, res) => {
+
+    const result = req;
+    let username = result.body.user;
+    let project = result.body.projectName;
+    let queryName = result.body.query;
+   
+    console.log(project);
+    //   The JSON file being written is a query.json file
+    const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/' + queryName;
+
+    console.log("Final Path: " + finalPath);
+    returnQuery = fs.readFileSync(finalPath, 'utf8', (err, data) => {
+        if (err) throw err;
+    })
+  //  console.log("Query json: ", returnQuery)
+    res.jsonp(returnQuery);
+});
+
+directoryRoute.post('/saveProjectJSON', (req, res) => {
+
+    const result = req;
+    let username = result.body.user;
+    let project = result.body.project;
+    let projectInfo = result.body.projectInfoObject;
+
+    //   The JSON file being written is a query.json file
+    const finalPath = './users/' + username + '/' + project + '/';
+
+    console.log("Final Path: " + finalPath);
+    fs.writeFile(finalPath + 'projectinfo.json', JSON.stringify(projectInfo), (err) => {
+        if (err) {
+            res.jsonp(err)
+        } else {
+            res.jsonp(true)
+        }
+    });
+});
+
+directoryRoute.post('/getProjectJson', (req, res) => {
+
+    const result = req;
+    let username = result.body.user;
+    let projectName = result.body.projectName;
+   
+
+    //   The JSON file being written is a query.json file
+    const finalPath = './users/' + username + '/' + projectName + '/' + 'projectinfo.json';
+
+    console.log("Final Path: " + finalPath);
+    returnProject = fs.readFileSync(finalPath, 'utf8', (err, data) => {
+        if (err) throw err;
+    })
+  //  console.log("Query json: ", returnQuery)
+    res.jsonp(returnProject);
 });
 
 module.exports = directoryRoute;
