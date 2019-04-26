@@ -17,7 +17,7 @@
         <mat-card  *ngFor="let group of groupsShown; let i = index" (click)="addToSelected(i)">
           <div class="card">
             <span class="content">
-              <div style="display: block">
+              <div style="display: block" style="color:aliceblue">
                 {{ group.name }}
                 <div style="color:white">
                   {{ group.desc }}
@@ -44,7 +44,7 @@
           (click)="addToAvailable(i)">
           <span class="card">
             <div class="content">
-              <div style="display: block">
+              <div style="display: block" style="color:aliceblue">
                 {{ group.name }}
                 <div style="color:white">
                   {{ group.desc }}

@@ -12,19 +12,21 @@
     </div>
     </div>
 
-    <div id="rightBox">
+    <div class="rightBox" id="chosenbois">
       <br>
       <h2 id="groupHD">Valgte Facebook grupper</h2>
-      <div class="cardContainer">
+      <div class="groupContainer">
         <mat-card class="rightGroup" *ngFor="let group of this.newprojectservice.ListOfSelectedGroups; let i = index">
-          <div style="">
-            <div style="display: block">
+         <span class="card">
+          <div class="content">
+            <div style="display: block" style="color:aliceblue">
               {{ group.name }}
               <div style="color:white">
                 {{ group.desc }}
               </div>
             </div>
           </div>
+        </span>
         </mat-card>
       </div>
 

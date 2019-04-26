@@ -76,15 +76,15 @@ export class NewProjectService {
   }
 
   public saveProject() {
-     // Should take the project parameters and save(if new project) / overwrite (if already existing project)
-     const tempProject = new Project(this.Name, this.Description, this.ListOfSelectedGroups);
-     // ++++++++add code here to save the project into a JSON file with directory service 
+    // Should take the project parameters and save(if new project) / overwrite (if already existing project)
+    const tempProject = new Project(this.Name, this.Description, this.ListOfSelectedGroups);
+    // ++++++++add code here to save the project into a JSON file with directory service 
   }
 
   public loadProject() {
     // Get project info from directory service and set local parameters
     // ++++++++add code here to return current project JSON file from directory service
-    const currentProject = new Project('test', 'test', []) ;
+    const currentProject = new Project('test', 'test', []);
     this.Name = currentProject.name;
     this.Description = currentProject.desc;
     this.ListOfGroups = currentProject.group;
@@ -99,9 +99,9 @@ export class NewProjectService {
       this.listOfAllGroups = groups.filter((singleGroup) => {
         return singleGroup.administrator;
       }).map((filteredGroup) => {
-        return new Group(filteredGroup.name, filteredGroup.description);
+        return new Group(filteredGroup.name, filteredGroup.description, filteredGroup.id);
       });
-      console.log("HEY GROUPS COLLECTED:", this.listOfAllGroups);
+      console.log('All users groups were collected from facebook');
     });
   }
 

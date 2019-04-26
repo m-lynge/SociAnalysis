@@ -1,8 +1,8 @@
-import { Injectable, NgZone } from '@angular/core';
-import { DirectoryService } from './directory.service';
-import { NewQuery } from "./NewQuery";
-import { Query } from "./Query";
-import { async } from 'q';
+import {Injectable, NgZone} from '@angular/core';
+import {DirectoryService} from './directory.service';
+import {NewQuery} from "./NewQuery";
+import {Query} from "./Query";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Injectable({
     providedIn: 'root'
@@ -58,7 +58,7 @@ export class FBServiceService {
                 } else {
                     reject('Login Failed');
                 }
-            }, { scope: 'groups_access_member_info' });
+            }, {scope: 'groups_access_member_info'});
             // , auth_type: 'reauthenticate'
         });
     }
@@ -97,12 +97,10 @@ export class FBServiceService {
     }
 
     async wait(ms) {
-        console.log("Waiting: ", ms);
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
     async getGroups(url) {
-        console.log("heybaby");
         const fragment = await (this.getGroupFragment(url))
         if (fragment.nextPage) {
             return fragment.data.concat(await this.getGroups(fragment.nextPage));
@@ -112,31 +110,47 @@ export class FBServiceService {
     }
 
     async getGroupFragment(url) {
-        //apicall
-        console.log("FRAGMENT MADE")
-        let responseTEST;
-        FB.api(
-            url,
-            response => {
-                console.log("USED THIS URL: " + url)
-                if (response && !response.error) {
-                    console.log('response from api:', response);
-                    responseTEST = response;
-                } else {
-                    console.log('response from api:', response.error);
-                }
-            },
-        );
-        while (!responseTEST){
+        let responsePlaceholder;
+        FB.api(url, response => {
+            if (response && !response.error) {
+                responsePlaceholder = response;
+            }
+        });
+
+        while (!responsePlaceholder) {
             await this.wait(100);
         }
 
+        return {
+            data: responsePlaceholder.data,
+            nextPage: responsePlaceholder.paging.next ? responsePlaceholder.paging.next : undefined
+        };
+    }
 
-        console.log("response:", responseTEST);
+    async getPosts(url) {
+        const fragment = await (this.getPostFragment(url));
+        if (fragment.nextPage) {
+            return fragment.data.concat(await this.getPosts(fragment.nextPage));
+        } else {
+            return fragment.data;
+        }
+    }
+
+    async getPostFragment(url) {
+        let responsePlaceholder;
+        FB.api(url, response => {
+            if (response && !response.error) {
+                responsePlaceholder = response;
+            }
+        });
+
+        while (!responsePlaceholder) {
+            await this.wait(100);
+        }
 
         return {
-            data: responseTEST.data,
-            nextPage: responseTEST.paging.next ? responseTEST.paging.next : undefined
+            data: responsePlaceholder.data,
+            nextPage: responsePlaceholder.paging.next ? responsePlaceholder.paging.next : undefined
         };
     }
 
@@ -145,7 +159,6 @@ export class FBServiceService {
         FB.api(
             url,
             response => {
-
                 if (response && !response.error) {
                     // this.updateListOfGroups(response.data);
                     this.updateListOfGroups(response.data);
@@ -163,15 +176,24 @@ export class FBServiceService {
         );
     }
 
+    DoSearchForPosts(newQuery: NewQuery) {
+
+        newQuery.groups.forEach((group) => {
+            const url = '/' + group.id + '/groups?fields=' + newQuery.params;
+            console.log(url);
+        });
+
+    }
+
     retrievePosts() {
         this.FetchPosts(
             '',
             '536165083455957',
             new NewQuery('default',
                 ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
-                { from: '', till: '' },
+                {from: '', till: ''},
                 [],
-                { max: 100, tags: [] }
+                {max: 100, tags: []}
             )
         );
     }
