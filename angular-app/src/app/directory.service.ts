@@ -71,11 +71,6 @@ export class DirectoryService {
             .get(`${this.uri}/getProject/${user}/${project}`);
     }
 
-    public getQuery(user: string, project: string, query: string): Observable<any> {
-        return this
-            .http
-            .get(`${this.uri}/getProject/${user}/${project}/${query}`);
-    }
 
     public userExists(user: string) {
         return this.directoryExists(user);
@@ -179,5 +174,36 @@ export class DirectoryService {
 
         return returnValue;
     }
+
+    async getQuery(user: string, projectName: string, query: string) {
+        let returnValue;
+
+        $.ajax({
+            url: this.uri + '/getQueryJson',
+            type: 'POST',
+            data: { user, projectName, query },
+
+            success: response => {
+                const newResponse = JSON.parse(response);
+                returnValue = newResponse;
+            },
+            error: response => {
+                console.log(response);
+            }
+        });
+
+        while (!returnValue) {
+            await this.wait(100);
+        }
+        console.log("Ready to return!");
+        return returnValue;
+    }
+
+    // public getQuery(user: string, project: string, query: string): Observable<any> {
+    //     return this
+    //         .http
+    //         .get(`${this.uri}/getProject/${user}/${project}/${query}`);
+    // }
+
 }
 

@@ -175,12 +175,12 @@ directoryRoute.post('/getQueryJson', (req, res) => {
 
     const result = req;
     let username = result.body.user;
-    let project = result.body.project;
-    let queryName = result.body.queryName;
+    let project = result.body.projectName;
+    let queryName = result.body.query;
    
-
+    console.log(project);
     //   The JSON file being written is a query.json file
-    const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/' + queryName + '.json';
+    const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/' + queryName;
 
     console.log("Final Path: " + finalPath);
     returnQuery = fs.readFileSync(finalPath, 'utf8', (err, data) => {

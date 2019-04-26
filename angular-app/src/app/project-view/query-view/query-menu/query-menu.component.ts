@@ -15,6 +15,7 @@ export class QueryMenuComponent implements AfterViewInit {
     data: any;
 
     downloadFile(data: any) {
+
         const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
         const header = Object.keys(data[0]);
         const csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
@@ -22,14 +23,17 @@ export class QueryMenuComponent implements AfterViewInit {
         const csvArray = csv.join('\r\n');
 
         const a = document.createElement('a');
-        const blob = new Blob([csvArray], {type: 'text/csv'})
+
+        const blob = new Blob(["\ufeff", csvArray], {type: 'text/csv'});
         const url = window.URL.createObjectURL(blob);
 
+
         a.href = url;
-        a.download = "myFile.csv";
+        a.download = 'myFile.csv';
         a.click();
         window.URL.revokeObjectURL(url);
         a.remove();
+
     }
 
     ngAfterViewInit() {
@@ -45,10 +49,9 @@ export class QueryMenuComponent implements AfterViewInit {
                 this.directoryservice.getQuery(
                     this.directoryservice.selectedUser,
                     this.directoryservice.selectedProject,
-                    this.directoryservice.selectedQuery).subscribe((dat) => {
-
-                    console.log(JSON.parse(dat));
-
+                    this.directoryservice.selectedQuery
+                ).then((data) => {
+                    this.data = data.fbData;
                 });
 
             });
@@ -66,7 +69,7 @@ export class QueryMenuComponent implements AfterViewInit {
 
     exportQuery() {
 
-        //console.log(this.data);
-        // this.downloadFile(["fun","fun1"]);
+        console.log(this.data)
+        this.downloadFile(this.data);
     }
 }
