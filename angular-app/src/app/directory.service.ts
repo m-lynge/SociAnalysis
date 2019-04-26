@@ -130,9 +130,6 @@ export class DirectoryService {
     }
 
     public createQueryJSON(user: string, project: string, query: Query) {
-
-        console.log(query);
-
         $.ajax({
             url: this.uri + '/saveJSON',
             type: 'POST',

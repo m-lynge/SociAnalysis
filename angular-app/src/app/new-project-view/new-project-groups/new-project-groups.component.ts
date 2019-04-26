@@ -70,17 +70,17 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
     }
 
     ngAfterContentInit(): void {
-        console.log('ng after content call');
-        const tempGroups = this.newprojectservice.ListOfGroups;
-        if (tempGroups) {
-            this.groupsAvailable = tempGroups.map((group) => {
-                return new Group(group.name, group.desc);
-            });
+        // If it is a new project
+        if (this.newprojectservice.NewProject) {
+            if (this.newprojectservice.ListOfGroups) {
+                this.groupsShown = this.newprojectservice.ListOfGroups;
+            } else {
+                // in case there are no groups
+            }
+        // if it is to load an existing project
         } else {
-            this.groupsAvailable = [];
+                // Load lists for existing projects
         }
-        this.directoryservice.selectedUser = '01';
-        this.groupsShown = this.groupsAvailable;
     }
 
 
