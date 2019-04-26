@@ -142,9 +142,6 @@ export class FBServiceService {
 
     FetchGroups(url?: string) {
 
-
-
-
         FB.api(
             url,
             response => {
@@ -205,8 +202,11 @@ export class FBServiceService {
                             this.directoryService.selectedProject,
                             new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts)
                         );
+
+                        this.listOfPosts = [];
+
                         // const query = new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts);
-                        // console.log(query);
+                        // console.log(this.listOfPosts);
                         // console.log('User: ' + this.directoryService.selectedUser);
                         // console.log('Project: ' + this.directoryService.selectedProject);
                     }
