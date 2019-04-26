@@ -67,8 +67,14 @@ export class NewProjectService {
   // This is called from QueryView
   public loadExistingProject(toggle: number) {
     this.clearAllVariables();
-    this.loadProject();
     this.getGroupsFromAPI();
+    this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
+      .then(response => {
+        this.Name = response.name;
+        this.Description = response.desc;
+        this.ListOfGroups = response.group;
+
+      });
     this.nextButton = 'Opdater projekt';
     this.makeProjectButton = this.nextButton;
     this.Toggle = toggle;
@@ -78,16 +84,18 @@ export class NewProjectService {
   public saveProject() {
     // Should take the project parameters and save(if new project) / overwrite (if already existing project)
     const tempProject = new Project(this.Name, this.Description, this.ListOfSelectedGroups);
-    // ++++++++add code here to save the project into a JSON file with directory service 
+    this.directoryservice.createProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject, tempProject);
   }
 
   public loadProject() {
     // Get project info from directory service and set local parameters
     // ++++++++add code here to return current project JSON file from directory service
-    const currentProject = new Project('test', 'test', []);
-    this.Name = currentProject.name;
-    this.Description = currentProject.desc;
-    this.ListOfGroups = currentProject.group;
+    this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
+      .then(response => {
+        this.Name = response.name;
+        this.Description = response.desc;
+        this.ListOfGroups = response.group;
+      });
   }
 
   public getGroupsFromAPI() {

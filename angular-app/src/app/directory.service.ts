@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Selected} from './Selected';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Project} from './Project';
-import {Query} from './Query';
+import { Injectable } from '@angular/core';
+import { Selected } from './Selected';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Project } from './Project';
+import { Query } from './Query';
 
 
 @Injectable({
@@ -102,8 +102,7 @@ export class DirectoryService {
                 this.createDirectory(user + '/' + project.name + '/' + 'query').subscribe((res) => {
                     if (res) {
                         // then if both were succesfull, createGroupJSON is called using passed json-element 'allGroups'
-                       this.createProjectInfoJSON(user, project.name, project);
-                        
+                        this.createProjectInfoJSON(user, project.name, project);
                     }
                 });
             }
@@ -123,21 +122,21 @@ export class DirectoryService {
     public createProjectInfoJSON(user: string, project: string, projectInfoObject: Project) {
 
         $.ajax({
-                url: this.uri + '/saveProjectJSON',
-                type: 'POST',
-                data: {user, project, projectInfoObject},
+            url: this.uri + '/saveProjectJSON',
+            type: 'POST',
+            data: { user, project, projectInfoObject },
 
-                error: (XMLHttpRequest, textStatus, errorThrown) => {
-                    alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-                } ,
-            });
+            error: (XMLHttpRequest, textStatus, errorThrown) => {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            },
+        });
     }
 
     public createQueryJSON(user: string, project: string, query: Query) {
         $.ajax({
             url: this.uri + '/saveQueryJSON',
             type: 'POST',
-            data: {user, project, query},
+            data: { user, project, query },
 
             success: response => {
                 console.log(response);
@@ -149,11 +148,36 @@ export class DirectoryService {
         $.ajax({
             url: this.uri + '/getQueryJson',
             type: 'POST',
-            data: {user, project, queryName},
+            data: { user, project, queryName },
 
             success: response => {
                 console.log(JSON.parse(response));
             }
         });
     }
+
+    async wait(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async getProjectInfoJSON(user: string, projectName: string) {
+        let returnValue: Project;
+        $.ajax({
+            url: this.uri + '/getProjectJson',
+            type: 'POST',
+            data: { user, projectName },
+
+            success: response => {
+                const newResponse = JSON.parse(response);
+                returnValue = new Project(newResponse.name, newResponse.desc, newResponse.group);
+            }
+        });
+
+        while (!returnValue) {
+            await this.wait(100);
+        }
+
+        return returnValue;
+    }
 }
+

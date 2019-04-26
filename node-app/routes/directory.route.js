@@ -210,4 +210,22 @@ directoryRoute.post('/saveProjectJSON', (req, res) => {
     });
 });
 
+directoryRoute.post('/getProjectJson', (req, res) => {
+
+    const result = req;
+    let username = result.body.user;
+    let projectName = result.body.projectName;
+   
+
+    //   The JSON file being written is a query.json file
+    const finalPath = './users/' + username + '/' + projectName + '/' + 'projectinfo.json';
+
+    console.log("Final Path: " + finalPath);
+    returnProject = fs.readFileSync(finalPath, 'utf8', (err, data) => {
+        if (err) throw err;
+    })
+  //  console.log("Query json: ", returnQuery)
+    res.jsonp(returnProject);
+});
+
 module.exports = directoryRoute;

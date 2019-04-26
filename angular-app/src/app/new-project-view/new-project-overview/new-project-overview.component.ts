@@ -31,7 +31,6 @@ export class NewProjectOverviewComponent implements OnInit {
       this.newprojectservice.Name,
       this.newprojectservice.Description,
       this.newprojectservice.ListOfSelectedGroups);
-      console.log('create project');
 
     this.directoryservice.createProjectDirectory(this.directoryservice.selectedUser, projectInfo);
   }
