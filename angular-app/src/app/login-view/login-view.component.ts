@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { NavigationService } from "../navigation.service";
 import { DirectoryService } from '../directory.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import {Query} from "../Query";
 @Component({
   selector: "app-login-view",
   templateUrl: "./login-view.component.html",
@@ -38,6 +39,7 @@ export class LoginViewComponent implements OnInit {
       .login()
       .then((id: any) => {
         console.log(id);
+
         this.directoryservice.userExists(id.userID).subscribe((response) => {
           if (!response) {
             this.directoryservice.createUserDirectory(id.userID).subscribe((created) => {

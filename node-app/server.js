@@ -26,29 +26,14 @@ const credentials = {
 };
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb', extended: true}));
 // app.use(cors());
-app.use(bodyParser.urlencoded({extended: true}) );
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true, parameterLimit: 10000}) );
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "https://localhost:4201");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-});
-
-app.get('/fun', function(req, res, next) {
-    // Handle the get for this route
-});
-
-app.post('/fun', function(req, res, next) {
-    // Handle the post for this route
-});
-
-app.options('/login', function (req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader('Access-Control-Allow-Methods', '*');
-    res.setHeader("Access-Control-Allow-Headers", "*");
-    res.end();
 });
 
 app.use('/directory', directoryRoute);
@@ -65,6 +50,6 @@ httpsServer.listen(port, () => {
 });
 
 //
-// app.listen(port, function () {
-//     console.log('Listening on port ', port);
+// app.listen(port, () => {
+//     console.log('Listening on port.. ', port);
 // });

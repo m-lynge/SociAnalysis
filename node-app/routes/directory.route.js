@@ -9,7 +9,7 @@ directoryRoute.post('/test', (req, res) => {
 })
 
 // returns all the user's paths found in the directory
-directoryRoute.route('/getUsers').get(function (req, res) {
+directoryRoute.get('/getUsers', (req, res) => {
     // console.log("FUNCTION FROM SERVER CALLED");
     const path = './users/';
     fs.readdir(path, function (err, items) {
@@ -137,39 +137,38 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
     })
 })
 
-// Route for saving JSON files (object:string)
-directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req, res) {
-    // The JSON file being written is the group.json
-    console.log()
-    const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
-    fs.writeFile(finalPath + 'projectinfo' + '.json', String(req.params.object), (err) => {
-        if (err) {
-            res.jsonp(err)
-        } else {
-            res.jsonp(true)
-        }
-    });
-})
+// // Route for saving JSON files (object:string)
+// directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req, res) {
+//     // The JSON file being written is the group.json
+//     console.log()
+//     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
+//     fs.writeFile(finalPath + 'projectinfo' + '.json', String(req.params.object), (err) => {
+//         if (err) {
+//             res.jsonp(err)
+//         } else {
+//             res.jsonp(true)
+//         }
+//     });
+// })
 
-directoryRoute.route('/PIS/:user/:project/:object').get(function (req, res) {
-    console.log('1Hey im a comment and im run');
-    console.log('2Hey im a comment and im run');
-    console.log('3Hey im a comment and im run');
-    console.log('4Hey im a comment and im run');
-    // res.jsonp('heyfromserver')
-    // The JSON file being written is a query.json file
-    const finalPath = './users/' + req.params.user + '/' + req.params.project + '/' + 'query' + '/';
-    // set queryname to correct later
-    console.log("the query object passed through: ", JSON.parse(req.params.jsonobject));
-    fs.writeFile(finalPath + req.params.jsonobject.name + '.json', req.params.jsonobject.fbData, (err) => {
+directoryRoute.post('/saveJSON', (req, res) => {
+
+    const result = req;
+    let username = result.body.user;
+    let project = result.body.project;
+    let fbData = result.body.query;
+
+    //   The JSON file being written is a query.json file
+    const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/';
+
+    console.log("Final Path: " + finalPath);
+    fs.writeFile(finalPath + fbData.name + '.json', JSON.stringify(fbData.fbData), (err) => {
         if (err) {
-            console.log("funError");
             res.jsonp(err)
         } else {
-            console.log("funNOTERROR! HELLO IM A SIDE REF FUNCTION:    -    " + finalPath + req.params.name + '.json');
             res.jsonp(true)
         }
     });
-})
+});
 
 module.exports = directoryRoute;
