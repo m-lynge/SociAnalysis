@@ -97,12 +97,10 @@ export class FBServiceService {
     }
 
     async wait(ms) {
-        console.log("Waiting: ", ms);
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
     async getGroups(url) {
-        console.log("heybaby");
         const fragment = await (this.getGroupFragment(url))
         if (fragment.nextPage) {
             return fragment.data.concat(await this.getGroups(fragment.nextPage));
@@ -112,43 +110,55 @@ export class FBServiceService {
     }
 
     async getGroupFragment(url) {
-        //apicall
-        console.log("FRAGMENT MADE")
-        let responseTEST;
-        FB.api(
-            url,
-            response => {
-                console.log("USED THIS URL: " + url)
-                if (response && !response.error) {
-                    console.log('response from api:', response);
-                    responseTEST = response;
-                } else {
-                    console.log('response from api:', response.error);
-                }
-            },
-        );
-        while (!responseTEST){
+        let responsePlaceholder;
+        FB.api(url, response => {
+            if (response && !response.error) {
+                responsePlaceholder = response;
+            }
+        });
+
+        while (!responsePlaceholder) {
             await this.wait(100);
         }
 
+        return {
+            data: responsePlaceholder.data,
+            nextPage: responsePlaceholder.paging.next ? responsePlaceholder.paging.next : undefined
+        };
+    }
 
-        console.log("response:", responseTEST);
+    async getPosts(url) {
+        const fragment = await (this.getPostFragment(url));
+        if (fragment.nextPage) {
+            return fragment.data.concat(await this.getPosts(fragment.nextPage));
+        } else {
+            return fragment.data;
+        }
+    }
+
+    async getPostFragment(url) {
+        let responsePlaceholder;
+        FB.api(url, response => {
+            if (response && !response.error) {
+                responsePlaceholder = response;
+            }
+        });
+
+        while (!responsePlaceholder) {
+            await this.wait(100);
+        }
 
         return {
-            data: responseTEST.data,
-            nextPage: responseTEST.paging.next ? responseTEST.paging.next : undefined
+            data: responsePlaceholder.data,
+            nextPage: responsePlaceholder.paging.next ? responsePlaceholder.paging.next : undefined
         };
     }
 
     FetchGroups(url?: string) {
 
-
-
-
         FB.api(
             url,
             response => {
-
                 if (response && !response.error) {
                     // this.updateListOfGroups(response.data);
                     this.updateListOfGroups(response.data);
@@ -205,8 +215,11 @@ export class FBServiceService {
                             this.directoryService.selectedProject,
                             new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts)
                         );
+
+                        this.listOfPosts = [];
+
                         // const query = new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts);
-                        // console.log(query);
+                        // console.log(this.listOfPosts);
                         // console.log('User: ' + this.directoryService.selectedUser);
                         // console.log('Project: ' + this.directoryService.selectedProject);
                     }

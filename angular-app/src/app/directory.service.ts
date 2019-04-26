@@ -3,7 +3,7 @@ import {Selected} from './Selected';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Project} from './Project';
-import {Query} from "./Query";
+import {Query} from './Query';
 
 
 @Injectable({
@@ -12,14 +12,14 @@ import {Query} from "./Query";
 
 export class DirectoryService {
 
-    private uri = 'https://localhost:4000/directory';
+    private uri = '//localhost:4000/directory';
     private selected: Selected;
 
     constructor(private http: HttpClient) {
         this.selected = new Selected(null, null, null);
     }
 
-    //Getters and setters for selecting user
+    // Getters and setters for selecting user
     public get selectedUser(): string {
         return this.selected.user;
     }
@@ -52,7 +52,7 @@ export class DirectoryService {
     }
 
 
-    //returns a javascript array
+    // returns a javascript array
     public getAllProjects(user: string): Observable<any> {
         return this
             .http
@@ -130,12 +130,10 @@ export class DirectoryService {
     }
 
     public createQueryJSON(user: string, project: string, query: Query) {
-
-
         $.ajax({
-            url: this.uri + '/test',
+            url: this.uri + '/saveJSON',
             type: 'POST',
-            data: query ,
+            data: {user, project, query},
 
             success: response => {
                 console.log(response);
