@@ -1,8 +1,8 @@
-import {Injectable, NgZone} from '@angular/core';
-import {DirectoryService} from './directory.service';
-import {NewQuery} from "./NewQuery";
-import {Query} from "./Query";
-import {forEach} from "@angular/router/src/utils/collection";
+import { Injectable, NgZone } from '@angular/core';
+import { DirectoryService } from './directory.service';
+import { NewQuery } from "./NewQuery";
+import { Query } from "./Query";
+import { forEach } from "@angular/router/src/utils/collection";
 
 @Injectable({
     providedIn: 'root'
@@ -58,7 +58,7 @@ export class FBServiceService {
                 } else {
                     reject('Login Failed');
                 }
-            }, {scope: 'groups_access_member_info'});
+            }, { scope: 'groups_access_member_info' });
             // , auth_type: 'reauthenticate'
         });
     }
@@ -111,11 +111,18 @@ export class FBServiceService {
 
     async getGroupFragment(url) {
         let responsePlaceholder;
-        FB.api(url, response => {
-            if (response && !response.error) {
-                responsePlaceholder = response;
+        FB.getLoginStatus((login) => {
+            if (login.status === 'connected') {
+                FB.api(url, response => {
+                    if (response && !response.error) {
+                        responsePlaceholder = response;
+                    }
+                });
+            } else{ 
+                console.error('User no longer logged in');
             }
         });
+
 
         while (!responsePlaceholder) {
             await this.wait(100);
@@ -191,9 +198,9 @@ export class FBServiceService {
             '536165083455957',
             new NewQuery('default',
                 ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
-                {from: '', till: ''},
+                { from: '', till: '' },
                 [],
-                {max: 100, tags: []}
+                { max: 100, tags: [] }
             )
         );
     }

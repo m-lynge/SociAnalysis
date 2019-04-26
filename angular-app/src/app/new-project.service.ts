@@ -68,7 +68,13 @@ export class NewProjectService {
   public loadExistingProject(toggle: number) {
     this.clearAllVariables();
     this.getGroupsFromAPI();
-    this.loadProject();
+    this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
+      .then(response => {
+        this.Name = response.name;
+        this.Description = response.desc;
+        this.ListOfGroups = response.group;
+
+      });
     this.nextButton = 'Opdater projekt';
     this.makeProjectButton = this.nextButton;
     this.Toggle = toggle;
@@ -84,10 +90,12 @@ export class NewProjectService {
   public loadProject() {
     // Get project info from directory service and set local parameters
     // ++++++++add code here to return current project JSON file from directory service
-    // const currentProject = this.directoryservice.getProjectJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject);
-    // this.Name = currentProject.name;
-    // this.Description = currentProject.desc;
-    // this.ListOfGroups = currentProject.group;
+    this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
+      .then(response => {
+        this.Name = response.name;
+        this.Description = response.desc;
+        this.ListOfGroups = response.group;
+      });
   }
 
   public getGroupsFromAPI() {
