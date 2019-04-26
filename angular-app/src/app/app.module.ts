@@ -32,6 +32,7 @@ import { QuerySelectorComponent } from './project-view/query-view/query-selector
 import { NewQueryViewComponent } from './project-view/new-query-view/new-query-view.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
