@@ -102,11 +102,8 @@ export class DirectoryService {
                 this.createDirectory(user + '/' + project.name + '/' + 'query').subscribe((res) => {
                     if (res) {
                         // then if both were succesfull, createGroupJSON is called using passed json-element 'allGroups'
-                        this.createProjectInfoJSON(user, project.name, project).subscribe((resp) => {
-                            if (resp) {
-                                console.log('JSON file created');
-                            }
-                        });
+                       this.createProjectInfoJSON(user, project.name, project);
+                        
                     }
                 });
             }
@@ -124,14 +121,21 @@ export class DirectoryService {
     }
 
     public createProjectInfoJSON(user: string, project: string, projectInfoObject: Project) {
-        return this
-            .http
-            .get(`${this.uri}/saveJSON/${user}/${project}/${JSON.stringify(projectInfoObject)}`);
+
+        $.ajax({
+                url: this.uri + '/saveProjectJSON',
+                type: 'POST',
+                data: {user, project, projectInfoObject},
+
+                error: (XMLHttpRequest, textStatus, errorThrown) => {
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                } ,
+            });
     }
 
     public createQueryJSON(user: string, project: string, query: Query) {
         $.ajax({
-            url: this.uri + '/saveJSON',
+            url: this.uri + '/saveQueryJSON',
             type: 'POST',
             data: {user, project, query},
 
@@ -139,7 +143,17 @@ export class DirectoryService {
                 console.log(response);
             }
         });
+    }
 
+    public getQueryJSON(user: string, project: string, queryName: string) {
+        $.ajax({
+            url: this.uri + '/getQueryJson',
+            type: 'POST',
+            data: {user, project, queryName},
 
+            success: response => {
+                console.log(JSON.parse(response));
+            }
+        });
     }
 }

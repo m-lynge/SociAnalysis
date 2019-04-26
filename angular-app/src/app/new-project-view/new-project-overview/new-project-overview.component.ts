@@ -27,10 +27,12 @@ export class NewProjectOverviewComponent implements OnInit {
   }
 
   createProject() {
-    this.projectInfo = new Project(
+    const projectInfo = new Project(
       this.newprojectservice.Name,
       this.newprojectservice.Description,
-      this.newprojectservice.ListOfGroups);
+      this.newprojectservice.ListOfSelectedGroups);
+      console.log('create project');
+
+    this.directoryservice.createProjectDirectory(this.directoryservice.selectedUser, projectInfo);
   }
-  
 }
