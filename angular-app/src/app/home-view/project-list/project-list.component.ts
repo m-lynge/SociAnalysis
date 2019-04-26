@@ -23,7 +23,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     // This line makes it run on test-data:
-    this.directoryservice.selectedUser = '01';
+    // this.directoryservice.selectedUser = '01';
     //
     this.directoryservice.getAllProjects(this.directoryservice.selectedUser).subscribe((element) => {
       this.projects = element;

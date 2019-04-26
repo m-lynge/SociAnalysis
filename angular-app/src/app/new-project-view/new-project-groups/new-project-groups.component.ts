@@ -85,7 +85,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
 
     findMatchingGroups(): void {
-        this.groupsShown = this.groupsAvailable.filter((group: Group) => {
+        this.groupsShown = this.newprojectservice.ListOfGroups.filter((group: Group) => {
             return group.name.toLowerCase().includes(this.searchTerm.trim().toLowerCase());
         });
     }
