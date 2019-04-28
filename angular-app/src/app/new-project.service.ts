@@ -73,13 +73,18 @@ export class NewProjectService {
   // This is called from QueryView
   public loadExistingProject(toggle: number) {
     this.clearAllVariables();
+    // No need for making API call for the first edit page
+    if (toggle !== 0) {
     this.getGroupsFromAPI();
+    }
     this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
       .then(response => {
         this.Name = response.name;
         this.Description = response.desc;
         this.ListOfSelectedGroups = response.group;
         this.laterPushOfSelectedGroups.next(this.listOfSelectedGroups);
+        if (toggle === 1){
+        }
       });
     this.nextButton = 'Opdater';
     this.makeProjectButton = this.nextButton;
