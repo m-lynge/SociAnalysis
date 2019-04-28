@@ -3,13 +3,14 @@ import { Group } from './Group';
 import { FBServiceService } from './fb-service.service';
 import { Project } from './Project';
 import { DirectoryService } from './directory.service';
+import { BehaviorSubject, observable, Subject } from 'rxjs';
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewProjectService {
-  constructor(private fbservice: FBServiceService, private directoryservice: DirectoryService) { }
   private name: string;
   private descr: string;
   private listOfSelectedGroups: Group[];
@@ -18,6 +19,10 @@ export class NewProjectService {
   private nextButton: string;
   private makeProjectButton: string;
   private newProject: boolean;
+  laterPushOfAllGroups: Subject<Group[]> = new Subject<Group[]>();
+  laterPushOfSelectedGroups: Subject<Group[]> = new Subject<Group[]>();
+  constructor(private fbservice: FBServiceService, private directoryservice: DirectoryService) {
+   }
 
   public get Name(): string {
     return this.name;
@@ -34,7 +39,7 @@ export class NewProjectService {
   public get ListOfGroups(): Group[] {
     return this.listOfAllGroups;
   }
-  public set ListOfGroups(listOfGroups: Group[]) {
+  public set ListOfSelectedGroups(listOfGroups: Group[]) {
     this.listOfSelectedGroups = listOfGroups;
   }
   public get ListOfSelectedGroups(): Group[] {
@@ -64,6 +69,7 @@ export class NewProjectService {
     this.Toggle = 0;
     this.newProject = true;
   }
+
   // This is called from QueryView
   public loadExistingProject(toggle: number) {
     this.clearAllVariables();
@@ -72,8 +78,8 @@ export class NewProjectService {
       .then(response => {
         this.Name = response.name;
         this.Description = response.desc;
-        this.ListOfGroups = response.group;
-
+        this.ListOfSelectedGroups = response.group;
+        this.laterPushOfSelectedGroups.next(this.listOfSelectedGroups);
       });
     this.nextButton = 'Opdater';
     this.makeProjectButton = this.nextButton;
@@ -98,6 +104,7 @@ export class NewProjectService {
       }).map((filteredGroup) => {
         return new Group(filteredGroup.name, filteredGroup.description, filteredGroup.id);
       });
+      this.laterPushOfAllGroups.next(this.listOfAllGroups);
       console.log('All users groups were collected from facebook');
     });
   }
