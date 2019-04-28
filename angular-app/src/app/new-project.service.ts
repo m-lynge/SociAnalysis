@@ -13,7 +13,7 @@ export class NewProjectService {
   private name: string;
   private descr: string;
   private listOfSelectedGroups: Group[];
-  private listOfAllGroups: Group[];
+  public listOfAllGroups: Group[];
   private toggle = 0;
   private nextButton: string;
   private makeProjectButton: string;
@@ -75,7 +75,7 @@ export class NewProjectService {
         this.ListOfGroups = response.group;
 
       });
-    this.nextButton = 'Opdater projekt';
+    this.nextButton = 'Opdater';
     this.makeProjectButton = this.nextButton;
     this.Toggle = toggle;
     this.newProject = false;
@@ -85,17 +85,6 @@ export class NewProjectService {
     // Should take the project parameters and save(if new project) / overwrite (if already existing project)
     const tempProject = new Project(this.Name, this.Description, this.ListOfSelectedGroups);
     this.directoryservice.createProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject, tempProject);
-  }
-
-  public loadProject() {
-    // Get project info from directory service and set local parameters
-    // ++++++++add code here to return current project JSON file from directory service
-    this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
-      .then(response => {
-        this.Name = response.name;
-        this.Description = response.desc;
-        this.ListOfGroups = response.group;
-      });
   }
 
   public getGroupsFromAPI() {

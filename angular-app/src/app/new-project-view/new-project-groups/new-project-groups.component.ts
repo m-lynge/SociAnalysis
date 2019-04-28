@@ -79,7 +79,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
             }
         // if it is to load an existing project
         } else {
-                // Load lists for existing projects
+                console.log(this.newprojectservice.ListOfGroups);
         }
     }
 
