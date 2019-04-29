@@ -84,37 +84,45 @@ export class NewProjectService {
               return new Group(filteredGroup.name, filteredGroup.description, filteredGroup.id);
 
             });
+            const SelectedGroups = [];
 
-            // Sorting Algorithm
-            // const AvailableGroups = [];
-            // const SelectedGroups = [];
-            // ListFromFacebook.forEach(A => {
-            //   ListPreSelectedGroups.forEach(B => {
+
+            ListFromFacebook.forEach((A, index) => {
+              ListPreSelectedGroups.forEach((B) => {
+                console.log('A: ', A.id, 'B: ', B.id);
+                if (A.id === B.id) {
+                  SelectedGroups.push(B);
+                  ListFromFacebook.splice(index, 1);
+
+                }
+              });
+            });
+
+            // ListPreSelectedGroups.forEach((A) => {
+            //   ListFromFacebook.forEach((B, index) => {
             //     console.log('A: ', A.id, 'B: ', B.id);
             //     if (A.id === B.id) {
-            //       SelectedGroups.push(B);
-            //     } else {
-            //         if (!AvailableGroups.includes(A)) {
-            //           console.log(AvailableGroups.includes(A));
-            //           AvailableGroups.push(A);
-            //         }
+            //       console.log(index);
+            //       ListFromFacebook.splice(index, 1 );
             //     }
             //   });
             // });
-            const AvailableGroups = [];
-            const SelectedGroups = [];
 
-            ListFromFacebook.forEach(B => {
-              if (ListPreSelectedGroups.includes(B)) {
-                SelectedGroups.push(B);
-              } else {
-                AvailableGroups.push(B);
-              }
-            });
+            // console.log('A', ListPreSelectedGroups, 'B', ListFromFacebook);
+            // ListFromFacebook.forEach(B => {
+            //   console.log('B ', B);
+            //   console.log(ListPreSelectedGroups.indexOf(B));
+            //   if (ListPreSelectedGroups.indexOf(B) !== -1) {
+            //     SelectedGroups.push(B);
+            //   } else {
+            //     AvailableGroups.push(B);
+            //   }
+            // });
 
+            console.log('A', SelectedGroups, 'B', ListFromFacebook);
 
             this.listOfSelectedGroups = SelectedGroups;
-            this.listOfAllGroups = AvailableGroups;
+            this.listOfAllGroups = ListFromFacebook;
 
             this.laterPushOfSelectedGroups.next(this.listOfSelectedGroups);
             this.laterPushOfAllGroups.next(this.listOfAllGroups);
