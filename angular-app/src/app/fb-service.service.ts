@@ -2,6 +2,7 @@ import {Injectable, NgZone} from '@angular/core';
 import {DirectoryService} from './directory.service';
 import {NewQuery} from "./NewQuery";
 import {Query} from "./Query";
+import {Router} from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +19,7 @@ export class FBServiceService {
     canRetrieve = false;
 
 
-    constructor(private zone: NgZone, private directoryService: DirectoryService) {
+    constructor(private zone: NgZone, private directoryService: DirectoryService, private router: Router) {
         (window as any).fbAsyncInit = () => {
             FB.init({
                 appId: '582581992245168',
@@ -183,20 +184,30 @@ export class FBServiceService {
     // }
 
     DoSearchForPosts(newQuery: NewQuery) {
-        newQuery.groups.forEach((group) => {
+        const finalPosts = [];
+        newQuery.groups.forEach((group, index, array) => {
 
             let limit = 0;
-            newQuery.filter.max !== null ? limit = newQuery.filter.max : limit = 100;
+            newQuery.filter.max !== null ? limit = newQuery.filter.max : limit = 25;
             console.log(limit);
 
             const url = '/' + group.id + '/feed?fields=' + newQuery.params + '&limit=' + limit;
 
-            this.getPosts(url).then((posts) => {
+            this.getPosts(url).then((posts: any[]) => {
                 this.directoryService.createQueryJSON(
                     this.directoryService.selectedUser,
                     this.directoryService.selectedProject,
                     new Query(newQuery.name, newQuery.params, newQuery.timeperiod, newQuery.groups, newQuery.filter, posts)
                 );
+
+                posts.forEach( (data) => {
+                    finalPosts.push(data);
+                });
+
+                if (index === (array.length - 1)) {
+                    this.router.navigate(['/projekt', newQuery.name]);
+                }
+
             });
         });
 

@@ -17,7 +17,7 @@ export class ProjectNavigationComponent implements OnInit, AfterViewChecked {
 
 
   ngOnInit() {
-    this.projectName = 'PLACEHOLDERNAME';
+    this.projectName = this.directoryservice.selectedProject;
     // TODO - IMPLEMENT THIS USE LATER 
     // this.callUpdate();
   }

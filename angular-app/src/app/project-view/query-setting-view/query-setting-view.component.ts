@@ -31,6 +31,7 @@ export interface SearchTag {
 export class QuerySettingViewComponent implements AfterContentInit {
     queryName: string;
 
+    showLoading: boolean;
 
     postsCheck = new FormControl(false);
     commentsCheck = new FormControl(false);
@@ -92,6 +93,8 @@ export class QuerySettingViewComponent implements AfterContentInit {
     }
 
     StartQuery() {
+
+        this.showLoading = true;
 
         console.log('search tags: ', this.searchTags);
 

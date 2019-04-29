@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {DirectoryService} from "../directory.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Route, Router} from "@angular/router";
 
 @Component({
     selector: 'app-project-view',
@@ -9,13 +9,19 @@ import {Router} from "@angular/router";
 })
 export class ProjectViewComponent implements OnInit, AfterViewInit {
 
-    constructor(private directoryservice: DirectoryService, private router: Router) {
+    constructor(private directoryservice: DirectoryService, private router: Router, private route: ActivatedRoute) {
     }
 
     ngOnInit() {
         if (!this.directoryservice.selectedUser) {
             this.router.navigate(['/']);
         }
+
+        if (this.route.snapshot.paramMap.get('queryName')) {
+            const qname = this.route.snapshot.paramMap.get('queryName');
+            this.directoryservice.selectedQuery = qname;
+        }
+
     }
 
     ngAfterViewInit(): void {

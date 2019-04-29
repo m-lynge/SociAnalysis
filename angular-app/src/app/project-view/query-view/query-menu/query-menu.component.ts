@@ -60,7 +60,7 @@ export class QueryMenuComponent implements AfterViewInit {
 
 
     newQuery() {
-        console.log('new query clicked');
+
     }
 
     updateQuery() {

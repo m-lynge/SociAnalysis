@@ -38,7 +38,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
 
   selectProject(projectName: string) {
     this.directoryservice.selectedProject = projectName;
-    this.router.navigate(['/projekt']);
+    this.router.navigate(['/projekt', '']);
   }
   ngOnInit() {
   }

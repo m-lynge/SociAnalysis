@@ -1,0 +1,10 @@
+<div mat-dialog-content>
+    <p>Hvad skal din søgning hedde?</p>
+    <mat-form-field>
+        <input matInput [(ngModel)]="data.name">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Tilbage</button>
+    <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Ok!</button>
+</div>
