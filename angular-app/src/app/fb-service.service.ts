@@ -1,8 +1,7 @@
-import { Injectable, NgZone } from '@angular/core';
-import { DirectoryService } from './directory.service';
-import { NewQuery } from "./NewQuery";
-import { Query } from "./Query";
-import { forEach } from "@angular/router/src/utils/collection";
+import {Injectable, NgZone} from '@angular/core';
+import {DirectoryService} from './directory.service';
+import {NewQuery} from "./NewQuery";
+import {Query} from "./Query";
 
 @Injectable({
     providedIn: 'root'
@@ -58,7 +57,7 @@ export class FBServiceService {
                 } else {
                     reject('Login Failed');
                 }
-            }, { scope: 'groups_access_member_info' });
+            }, {scope: 'groups_access_member_info'});
             // , auth_type: 'reauthenticate'
         });
     }
@@ -118,7 +117,7 @@ export class FBServiceService {
                         responsePlaceholder = response;
                     }
                 });
-            } else{ 
+            } else {
                 console.error('User no longer logged in');
             }
         });
@@ -148,46 +147,57 @@ export class FBServiceService {
         FB.api(url, response => {
             if (response && !response.error) {
                 responsePlaceholder = response;
+                console.log(response);
             }
         });
 
         while (!responsePlaceholder) {
             await this.wait(100);
         }
-
         return {
             data: responsePlaceholder.data,
-            nextPage: responsePlaceholder.paging.next ? responsePlaceholder.paging.next : undefined
+            nextPage: responsePlaceholder.paging ? responsePlaceholder.paging.next : undefined
         };
     }
 
-    FetchGroups(url?: string) {
-
-        FB.api(
-            url,
-            response => {
-                if (response && !response.error) {
-                    // this.updateListOfGroups(response.data);
-                    this.updateListOfGroups(response.data);
-                    console.log(response);
-                    if (response.paging.next) {
-                        this.FetchGroups(response.paging.next);
-                    } else {
-                        // console.log(this.listOfGroups);
-                        this.hasRetrievedAllPosts = true;
-                    }
-                } else {
-                    console.log(response.error);
-                }
-            },
-        );
-    }
+    // FetchGroups(url?: string) {
+    //
+    //     FB.api(
+    //         url,
+    //         response => {
+    //             if (response && !response.error) {
+    //                 // this.updateListOfGroups(response.data);
+    //                 this.updateListOfGroups(response.data);
+    //                 console.log(response);
+    //                 if (response.paging.next) {
+    //                     this.FetchGroups(response.paging.next);
+    //                 } else {
+    //                     // console.log(this.listOfGroups);
+    //                     this.hasRetrievedAllPosts = true;
+    //                 }
+    //             } else {
+    //                 console.log(response.error);
+    //             }
+    //         },
+    //     );
+    // }
 
     DoSearchForPosts(newQuery: NewQuery) {
-
         newQuery.groups.forEach((group) => {
-            const url = '/' + group.id + '/groups?fields=' + newQuery.params;
-            console.log(url);
+
+            let limit = 0;
+            newQuery.filter.max !== null ? limit = newQuery.filter.max : limit = 100;
+            console.log(limit);
+
+            const url = '/' + group.id + '/feed?fields=' + newQuery.params + '&limit=' + limit;
+
+            this.getPosts(url).then((posts) => {
+                this.directoryService.createQueryJSON(
+                    this.directoryService.selectedUser,
+                    this.directoryService.selectedProject,
+                    new Query(newQuery.name, newQuery.params, newQuery.timeperiod, newQuery.groups, newQuery.filter, posts)
+                );
+            });
         });
 
     }
@@ -198,9 +208,9 @@ export class FBServiceService {
             '536165083455957',
             new NewQuery('default',
                 ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
-                { from: '', till: '' },
+                {from: '', till: ''},
                 [],
-                { max: 100, tags: [] }
+                {max: 100, tags: []}
             )
         );
     }
