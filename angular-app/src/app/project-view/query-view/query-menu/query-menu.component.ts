@@ -1,5 +1,6 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {DirectoryService} from "../../../directory.service";
+import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
 
 
 @Component({
@@ -14,28 +15,6 @@ export class QueryMenuComponent implements AfterViewInit {
 
     data: any;
 
-    downloadFile(data: any) {
-
-        const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
-        const header = Object.keys(data[0]);
-        const csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
-        csv.unshift(header.join(','));
-        const csvArray = csv.join('\r\n');
-
-        const a = document.createElement('a');
-
-        const blob = new Blob(["\ufeff", csvArray], {type: 'text/csv'});
-        const url = window.URL.createObjectURL(blob);
-
-
-        a.href = url;
-        a.download = 'myFile.csv';
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove();
-
-    }
-
     ngAfterViewInit() {
         this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((queryArray) => {
@@ -45,28 +24,36 @@ export class QueryMenuComponent implements AfterViewInit {
                 } else {
                     console.log("Query-menu: No query Array!");
                 }
-                this.directoryservice.getQuery(
-                    this.directoryservice.selectedUser,
-                    this.directoryservice.selectedProject,
-                    this.directoryservice.selectedQuery
-                ).then((data) => {
-                    this.data = data.fbData;
-                });
 
             });
 
     }
-
-
-    newQuery() {
-
-    }
-
+    
     updateQuery() {
     }
 
     exportQuery() {
+        this.directoryservice.getQuery(
+            this.directoryservice.selectedUser,
+            this.directoryservice.selectedProject,
+            this.directoryservice.selectedQuery
+        ).then((data) => {
+            this.data = data.fbData;
+            let emptyArray: object[] = [];
+            data.fbData.forEach(post => {
 
-        this.downloadFile(this.data);
+                if (post.message) {
+                    const postMessage = post.message.replace(/(\r\n|\n|\r|,)/gm, '');
+                    const postID = post.id;
+                    emptyArray.push({message: postMessage, id: postID});
+                }
+            });
+
+            // console.log(emptyArray);
+
+            const messages = new Angular5Csv(emptyArray, 'My Report');
+        });
+
+
     }
 }

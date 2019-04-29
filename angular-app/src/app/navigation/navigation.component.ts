@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, OnInit} from '@angular/core';
 import { FBServiceService } from '../fb-service.service';
 import { NavigationService } from '../navigation.service';
 import { Router } from '@angular/router';
@@ -9,13 +9,23 @@ import { Location } from '@angular/common';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit, AfterViewInit {
+  public name = '';
+
   constructor(private fbservice: FBServiceService,
               private navigationservice: NavigationService,
               private router: Router,
               private location: Location
     ) {}
-  ngOnInit() {}
+  ngOnInit() {
+    this.fbservice.userName.subscribe((name) => {
+      this.name = name;
+    });
+  }
+
+  ngAfterViewInit(): void {
+
+  }
 
   goBack() {
     this.location.back();
