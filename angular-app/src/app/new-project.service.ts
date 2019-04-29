@@ -71,39 +71,39 @@ export class NewProjectService {
       this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
         .then(response => {
           console.log('Getting project: ', this.directoryservice.selectedProject, 'response: ', response);
-          const templistOfSelectedGroups = response.group;
+          const ListPreSelectedGroups = response.group;
           this.name = response.name;
           this.descr = response.desc;
 
           this.fbservice.getGroups(
             '/' + this.directoryservice.selectedUser + '/groups?fields=administrator,name,description'
           ).then((groups) => {
-            const templistOfAllGroups = groups.filter((singleGroup) => {
+            const ListFromFacebook = groups.filter((singleGroup) => {
               return singleGroup.administrator;
             }).map((filteredGroup) => {
               return new Group(filteredGroup.name, filteredGroup.description, filteredGroup.id);
 
             });
-            const SortedlistOfSelectedGroups = templistOfSelectedGroups.map(A => {
-              return templistOfAllGroups.filter(B => {
-                if (A.name === B.name) {
-                  return A;
-                }
 
+            // Sorting Algorithm
+            const AvailableGroups = [];
+            const SelectedGroups = [];
+            ListFromFacebook.forEach(A => {
+              ListPreSelectedGroups.forEach(B => {
+                console.log('A: ', A.id, 'B: ', B.id);
+                if (A.id === B.id) {
+                  SelectedGroups.push(B);
+                } else {
+                    if (!AvailableGroups.includes(A)) {
+                      console.log(AvailableGroups.includes(A));
+                      AvailableGroups.push(A);
+                    }
+                }
               });
             });
 
-            const SortedlistOfAllGroups = templistOfAllGroups.map(A => {
-              return SortedlistOfSelectedGroups.filter(B => {
-                if (A.name === B.name) {
-                  return A;
-                }
-
-              });
-            });
-
-            console.log(SortedlistOfAllGroups, SortedlistOfSelectedGroups);
-
+            this.listOfSelectedGroups = SelectedGroups;
+            this.listOfAllGroups = AvailableGroups;
 
             this.laterPushOfSelectedGroups.next(this.listOfSelectedGroups);
             this.laterPushOfAllGroups.next(this.listOfAllGroups);

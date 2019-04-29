@@ -31,7 +31,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
         public newprojectservice: NewProjectService,
         private directoryservice: DirectoryService,
         private router: Router) {
-        }
+    }
 
     addToSelected(i: number) {
         this.groupsSelected.push(this.groupsShown[i]);
@@ -78,7 +78,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
             if (this.newprojectservice.listOfAllGroups.length > 0) {
                 this.groupsShown = this.newprojectservice.listOfAllGroups;
                 this.showList = true;
-            // Else subscribe on observable for later update:
+                // Else subscribe on observable for later update:
             } else {
                 this.newprojectservice.laterPushOfAllGroups.subscribe((value) => {
                     this.groupsShown = value;
@@ -86,19 +86,16 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
                 });
             }
 
-        // if it is a already existing project
+            // if it is a already existing project
         } else {
-            // If groups already fetched from facebook:
-           if (this.newprojectservice.listOfSelectedGroups.length > 0) {
-                this.groupsSelected = this.newprojectservice.listOfSelectedGroups;
+            this.newprojectservice.laterPushOfAllGroups.subscribe((value) => {
+                this.groupsShown = value;
                 this.showList = true;
-            // Else subscribe on observable for later update:
-            } else {
-                    this.newprojectservice.laterPushOfSelectedGroups.subscribe((value) => {
-                    this.groupsSelected = value;
-                    this.showList = true;
-                });
-            }
+            });
+
+            this.newprojectservice.laterPushOfSelectedGroups.subscribe((value) => {
+                this.groupsSelected = value;
+            });
         }
     }
 
