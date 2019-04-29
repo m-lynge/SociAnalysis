@@ -21,15 +21,17 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
     searchTerm = '';
 
     searchTags: SearchTag[] = [];
-    groupsAvailable: Group[] = [];
-    groupsShown: Group[];
 
+    groupsShown: Group[];
     groupsSelected: Group[] = [];
+
+    showList = false;
 
     constructor(
         public newprojectservice: NewProjectService,
         private directoryservice: DirectoryService,
-        private router: Router) { }
+        private router: Router) {
+        }
 
     addToSelected(i: number) {
         this.groupsSelected.push(this.groupsShown[i]);
@@ -72,27 +74,44 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
     ngAfterContentInit(): void {
         // If it is a new project
         if (this.newprojectservice.NewProject) {
-            if (this.newprojectservice.ListOfGroups) {
-                this.groupsShown = this.newprojectservice.ListOfGroups;
+            // If groups already fetched from facebook:
+            if (this.newprojectservice.listOfAllGroups.length > 0) {
+                this.groupsShown = this.newprojectservice.listOfAllGroups;
+                this.showList = true;
+            // Else subscribe on observable for later update:
             } else {
-                // in case there are no groups
+                this.newprojectservice.laterPushOfAllGroups.subscribe((value) => {
+                    this.groupsShown = value;
+                    this.showList = true;
+                });
             }
-        // if it is to load an existing project
+
+        // if it is a already existing project
         } else {
-                // Load lists for existing projects
+            // If groups already fetched from facebook:
+           if (this.newprojectservice.ListOfSelectedGroups.length > 0) {
+                this.groupsSelected = this.newprojectservice.ListOfSelectedGroups;
+                this.showList = true;
+            // Else subscribe on observable for later update:
+            } else {
+                    this.newprojectservice.laterPushOfSelectedGroups.subscribe((value) => {
+                    this.groupsSelected = value;
+                    this.showList = true;
+                });
+            }
         }
     }
 
 
     findMatchingGroups(): void {
-        this.groupsShown = this.groupsAvailable.filter((group: Group) => {
+        this.groupsShown = this.newprojectservice.ListOfGroups.filter((group: Group) => {
             return group.name.toLowerCase().includes(this.searchTerm.trim().toLowerCase());
         });
     }
 
     showNext(): void {
         if (this.newprojectservice.NewProject) {
-            this.newprojectservice.ListOfGroups = this.groupsSelected;
+            this.newprojectservice.ListOfSelectedGroups = this.groupsSelected;
             this.newprojectservice.Toggle = 2;
         } else {
             this.newprojectservice.saveProject();

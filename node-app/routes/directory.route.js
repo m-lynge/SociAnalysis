@@ -32,7 +32,7 @@ directoryRoute.route('/getProjects/:user').get(function (req, res) {
                     if (err) throw err;
                 })
                 return {
-                    "name": projectName,
+                    "name": JSON.parse(projectInfo).name,
                     "desc": JSON.parse(projectInfo).desc,
                     "group": JSON.parse(projectInfo).group
                 }

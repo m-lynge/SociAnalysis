@@ -3,21 +3,26 @@ import { Group } from './Group';
 import { FBServiceService } from './fb-service.service';
 import { Project } from './Project';
 import { DirectoryService } from './directory.service';
+import { BehaviorSubject, observable, Subject } from 'rxjs';
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewProjectService {
-  constructor(private fbservice: FBServiceService, private directoryservice: DirectoryService) { }
   private name: string;
   private descr: string;
   private listOfSelectedGroups: Group[];
-  private listOfAllGroups: Group[];
+  public listOfAllGroups: Group[];
   private toggle = 0;
   private nextButton: string;
   private makeProjectButton: string;
   private newProject: boolean;
+  laterPushOfAllGroups: Subject<Group[]> = new Subject<Group[]>();
+  laterPushOfSelectedGroups: Subject<Group[]> = new Subject<Group[]>();
+  constructor(private fbservice: FBServiceService, private directoryservice: DirectoryService) {
+   }
 
   public get Name(): string {
     return this.name;
@@ -34,7 +39,7 @@ export class NewProjectService {
   public get ListOfGroups(): Group[] {
     return this.listOfAllGroups;
   }
-  public set ListOfGroups(listOfGroups: Group[]) {
+  public set ListOfSelectedGroups(listOfGroups: Group[]) {
     this.listOfSelectedGroups = listOfGroups;
   }
   public get ListOfSelectedGroups(): Group[] {
@@ -64,18 +69,24 @@ export class NewProjectService {
     this.Toggle = 0;
     this.newProject = true;
   }
+
   // This is called from QueryView
   public loadExistingProject(toggle: number) {
     this.clearAllVariables();
+    // No need for making API call for the first edit page
+    if (toggle !== 0) {
     this.getGroupsFromAPI();
+    }
     this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
       .then(response => {
         this.Name = response.name;
         this.Description = response.desc;
-        this.ListOfGroups = response.group;
-
+        this.ListOfSelectedGroups = response.group;
+        this.laterPushOfSelectedGroups.next(this.listOfSelectedGroups);
+        if (toggle === 1){
+        }
       });
-    this.nextButton = 'Opdater projekt';
+    this.nextButton = 'Opdater';
     this.makeProjectButton = this.nextButton;
     this.Toggle = toggle;
     this.newProject = false;
@@ -85,17 +96,6 @@ export class NewProjectService {
     // Should take the project parameters and save(if new project) / overwrite (if already existing project)
     const tempProject = new Project(this.Name, this.Description, this.ListOfSelectedGroups);
     this.directoryservice.createProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject, tempProject);
-  }
-
-  public loadProject() {
-    // Get project info from directory service and set local parameters
-    // ++++++++add code here to return current project JSON file from directory service
-    this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
-      .then(response => {
-        this.Name = response.name;
-        this.Description = response.desc;
-        this.ListOfGroups = response.group;
-      });
   }
 
   public getGroupsFromAPI() {
@@ -109,6 +109,7 @@ export class NewProjectService {
       }).map((filteredGroup) => {
         return new Group(filteredGroup.name, filteredGroup.description, filteredGroup.id);
       });
+      this.laterPushOfAllGroups.next(this.listOfAllGroups);
       console.log('All users groups were collected from facebook');
     });
   }
