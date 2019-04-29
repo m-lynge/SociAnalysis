@@ -137,15 +137,29 @@ export class DirectoryService {
         });
     }
 
-    public getQueryJSON(user: string, project: string, queryName: string) {
+    async getQueryJSON(user: string, project: string, queryName: string) {
+        let returnValue: Query;
         $.ajax({
             url: this.uri + '/getQueryJson',
             type: 'POST',
             data: { user, project, queryName },
 
             success: response => {
+                const newResponse = JSON.parse(response);
+                returnValue = new Query(newResponse.name,
+                    newResponse.params,
+                    newResponse.timeperiod,
+                    newResponse.groups,
+                    newResponse.filter,
+                    newResponse.fbData);
             }
         });
+
+        while (!returnValue) {
+            await this.wait(100);
+        }
+
+        return returnValue;
     }
 
     async wait(ms) {

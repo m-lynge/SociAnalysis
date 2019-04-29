@@ -92,7 +92,7 @@ export class NewProjectService {
                 }
               });
             });
-            
+
             ListPreSelectedGroups.forEach((A) => {
               ListFromFacebook.forEach((B, index) => {
                 if (A.id === B.id) {
