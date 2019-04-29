@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Project } from './Project';
 import { Query } from './Query';
+import { JsonPipe } from '@angular/common';
 
 
 @Injectable({
@@ -107,7 +108,7 @@ export class DirectoryService {
         return this.createDirectory(user);
     }
 
-    private createDirectory(path: string) {
+    public createDirectory(path: string) {
         return this
             .http
             .get(`${this.uri}/makeDir/${path}`);
@@ -115,15 +116,19 @@ export class DirectoryService {
 
     public createProjectInfoJSON(user: string, project: string, projectInfoObject: Project) {
 
-        $.ajax({
+        return $.ajax({
             url: this.uri + '/saveProjectJSON',
             type: 'POST',
             data: { user, project, projectInfoObject },
 
+            success: response => {
+                console.log('returned true from directory service')
+            },
             error: (XMLHttpRequest, textStatus, errorThrown) => {
                 alert("Status: " + textStatus); alert("Error: " + errorThrown);
             },
         });
+
     }
 
     public createQueryJSON(user: string, project: string, query: Query) {
@@ -194,6 +199,36 @@ export class DirectoryService {
         }
         return returnValue;
     }
+
+    public copyQueryJSON(user: string, oldProjectName: string, newProjectName: string, queryName: string) {
+        return $.ajax({
+            url: this.uri + '/copyFile',
+            type: 'POST',
+            data: { user, oldProjectName, newProjectName, queryName },
+
+            success: response => {
+            },
+            error: (XMLHttpRequest, textStatus, errorThrown) => {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            },
+        });
+    }
+
+    public removeProject(user: string, projectName: string) {
+        console.log('removing project: ', projectName)
+        return $.ajax({
+            url: this.uri + '/removeProject',
+            type: 'POST',
+            data: { user, projectName },
+
+            success: response => {
+            },
+            error: (XMLHttpRequest, textStatus, errorThrown) => {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            },
+        });
+    }
+
 
     // public getQuery(user: string, project: string, query: string): Observable<any> {
     //     return this

@@ -116,9 +116,62 @@ export class NewProjectService {
 
 
   public saveProject() {
+    // 1: create new project dir with new name
+
+    if (this.directoryservice.selectedProject !== this.name) {
+      console.log('name has been changed');
+      this.directoryservice.createDirectory(this.directoryservice.selectedUser + '/' + this.name + '/').subscribe((folderCreated) => {
+        if (folderCreated) {
+          console.log('folder was created: ', folderCreated);
+          const temp = new Project(this.name, this.descr, this.listOfSelectedGroups);
+          this.directoryservice.createProjectInfoJSON(
+            this.directoryservice.selectedUser, this.name, temp
+          ).done((handleData) => {
+            this.directoryservice.createDirectory(
+              this.directoryservice.selectedUser + '/' + this.name + '/query/').subscribe((queryfolderCreated) => {
+                if (queryfolderCreated) {
+                  console.log('query folder was created: ', queryfolderCreated);
+                  this.directoryservice.getAllQueries(
+                    this.directoryservice.selectedUser, this.directoryservice.selectedProject)
+                    .subscribe((allQueries) => {
+                      if (allQueries) {
+                        allQueries.forEach((element: string) => {
+                          console.log('copying query from old to new folder');
+                          console.log('queryName: ', element);
+                          // move file to new folder
+                          this.directoryservice.copyQueryJSON(
+                            this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.name, element)
+                            .done(() => {
+                              console.log('copied query');
+                            });
+                        });
+                        this.directoryservice.removeProject(
+                          this.directoryservice.selectedUser, this.directoryservice.selectedProject)
+                          .done(() => {
+                            console.log('removed previous project');
+                          });
+                        this.directoryservice.selectedProject = this.name;
+                      }
+                    });
+                }
+              });
+
+          });
+          // 2: create new projectinfo.json with sleeted name, description, and groups selected
+          // promiseFunction.then((bool) => {
+          //   console.log('returned ', bool, ' from newproject service');
+          // });
+        }
+      });
+    }
+
+
+
+    // 3: copy all queries from previous directory to new directory
+    // 4: delete previous directory
     // Should take the project parameters and save(if new project) / overwrite (if already existing project)
-    const tempProject = new Project(this.name, this.descr, this.listOfSelectedGroups);
-    this.directoryservice.createProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject, tempProject);
+    // const tempProject = new Project(this.name, this.descr, this.listOfSelectedGroups);
+    // this.directoryservice.createProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject, tempProject);
   }
 
   public getGroupsFromAPI() {
