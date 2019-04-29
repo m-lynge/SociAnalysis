@@ -4,16 +4,16 @@
     <br>
     <mat-form-field class="textTitle" hintlabel="Max 25 tegn">
       <input matInput #input maxlength="25" placeholder="Projekt titel" value="" name="projectName"
-        [(ngModel)]="this.newprojectservice.Name" />
+        [(ngModel)]="this.newprojectservice.name" />
     </mat-form-field>
     <br /><br /><br />
     <mat-form-field class="textBox" hintLabel="Max 250 tegn">
       <textarea input matInput #input matTextareaAutosize matAutosizeMinRows=4 matAutosizeMaxRows=3 maxlength="250"
         placeholder="Project beskrivelse" name="ProjectDescription" id="Description"
-        [(ngModel)]="this.newprojectservice.Description"></textarea>
+        [(ngModel)]="this.newprojectservice.descr"></textarea>
       <mat-hint align="end">{{ input.value?.length || 0 }}/250</mat-hint>
     </mat-form-field>
     <br /><br /><br />
-    <input type="submit" value="{{this.newprojectservice.NextButton}}" id="confirmBttn" name="" (click)="buttonClicked()" />
+    <input type="submit" value="{{this.newprojectservice.nextButton}}" id="confirmBttn" name="" (click)="buttonClicked()" />
   </form>
 </div>

@@ -3,12 +3,12 @@
     <div class="descView">
       <h2>Projekt titel:</h2>
       <br />
-      <h3>{{ this.newprojectservice.Name }}</h3>
+      <h3>{{ this.newprojectservice.name }}</h3>
       <br />
       <h2>Projekt Beskrivelse:</h2>
       <br />
       <div id="LEFT">
-      <p>{{ this.newprojectservice.Description }}</p>
+      <p>{{ this.newprojectservice.descr }}</p>
     </div>
     </div>
 
@@ -16,7 +16,7 @@
       <br>
       <h2 id="groupHD">Valgte Facebook grupper</h2>
       <div class="groupContainer">
-        <mat-card class="rightGroup" *ngFor="let group of this.newprojectservice.ListOfSelectedGroups; let i = index">
+        <mat-card class="rightGroup" *ngFor="let group of this.newprojectservice.listOfSelectedGroups; let i = index">
          <span class="card">
           <div class="content">
             <div style="display: block" style="color:aliceblue">
@@ -33,7 +33,7 @@
     </div>
     <div id="buttonContainer">
       <form>
-        <input type="submit" value="{{this.newprojectservice.MakeProjectButton}}" id="confirmBttn" name="" (click)="createProject()" />
+        <input type="submit" value="{{this.newprojectservice.makeProjectButton}}" id="confirmBttn" name="" (click)="createProject()" />
         <input type="submit" value="redigér projektbeskrivelse" id="editBttn" name="" (click)="showNext()" />
       </form>
     </div>
