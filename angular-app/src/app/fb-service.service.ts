@@ -3,21 +3,17 @@ import {DirectoryService} from './directory.service';
 import {NewQuery} from "./NewQuery";
 import {Query} from "./Query";
 import {Router} from "@angular/router";
+import {Observable, Subject} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
 export class FBServiceService {
 
+    userName: Subject<string> = new Subject<string>();
     userID = '';
-    isFirst = true;
-    isFirstPosts = true;
     accessToken = '';
-    listOfGroups = [];
     listOfPosts = [];
-    hasRetrievedAllPosts = false;
-    canRetrieve = false;
-
 
     constructor(private zone: NgZone, private directoryService: DirectoryService, private router: Router) {
         (window as any).fbAsyncInit = () => {
@@ -45,13 +41,14 @@ export class FBServiceService {
 
     login() {
         return new Promise((resolve, reject) => {
-            console.log('fb-service: Submit login to facebook');
             FB.login((response) => {
                 if (response.authResponse) {
                     this.userID = response.authResponse.userID;
                     this.directoryService.selectedUser = response.authResponse.userID;
                     this.accessToken = response.authResponse.accessToken;
+
                     resolve(response.authResponse);
+
                 } else {
                     reject('Login Failed');
                 }
@@ -67,18 +64,6 @@ export class FBServiceService {
         return;
     }
 
-    updateListOfGroups(groupListTemp: any[]) {
-        if (groupListTemp !== undefined) {
-            this.zone.run(() =>
-                groupListTemp.map((group) => {
-                    // Check only save groups you're administrator off.
-                    if (group.administrator === true) {
-                        this.listOfGroups.push(group);
-                    }
-                }));
-        }
-    }
-
     updatePostList(fun: any[]) {
         if (fun !== undefined) {
             this.zone.run(() =>
@@ -89,8 +74,17 @@ export class FBServiceService {
         }
     }
 
-    retrieveGroups() {
-        return this.listOfGroups;
+    getAndSetUserName() {
+        FB.api(
+            '/me',
+            response => {
+                if (response && !response.error) {
+                    this.userName.next(response.name);
+                } else {
+                    console.log(response.error);
+                }
+            },
+        );
     }
 
     async wait(ms) {
@@ -145,7 +139,6 @@ export class FBServiceService {
         FB.api(url, response => {
             if (response && !response.error) {
                 responsePlaceholder = response;
-                console.log(response);
             }
         });
 
@@ -197,7 +190,7 @@ export class FBServiceService {
                     new Query(newQuery.name, newQuery.params, newQuery.timeperiod, newQuery.groups, newQuery.filter, posts)
                 );
 
-                posts.forEach( (data) => {
+                posts.forEach((data) => {
                     finalPosts.push(data);
                 });
 

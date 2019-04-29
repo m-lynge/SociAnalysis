@@ -30,7 +30,9 @@ export class LoginViewComponent implements OnInit {
     navigationservice.setNavi = false;
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+  }
 
   loginToFacebook() {
     this.loading = true;
@@ -52,6 +54,7 @@ export class LoginViewComponent implements OnInit {
             this.navigationservice.setNavi = true;
             this.router.navigate(['/home']);
             console.log('User already exists/ ', id.userID);
+            this.fbService.getAndSetUserName();
 
           }
 
