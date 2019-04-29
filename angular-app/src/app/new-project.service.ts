@@ -86,21 +86,32 @@ export class NewProjectService {
             });
 
             // Sorting Algorithm
+            // const AvailableGroups = [];
+            // const SelectedGroups = [];
+            // ListFromFacebook.forEach(A => {
+            //   ListPreSelectedGroups.forEach(B => {
+            //     console.log('A: ', A.id, 'B: ', B.id);
+            //     if (A.id === B.id) {
+            //       SelectedGroups.push(B);
+            //     } else {
+            //         if (!AvailableGroups.includes(A)) {
+            //           console.log(AvailableGroups.includes(A));
+            //           AvailableGroups.push(A);
+            //         }
+            //     }
+            //   });
+            // });
             const AvailableGroups = [];
             const SelectedGroups = [];
-            ListFromFacebook.forEach(A => {
-              ListPreSelectedGroups.forEach(B => {
-                console.log('A: ', A.id, 'B: ', B.id);
-                if (A.id === B.id) {
-                  SelectedGroups.push(B);
-                } else {
-                    if (!AvailableGroups.includes(A)) {
-                      console.log(AvailableGroups.includes(A));
-                      AvailableGroups.push(A);
-                    }
-                }
-              });
+
+            ListFromFacebook.forEach(B => {
+              if (ListPreSelectedGroups.includes(B)) {
+                SelectedGroups.push(B);
+              } else {
+                AvailableGroups.push(B);
+              }
             });
+
 
             this.listOfSelectedGroups = SelectedGroups;
             this.listOfAllGroups = AvailableGroups;
