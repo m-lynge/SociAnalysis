@@ -85,28 +85,21 @@ export class NewProjectService {
 
             });
             const SelectedGroups = [];
-
-
             ListFromFacebook.forEach((A, index) => {
               ListPreSelectedGroups.forEach((B) => {
-                console.log('A: ', A.id, 'B: ', B.id);
                 if (A.id === B.id) {
                   SelectedGroups.push(B);
-                  ListFromFacebook.splice(index, 1);
-
                 }
               });
             });
-
-            // ListPreSelectedGroups.forEach((A) => {
-            //   ListFromFacebook.forEach((B, index) => {
-            //     console.log('A: ', A.id, 'B: ', B.id);
-            //     if (A.id === B.id) {
-            //       console.log(index);
-            //       ListFromFacebook.splice(index, 1 );
-            //     }
-            //   });
-            // });
+            
+            ListPreSelectedGroups.forEach((A) => {
+              ListFromFacebook.forEach((B, index) => {
+                if (A.id === B.id) {
+                  ListFromFacebook.splice(index, 1 );
+                }
+              });
+            });
 
             // console.log('A', ListPreSelectedGroups, 'B', ListFromFacebook);
             // ListFromFacebook.forEach(B => {
