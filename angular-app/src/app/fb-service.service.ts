@@ -45,15 +45,12 @@ export class FBServiceService {
 
     login() {
         return new Promise((resolve, reject) => {
-            console.log('submit login to facebook');
+            console.log('fb-service: Submit login to facebook');
             FB.login((response) => {
-                console.log('submitLogin', response);
                 if (response.authResponse) {
-                    // console.log(response.authResponse);
                     this.userID = response.authResponse.userID;
                     this.directoryService.selectedUser = response.authResponse.userID;
                     this.accessToken = response.authResponse.accessToken;
-                    //  this.FetchGroups('');
                     resolve(response.authResponse);
                 } else {
                     reject('Login Failed');
@@ -241,7 +238,6 @@ export class FBServiceService {
             response => {
 
                 if (response && !response.error) {
-                    console.log(response);
                     this.updatePostList(response.data);
 
                     if (response.paging) {
@@ -254,11 +250,6 @@ export class FBServiceService {
                         );
 
                         this.listOfPosts = [];
-
-                        // const query = new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts);
-                        // console.log(this.listOfPosts);
-                        // console.log('User: ' + this.directoryService.selectedUser);
-                        // console.log('Project: ' + this.directoryService.selectedProject);
                     }
                 } else {
                     console.log(response.error);

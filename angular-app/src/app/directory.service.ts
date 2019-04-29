@@ -78,7 +78,6 @@ export class DirectoryService {
 
     public projectExists(user: string, project: Project) {
         const path = user + '/' + project.name;
-        console.log('CHECK: ', path);
         return this.directoryExists(path);
     }
 
@@ -134,7 +133,6 @@ export class DirectoryService {
             data: { user, project, query },
 
             success: response => {
-                console.log(response);
             }
         });
     }
@@ -146,7 +144,6 @@ export class DirectoryService {
             data: { user, project, queryName },
 
             success: response => {
-                console.log(JSON.parse(response));
             }
         });
     }
@@ -195,7 +192,6 @@ export class DirectoryService {
         while (!returnValue) {
             await this.wait(100);
         }
-        console.log("Ready to return!");
         return returnValue;
     }
 

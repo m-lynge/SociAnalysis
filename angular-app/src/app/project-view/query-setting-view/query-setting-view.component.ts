@@ -1,13 +1,13 @@
-import {AfterContentInit, Component} from '@angular/core';
-import {MatChipInputEvent} from '@angular/material/chips';
-import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
-import {Group} from '../../Group';
-import {FormControl} from '@angular/forms';
-import {DirectoryService} from 'src/app/directory.service';
-import {FBServiceService} from 'src/app/fb-service.service';
+import { AfterContentInit, Component } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
+import { Group } from '../../Group';
+import { FormControl } from '@angular/forms';
+import { DirectoryService } from 'src/app/directory.service';
+import { FBServiceService } from 'src/app/fb-service.service';
 
-import {Project} from '../../Project';
-import {NewQuery} from 'src/app/NewQuery';
+import { Project } from '../../Project';
+import { NewQuery } from 'src/app/NewQuery';
 
 export interface QuerySettingsInterface {
     name: string;
@@ -76,7 +76,7 @@ export class QuerySettingViewComponent implements AfterContentInit {
         const value = event.value;
 
         if ((value || '').trim()) {
-            this.searchTags.push({tag: value.trim()});
+            this.searchTags.push({ tag: value.trim() });
         }
 
         if (input) {
@@ -96,15 +96,15 @@ export class QuerySettingViewComponent implements AfterContentInit {
 
         this.showLoading = true;
 
-        console.log('search tags: ', this.searchTags);
+   
 
         const allParams: any = [
-            {name: 'message', clicked: this.postsCheck.value},
-            {name: 'comments', clicked: this.commentsCheck.value},
-            {name: 'likes', clicked: this.likesCheck.value},
-            {name: 'reactions', clicked: this.reactionsCheck.value},
-            {name: 'picture', clicked: this.picturesCheck.value},
-            {name: 'link', clicked: this.linksCheck.value}
+            { name: 'message', clicked: this.postsCheck.value },
+            { name: 'comments', clicked: this.commentsCheck.value },
+            { name: 'likes', clicked: this.likesCheck.value },
+            { name: 'reactions', clicked: this.reactionsCheck.value },
+            { name: 'picture', clicked: this.picturesCheck.value },
+            { name: 'link', clicked: this.linksCheck.value }
         ];
 
         const chosenParams = allParams.filter((param: any) => {
@@ -128,7 +128,7 @@ export class QuerySettingViewComponent implements AfterContentInit {
                 till: this.endDate.value.toLocaleDateString()
             },
             groups: this.groupsSelected,
-            filter: {max: this.maxInput.value, tags: chosenTags}
+            filter: { max: this.maxInput.value, tags: chosenTags }
         };
         // ---- THIS DOES NOT WORK ---->>>>>>> ERROR CODE: 98607452dh34562xs -- Code does not compile --
         this.fbservice.DoSearchForPosts(exportQuery);
@@ -139,9 +139,8 @@ export class QuerySettingViewComponent implements AfterContentInit {
         this.directoryservice.getProject(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((projects: string) => {
                 const tempProject: Project = JSON.parse(projects);
-                console.log(tempProject);
                 this.groupsAvailable = tempProject.group;
-                console.log('groups:', this.groupsAvailable);
+
 
             });
     }

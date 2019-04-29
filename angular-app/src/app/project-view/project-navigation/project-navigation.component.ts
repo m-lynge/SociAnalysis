@@ -23,13 +23,11 @@ export class ProjectNavigationComponent implements OnInit, AfterViewChecked {
   }
 
   callUpdate() {
-    console.log('BUTTON CLICKED');
-    console.log('USER CHOSEN: ', this.directoryservice.selectedUser);
-    this.projectName = this.directoryservice.selectedProject;
+   // this.projectName = this.directoryservice.selectedProject;
   }
 
   ngAfterViewChecked(): void {
-    this.projectName = this.directoryservice.selectedProject;
+   // this.projectName = this.directoryservice.selectedProject;
   }
 
   editProject(toggle: number) {

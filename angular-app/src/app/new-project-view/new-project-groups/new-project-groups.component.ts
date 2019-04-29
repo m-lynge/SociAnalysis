@@ -89,8 +89,8 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
         // if it is a already existing project
         } else {
             // If groups already fetched from facebook:
-           if (this.newprojectservice.ListOfSelectedGroups.length > 0) {
-                this.groupsSelected = this.newprojectservice.ListOfSelectedGroups;
+           if (this.newprojectservice.listOfSelectedGroups.length > 0) {
+                this.groupsSelected = this.newprojectservice.listOfSelectedGroups;
                 this.showList = true;
             // Else subscribe on observable for later update:
             } else {
@@ -104,14 +104,14 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
 
     findMatchingGroups(): void {
-        this.groupsShown = this.newprojectservice.ListOfGroups.filter((group: Group) => {
+        this.groupsShown = this.newprojectservice.listOfAllGroups.filter((group: Group) => {
             return group.name.toLowerCase().includes(this.searchTerm.trim().toLowerCase());
         });
     }
 
     showNext(): void {
         if (this.newprojectservice.NewProject) {
-            this.newprojectservice.ListOfSelectedGroups = this.groupsSelected;
+            this.newprojectservice.listOfSelectedGroups = this.groupsSelected;
             this.newprojectservice.Toggle = 2;
         } else {
             this.newprojectservice.saveProject();

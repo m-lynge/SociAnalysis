@@ -4,16 +4,13 @@ const directoryRoute = express.Router();
 const fs = require('fs')
 
 directoryRoute.post('/test', (req, res) => {
-    console.log(req.body.fbData);
     res.jsonp("fun");
 })
 
 // returns all the user's paths found in the directory
 directoryRoute.get('/getUsers', (req, res) => {
-    // console.log("FUNCTION FROM SERVER CALLED");
     const path = './users/';
     fs.readdir(path, function (err, items) {
-        // console.log("RESPONSE:", req.query.callback + JSON.stringify(items));
         res.jsonp(items);
     });
 })
@@ -23,8 +20,6 @@ directoryRoute.get('/getUsers', (req, res) => {
 directoryRoute.route('/getProjects/:user').get(function (req, res) {
     const path = './users/' + req.params.user + '/';
     fs.readdir(path, function (err, items) {
-        // console.log("ITEMS: \n: ")
-        // console.log("ITEMS: \n: ", items)
         if (items) {
             finalProejct = items.map((projectName) => {
                 newPath = path + projectName + '/' + 'projectinfo.json';
@@ -37,7 +32,6 @@ directoryRoute.route('/getProjects/:user').get(function (req, res) {
                     "group": JSON.parse(projectInfo).group
                 }
             })
-            // console.log("OUTPUT: \n", JSON.stringify(finalProejct))
             res.jsonp(finalProejct);
         } else {
             res.jsonp([{}]);
@@ -48,12 +42,8 @@ directoryRoute.route('/getProjects/:user').get(function (req, res) {
 // returns all the Query paths from a given project from a given user
 // found in the directory
 directoryRoute.route('/getQueries/:user/:project').get(function (req, res) {
-    // console.clear();
-    console.log('THIS METHOD IS CALLED BITCH')
     const path = './users/' + req.params.user + '/' + req.params.project + '/' + 'query' + '/';
     fs.readdir(path, function (err, items) {
-        console.log("Printing searches from", path);
-        console.log(items);
         res.jsonp(items);
     });
 })
@@ -65,7 +55,6 @@ directoryRoute.route('/getProject/:user/:project').get(function (req, res) {
     returnProject = fs.readFileSync(path, 'utf8', (err, data) => {
         if (err) throw err;
     })
-    console.log("Project info json: ", returnProject)
     res.jsonp(returnProject)
 })
 
@@ -77,7 +66,6 @@ directoryRoute.route('/getQuery/:user/:project/:query').get(function (req, res) 
     returnQuery = fs.readFileSync(path, 'utf8', (err, data) => {
         if (err) throw err;
     })
-    console.log("Query json: ", returnQuery)
     res.jsonp(returnQuery)
 })
 
@@ -140,7 +128,6 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
 // // Route for saving JSON files (object:string)
 // directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req, res) {
 //     // The JSON file being written is the group.json
-//     console.log()
 //     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
 //     fs.writeFile(finalPath + 'projectinfo' + '.json', String(req.params.object), (err) => {
 //         if (err) {
@@ -161,7 +148,6 @@ directoryRoute.post('/saveQueryJSON', (req, res) => {
     //   The JSON file being written is a query.json file
     const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/';
 
-    console.log("Final Path: " + finalPath);
     fs.writeFile(finalPath + query.name + '.json', JSON.stringify(query), (err) => {
         if (err) {
             res.jsonp(err)
@@ -177,16 +163,13 @@ directoryRoute.post('/getQueryJson', (req, res) => {
     let username = result.body.user;
     let project = result.body.projectName;
     let queryName = result.body.query;
-   
-    console.log(project);
+
     //   The JSON file being written is a query.json file
     const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/' + queryName;
 
-    console.log("Final Path: " + finalPath);
     returnQuery = fs.readFileSync(finalPath, 'utf8', (err, data) => {
         if (err) throw err;
     })
-  //  console.log("Query json: ", returnQuery)
     res.jsonp(returnQuery);
 });
 
@@ -200,7 +183,6 @@ directoryRoute.post('/saveProjectJSON', (req, res) => {
     //   The JSON file being written is a query.json file
     const finalPath = './users/' + username + '/' + project + '/';
 
-    console.log("Final Path: " + finalPath);
     fs.writeFile(finalPath + 'projectinfo.json', JSON.stringify(projectInfo), (err) => {
         if (err) {
             res.jsonp(err)
@@ -215,16 +197,14 @@ directoryRoute.post('/getProjectJson', (req, res) => {
     const result = req;
     let username = result.body.user;
     let projectName = result.body.projectName;
-   
+
 
     //   The JSON file being written is a query.json file
     const finalPath = './users/' + username + '/' + projectName + '/' + 'projectinfo.json';
 
-    console.log("Final Path: " + finalPath);
     returnProject = fs.readFileSync(finalPath, 'utf8', (err, data) => {
         if (err) throw err;
     })
-  //  console.log("Query json: ", returnQuery)
     res.jsonp(returnProject);
 });
 

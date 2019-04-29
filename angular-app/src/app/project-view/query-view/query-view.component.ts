@@ -13,11 +13,9 @@ export class QueryViewComponent implements OnInit {
   ngOnInit() {
     // this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
     //     .subscribe((queryArray) => {
-    //       console.log('queries: ', queryArray);
     //       if (queryArray[0]){
     //         this.directoryservice.selectedQuery = queryArray[0];
     //       } else {
-    //         console.log("No query Array!");
     //       }
     //
     //     });
