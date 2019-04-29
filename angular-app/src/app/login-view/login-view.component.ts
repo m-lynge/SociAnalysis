@@ -39,8 +39,6 @@ export class LoginViewComponent implements OnInit {
     this.fbService
       .login()
       .then((id: any) => {
-        console.log(id);
-
         this.directoryservice.userExists(id.userID).subscribe((response) => {
           if (!response) {
             this.directoryservice.createUserDirectory(id.userID).subscribe((created) => {

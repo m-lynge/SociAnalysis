@@ -12,7 +12,6 @@ export class NavigationService {
     return this.naviIsActive;
   }
   public set setNavi(boo: boolean) {
-    console.log('Navigationbar: ' + boo);
     this.naviIsActive = boo;
   }
 }

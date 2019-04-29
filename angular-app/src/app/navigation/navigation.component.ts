@@ -19,7 +19,6 @@ export class NavigationComponent implements OnInit {
 
   goBack() {
     this.location.back();
-    console.log(this.location.path);
   }
 
   logoutOfFacebook() {

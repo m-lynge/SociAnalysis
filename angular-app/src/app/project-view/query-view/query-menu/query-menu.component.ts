@@ -39,13 +39,12 @@ export class QueryMenuComponent implements AfterViewInit {
     ngAfterViewInit() {
         this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((queryArray) => {
-                console.log('queries: ', queryArray);
+
                 if (queryArray[0]) {
                     this.directoryservice.selectedQuery = queryArray[0];
                 } else {
-                    console.log("No query Array!");
+                    console.log("Query-menu: No query Array!");
                 }
-                console.log('path: ' + this.directoryservice.selectedQuery);
                 this.directoryservice.getQuery(
                     this.directoryservice.selectedUser,
                     this.directoryservice.selectedProject,
@@ -60,16 +59,13 @@ export class QueryMenuComponent implements AfterViewInit {
 
 
     newQuery() {
-        console.log('new query clicked');
     }
 
     updateQuery() {
-        console.log('update query clicked');
     }
 
     exportQuery() {
 
-        console.log(this.data)
         this.downloadFile(this.data);
     }
 }

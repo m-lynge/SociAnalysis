@@ -74,7 +74,7 @@ export class NewProjectService {
   public loadExistingProject(toggle: number) {
     this.clearAllVariables();
     // No need for making API call for the first edit page
-    if (toggle !== 0) {
+    if (toggle === 1) {
     this.getGroupsFromAPI();
     }
     this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
@@ -100,7 +100,6 @@ export class NewProjectService {
 
   public getGroupsFromAPI() {
     console.log('attempting to get groups');
-    console.log('selected user for api call: ', this.directoryservice.selectedUser);
     this.fbservice.getGroups(
       '/' + this.directoryservice.selectedUser + '/groups?fields=administrator,name,description'
     ).then((groups) => {

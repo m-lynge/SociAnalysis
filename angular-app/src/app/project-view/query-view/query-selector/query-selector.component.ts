@@ -23,20 +23,16 @@ export class QuerySelectorComponent implements OnInit, AfterContentInit {
     //Called after ngOnInit when the component's or directive's content has been initialized.
     this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
       .subscribe((queryArray) => {
-        console.log('queries: ', queryArray);
-
         this.retrievedQueryNames = queryArray;
         this.shownQueryNames = this.retrievedQueryNames;
       });
   }
 
   printSearchTerm(): void {
-    console.log(this.searchTerm);
   }
 
   findMatchingQueries(): void {
     // called everytime the input field is changed
-    console.log('CHANGED');
     this.shownQueryNames = this.retrievedQueryNames.filter((query) => {
       return query.toLowerCase().includes(this.searchTerm.toLowerCase());
     });
@@ -46,7 +42,6 @@ export class QuerySelectorComponent implements OnInit, AfterContentInit {
   }
 
   newQuerySelected(querySelected: any): void {
-    console.log(querySelected);
     this.directoryservice.selectedQuery = querySelected;
   }
 
