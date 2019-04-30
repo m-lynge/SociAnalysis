@@ -18,6 +18,7 @@ export class NewProjectService {
 
   private newProject: boolean;
   private toggle = 0;
+  private viewingNewproject: boolean;
 
   nextButton: string;
   makeProjectButton: string;
@@ -33,6 +34,14 @@ export class NewProjectService {
   public set Toggle(toogle: number) {
     this.toggle = toogle;
   }
+
+  public get ViewingNewProject(): boolean {
+    return this.viewingNewproject;
+  }
+  public set ViewingNewProject(bool: boolean) {
+    this.viewingNewproject = bool;
+  }
+
   public get NewProject(): boolean {
     return this.newProject;
   }
@@ -96,7 +105,7 @@ export class NewProjectService {
             ListPreSelectedGroups.forEach((A) => {
               ListFromFacebook.forEach((B, index) => {
                 if (A.id === B.id) {
-                  ListFromFacebook.splice(index, 1 );
+                  ListFromFacebook.splice(index, 1);
                 }
               });
             });
@@ -161,8 +170,10 @@ export class NewProjectService {
                           this.directoryservice.selectedUser, this.directoryservice.selectedProject)
                           .done(() => {
                             console.log('removed previous project');
+                            this.directoryservice.selectedProject = this.name;
+
                           });
-                        this.directoryservice.selectedProject = this.name;
+
                       }
                     });
                 }

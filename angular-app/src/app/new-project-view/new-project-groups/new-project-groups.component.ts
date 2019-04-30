@@ -5,6 +5,7 @@ import { SearchTag } from 'src/app/project-view/query-setting-view/query-setting
 import { NewProjectService } from 'src/app/new-project.service';
 import { DirectoryService } from 'src/app/directory.service';
 import { Router } from '@angular/router';
+import { NavigationService } from 'src/app/navigation.service';
 
 
 @Component({
@@ -30,8 +31,10 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
     constructor(
         public newprojectservice: NewProjectService,
         private directoryservice: DirectoryService,
-        private router: Router) {
+        private router: Router,
+        private navigationservice: NavigationService) {
     }
+
 
     addToSelected(i: number) {
         this.groupsSelected.push(this.groupsShown[i]);
@@ -112,7 +115,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
             this.newprojectservice.Toggle = 2;
         } else {
             this.newprojectservice.saveProject();
-            this.router.navigate(['/projekt']);
+            this.router.navigate(['/projekt', '']);
         }
     }
 
