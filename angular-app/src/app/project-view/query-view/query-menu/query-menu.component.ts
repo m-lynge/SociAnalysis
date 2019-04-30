@@ -28,7 +28,7 @@ export class QueryMenuComponent implements AfterViewInit {
             });
 
     }
-    
+
     updateQuery() {
     }
 

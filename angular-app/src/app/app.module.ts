@@ -33,6 +33,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DemoMaterialModule} from './material-module';
 import {QuerySelectorComponent} from './project-view/query-view/query-selector/query-selector.component';
 import {NewQueryViewComponent} from './project-view/new-query-view/new-query-view.component';
+import {MatFormFieldModule, MatInputModule} from "@angular/material";
 
 
 
@@ -74,7 +75,9 @@ import {NewQueryViewComponent} from './project-view/new-query-view/new-query-vie
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
-        DemoMaterialModule
+        DemoMaterialModule,
+        MatInputModule,
+        MatFormFieldModule
     ],
     providers: [],
     bootstrap: [AppComponent],

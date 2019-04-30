@@ -1,10 +1,11 @@
-import { AfterContentInit, Component } from '@angular/core';
+import {AfterContentInit, Component, OnInit} from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 import { Group } from '../../Group';
-import { FormControl } from '@angular/forms';
+import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { DirectoryService } from 'src/app/directory.service';
 import { FBServiceService } from 'src/app/fb-service.service';
+import {MatFormField, MatInputModule} from "@angular/material";
 
 import { Project } from '../../Project';
 import { NewQuery } from 'src/app/NewQuery';
@@ -28,7 +29,11 @@ export interface SearchTag {
 })
 
 
-export class QuerySettingViewComponent implements AfterContentInit {
+export class QuerySettingViewComponent implements AfterContentInit, OnInit {
+
+    myForm: FormGroup;
+
+
     queryName: string;
 
     showLoading: boolean;
@@ -41,6 +46,8 @@ export class QuerySettingViewComponent implements AfterContentInit {
     linksCheck = new FormControl(false);
     beginDate = new FormControl(false);
     endDate = new FormControl(false);
+
+    useDateControl = new FormControl(false);
 
     maxInput = new FormControl();
 
@@ -57,9 +64,32 @@ export class QuerySettingViewComponent implements AfterContentInit {
     groupsSelected: Group[] = [];
 
 
-    constructor(private directoryservice: DirectoryService, private fbservice: FBServiceService) {
+    constructor(private directoryservice: DirectoryService, private fbservice: FBServiceService, private formBuilder: FormBuilder) {
 
     }
+
+    ngOnInit(): void {
+        this.myForm = this.formBuilder.group({
+            name: ['', [
+                Validators.required,
+                Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚÆØÅæøå ]+$')
+            ]],
+            useDate: [false, [
+
+            ]]
+        });
+
+        this.myForm.valueChanges.subscribe(console.log);
+    }
+
+    get name() {
+        return this.myForm.get('name');
+    }
+
+    get useDate() {
+        return this.myForm.get('useDate');
+    }
+
 
     addToSelected(i: number) {
         this.groupsSelected.push(this.groupsAvailable[i]);

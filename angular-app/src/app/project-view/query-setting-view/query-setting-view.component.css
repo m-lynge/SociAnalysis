@@ -73,3 +73,6 @@ h3{
     margin-right: auto;
     margin-left: auto;
 }
+.useDateField{
+    float: left;
+}
