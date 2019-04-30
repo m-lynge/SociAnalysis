@@ -4,7 +4,6 @@ import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import { Router } from '@angular/router';
 import { NewProjectService } from 'src/app/new-project.service';
 import { NavigationService } from 'src/app/navigation.service';
-import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
 import { QueryService } from 'src/app/query.service';
 
 
