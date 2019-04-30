@@ -4,10 +4,17 @@
 
         <p></p>
 
-        <form class="example-form">
+        <form [formGroup]="myForm" class="example-form">
             <mat-form-field class="example-full-width">
-                <input matInput [(ngModel)]="queryName" [ngModelOptions]="{standalone:true}" placeholder="Søge Navn"
+                <input matInput
+                       [(ngModel)]="queryName"
+                       formControlName="name"
+                       placeholder="Søge Navn"
                        value=" ">
+
+                <mat-error *ngIf="name.invalid || name.touched">
+                    HEY DU DER! DU MÅ KUN BRUGE BOGSTAVER OG TAL!
+                </mat-error>
             </mat-form-field>
 
 
@@ -31,19 +38,29 @@
 
 
             <div class="periodField">
-                <h3 class="header">Periode</h3>
-                <mat-form-field class="matFormDate">
 
-                    <input matInput [matDatepicker]="picker1" placeholder="Fra" [formControl]="beginDate">
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field>
 
-                <mat-form-field class="matFormDate">
-                    <input matInput [matDatepicker]="picker2" placeholder="Til" [formControl]="endDate">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                </mat-form-field>
+                <mat-checkbox class="useDateField" formControlName="useDate">
+                    Inkluder dato i søgning
+                </mat-checkbox>
+                <br>
+
+                <div *ngIf="useDate.value">
+                    <h3 class="header">Periode</h3>
+                    <mat-form-field class="matFormDate">
+                        <input [disabled]="!useDate.value" matInput [matDatepicker]="picker1" placeholder="Fra"
+                               [formControl]="beginDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="matFormDate">
+                        <input matInput [disabled]="!useDate.value" [matDatepicker]="picker2" placeholder="Til"
+                               [formControl]="endDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
             </div>
 
             <div class="fullsizeFormElement">
@@ -113,7 +130,7 @@
             </div>
 
 
-            <button mat-raised-button color="primary" (click)="StartQuery()">SØG!</button>
+            <button mat-raised-button color="primary" [disabled]="myForm.invalid" (click)="StartQuery()">SØG!</button>
 
         </form>
     </div>

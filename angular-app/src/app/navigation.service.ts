@@ -6,6 +6,26 @@ import { Injectable } from '@angular/core';
 export class NavigationService {
   private naviIsActive: boolean;
   private backButtonIsActive: boolean;
+
+  private goBackRoute: string[];
+  private withinNewProject: boolean;
+
+  get GoBackRoute(): string[] {
+    return this.goBackRoute;
+  }
+  set GoBackRoute(newGoBackRoute: string[]) {
+    this.goBackRoute = newGoBackRoute;
+  }
+
+  get WithinNewProject(): boolean {
+    return this.withinNewProject;
+  }
+  set WithinNewProject(bool: boolean) {
+    this.withinNewProject = bool;
+  }
+
+
+
   constructor() {
   }
   public get getNavi(): boolean {

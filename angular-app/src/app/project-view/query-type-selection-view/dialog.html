@@ -1,7 +1,7 @@
 <div mat-dialog-content>
     <p>Hvad skal din søgning hedde?</p>
     <mat-form-field>
-        <input matInput [(ngModel)]="data.name">
+        <input matInput onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9]/g) === null" [(ngModel)]="data.name">
     </mat-form-field>
 </div>
 <div mat-dialog-actions>

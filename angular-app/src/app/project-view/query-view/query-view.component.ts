@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {DirectoryService} from "../../directory.service";
+import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { DirectoryService } from "../../directory.service";
+import { NavigationService } from 'src/app/navigation.service';
 
 @Component({
   selector: 'app-query-view',
   templateUrl: './query-view.component.html',
   styleUrls: ['./query-view.component.css']
 })
-export class QueryViewComponent implements OnInit {
+export class QueryViewComponent implements OnInit, AfterContentInit {
 
-  constructor(private directoryservice: DirectoryService) { }
+  constructor(private directoryservice: DirectoryService, private navigationservice: NavigationService) { }
 
   ngOnInit() {
     // this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
@@ -21,4 +22,11 @@ export class QueryViewComponent implements OnInit {
     //     });
   }
 
+  ngAfterContentInit(): void {
+    console.log("routing back to home");
+    this.navigationservice.GoBackRoute = ['/home'];
+  }
 }
+
+
+

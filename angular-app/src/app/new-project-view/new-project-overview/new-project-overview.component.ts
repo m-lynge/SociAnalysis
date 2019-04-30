@@ -1,9 +1,10 @@
-import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output, AfterContentInit } from "@angular/core";
 import { NewProjectService } from "src/app/new-project.service";
 import { FBServiceService } from 'src/app/fb-service.service';
 import { Project } from '../../Project';
 import { DirectoryService } from 'src/app/directory.service';
 import { Router } from '@angular/router';
+import { NavigationService } from 'src/app/navigation.service';
 
 
 
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './new-project-overview.component.html',
   styleUrls: ['./new-project-overview.component.css']
 })
-export class NewProjectOverviewComponent implements OnInit {
+export class NewProjectOverviewComponent implements OnInit, AfterContentInit {
   @Output() show: EventEmitter<number> = new EventEmitter();
 
   projectInfo: Project;
@@ -21,10 +22,21 @@ export class NewProjectOverviewComponent implements OnInit {
     public newprojectservice: NewProjectService,
     private fbservice: FBServiceService,
     private directoryservice: DirectoryService,
-    private router: Router) { }
+    private router: Router,
+    private navigationservice: NavigationService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
+  ngAfterContentInit(): void {
+    //It's a new project 
+    if (this.newprojectservice.NewProject) {
+      this.navigationservice.GoBackRoute = ['/projekt', ''];
+    } else {
+      //It's an old project
+      // this.router.navigate(['/projekt', '']);
+    }
+  }
   showNext(): void {
     this.show.emit(0);
   }
@@ -35,7 +47,7 @@ export class NewProjectOverviewComponent implements OnInit {
       this.newprojectservice.descr,
       this.newprojectservice.listOfSelectedGroups);
     this.directoryservice.createProjectDirectory(this.directoryservice.selectedUser, projectInfo);
-    this.router.navigate(['/projekt']);
+    this.router.navigate(['/projekt', this.newprojectservice.name]);
 
   }
 }

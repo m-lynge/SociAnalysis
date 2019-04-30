@@ -40,7 +40,7 @@ export class QueryTypeSelectionViewComponent implements OnInit {
 
     openDialog() {
         const dialogRef = this.dialog.open(DialogOverviewExampleDialogComponent, {
-            width: '250px',
+            width: '300px',
             data: {name: this.name}
         });
 
