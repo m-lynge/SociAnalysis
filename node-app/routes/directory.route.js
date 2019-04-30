@@ -22,23 +22,25 @@ directoryRoute.get('/getUsers', (req, res) => {
 directoryRoute.route('/getProjects/:user').get(function (req, res) {
     const path = './users/' + req.params.user + '/';
     fs.readdir(path, function (err, items) {
-        if (items.length>0) {
-            console.log('length of items: ', items.length);
-            console.log('items: ', items);
-            finalProejct = items.map((projectName) => {
-                newPath = path + projectName + '/' + 'projectinfo.json';
-                projectInfo = fs.readFileSync(newPath, 'utf8', (err, data) => {
-                    if (err) throw err;
+        if (items) {
+            if (items.length > 0) {
+                console.log('length of items: ', items.length);
+                console.log('items: ', items);
+                finalProejct = items.map((projectName) => {
+                    newPath = path + projectName + '/' + 'projectinfo.json';
+                    projectInfo = fs.readFileSync(newPath, 'utf8', (err, data) => {
+                        if (err) throw err;
+                    })
+                    return {
+                        "name": JSON.parse(projectInfo).name,
+                        "desc": JSON.parse(projectInfo).desc,
+                        "group": JSON.parse(projectInfo).group
+                    }
                 })
-                return {
-                    "name": JSON.parse(projectInfo).name,
-                    "desc": JSON.parse(projectInfo).desc,
-                    "group": JSON.parse(projectInfo).group
-                }
-            })
-            res.jsonp(finalProejct);
-        } else {
-            res.jsonp([{}]);
+                res.jsonp(finalProejct);
+            } else {
+                res.jsonp([{}]);
+            }
         }
     });
 })
@@ -226,7 +228,7 @@ directoryRoute.post('/copyFile', (req, res) => {
 directoryRoute.post('/removeProject', (req, res) => {
     const user = req.body.user;
     const project = req.body.projectName;
-    const projectPath = './users/' + user + '/' + project +'/';
+    const projectPath = './users/' + user + '/' + project + '/';
     rimraf(projectPath, function () {
 
         console.log('removed the previous project')
