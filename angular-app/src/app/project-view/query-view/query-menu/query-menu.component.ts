@@ -27,7 +27,7 @@ export class QueryMenuComponent implements AfterViewInit {
         this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((queryArray) => {
 
-                if (queryArray[0]) {
+                if (queryArray && queryArray[0]) {
                     console.log(queryArray[0]);
                     this.directoryservice.selectedQuery = queryArray[0];
                     this.queryservice.getSelectedQuery();

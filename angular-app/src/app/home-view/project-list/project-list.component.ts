@@ -25,6 +25,34 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
     // This line makes it run on test-data:
     // this.directoryservice.selectedUser = '01';
     //
+    this.getProjects();
+  }
+
+  selectProject(projectName: string) {
+    this.directoryservice.selectedProject = projectName;
+    this.router.navigate(['/projekt', '']);
+  }
+  ngOnInit() {
+  }
+
+  public deleteProject(projectName: string) {
+    if (confirm('Dette vil slette projektet: ' + projectName + ' - og dets indhold')) {
+      this.directoryservice.removeProject(this.directoryservice.selectedUser, projectName).then(() => {
+        this.directoryservice.getAllProjects(this.directoryservice.selectedUser).subscribe((element) => {
+          this.projects = element;
+          if (this.projects && this.projects[0]) {
+            if (!this.projects[0].hasOwnProperty('name')) {
+              this.noProjects = true;
+            } else {
+              this.noProjects = false;
+            }
+          }
+        });
+      });
+    }
+  }
+
+  getProjects() {
     this.directoryservice.getAllProjects(this.directoryservice.selectedUser).subscribe((element) => {
       this.projects = element;
       if (this.projects && this.projects[0]) {
@@ -34,14 +62,6 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
           this.noProjects = false;
         }
       }
-
     });
-  }
-
-  selectProject(projectName: string) {
-    this.directoryservice.selectedProject = projectName;
-    this.router.navigate(['/projekt', '']);
-  }
-  ngOnInit() {
   }
 }
