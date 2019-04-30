@@ -22,7 +22,9 @@ directoryRoute.get('/getUsers', (req, res) => {
 directoryRoute.route('/getProjects/:user').get(function (req, res) {
     const path = './users/' + req.params.user + '/';
     fs.readdir(path, function (err, items) {
-        if (items) {
+        if (items.length>0) {
+            console.log('length of items: ', items.length);
+            console.log('items: ', items);
             finalProejct = items.map((projectName) => {
                 newPath = path + projectName + '/' + 'projectinfo.json';
                 projectInfo = fs.readFileSync(newPath, 'utf8', (err, data) => {

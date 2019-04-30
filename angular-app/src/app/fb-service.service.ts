@@ -1,10 +1,9 @@
 import {Injectable, NgZone} from '@angular/core';
 import {DirectoryService} from './directory.service';
 import {NewQuery} from "./NewQuery";
-import {Query} from "./Query";
 import {Router} from "@angular/router";
 import {Subject} from "rxjs";
-
+import {Query} from "./Query";
 @Injectable({
     providedIn: 'root'
 })
@@ -151,55 +150,17 @@ export class FBServiceService {
         };
     }
 
-    // FetchGroups(url?: string) {
-    //
-    //     FB.api(
-    //         url,
-    //         response => {
-    //             if (response && !response.error) {
-    //                 // this.updateListOfGroups(response.data);
-    //                 this.updateListOfGroups(response.data);
-    //                 console.log(response);
-    //                 if (response.paging.next) {
-    //                     this.FetchGroups(response.paging.next);
-    //                 } else {
-    //                     // console.log(this.listOfGroups);
-    //                     this.hasRetrievedAllPosts = true;
-    //                 }
-    //             } else {
-    //                 console.log(response.error);
-    //             }
-    //         },
-    //     );
-    // }
+    async DoSearchForPosts(newQuery: NewQuery) {
 
-    DoSearchForPosts(newQuery: NewQuery) {
-        const finalPosts = [];
-
-        newQuery.groups.forEach((group, index, array) => {
-
+        const promises = newQuery.groups.map(async groupCall => {
             let limit = 0;
-            newQuery.filter.max !== null ? limit = newQuery.filter.max : limit = 25;
-
-            const url = '/' + group.id + '/feed?fields=' + newQuery.params + '&limit=' + limit;
-
-            this.getPosts(url).then((posts: any[]) => {
-
-                posts.forEach((data) => {
-                    finalPosts.push(data);
-                });
-
-                if (index === (array.length - 1)) {
-                    this.directoryService.createQueryJSON(
-                        this.directoryService.selectedUser,
-                        this.directoryService.selectedProject,
-                        new Query(newQuery.name, newQuery.params, newQuery.timeperiod, newQuery.groups, newQuery.filter, finalPosts)
-                    );
-                    this.router.navigate(['/projekt', newQuery.name]);
-                }
-
-            });
+            newQuery.filter.max !== null ? limit = newQuery.filter.max : limit = 100;
+            const url = '/' + groupCall.id + '/feed?fields=' + newQuery.params + '&limit=' + limit;
+            return this.getPosts(url);
         });
+
+        return await Promise.all(promises);
+
 
     }
 
