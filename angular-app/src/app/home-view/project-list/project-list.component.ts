@@ -18,7 +18,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
     private directoryservice: DirectoryService,
     private router: Router,
     private newprojectservice: NewProjectService
-     ) {
+  ) {
     this.noProjects = true;
   }
   ngAfterViewInit(): void {
@@ -27,12 +27,14 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
     //
     this.directoryservice.getAllProjects(this.directoryservice.selectedUser).subscribe((element) => {
       this.projects = element;
-
-      if (!this.projects[0].hasOwnProperty('name')) {
-        this.noProjects = true;
-      } else {
-        this.noProjects = false;
+      if (this.projects && this.projects[0]) {
+        if (!this.projects[0].hasOwnProperty('name')) {
+          this.noProjects = true;
+        } else {
+          this.noProjects = false;
+        }
       }
+
     });
   }
 
