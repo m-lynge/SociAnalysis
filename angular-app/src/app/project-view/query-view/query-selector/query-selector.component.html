@@ -9,7 +9,7 @@
     <div>
         <mat-form-field class="example-full-width">
             <mat-label>Vælg en forespørgsel</mat-label>
-            <mat-select (selectionChange)="newQuerySelected($event.value)">
+            <mat-select (selectionChange)="newQuerySelected($event.value)" [(value)]='querytest'>
                 <mat-option *ngFor="let query of shownQueryNames" [value]="query">
                     {{query}}
                 </mat-option>

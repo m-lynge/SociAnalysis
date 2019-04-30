@@ -1,6 +1,7 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {DirectoryService} from "../../../directory.service";
 import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
+import { QueryService } from 'src/app/query.service';
 
 
 @Component({
@@ -10,7 +11,8 @@ import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
 })
 export class QueryMenuComponent implements AfterViewInit {
 
-    constructor(private directoryservice: DirectoryService) {
+    constructor(private directoryservice: DirectoryService,
+                private queryservice: QueryService) {
     }
 
     data: any;
@@ -21,8 +23,10 @@ export class QueryMenuComponent implements AfterViewInit {
 
                 if (queryArray[0]) {
                     this.directoryservice.selectedQuery = queryArray[0];
+                    this.queryservice.getSelectedQuery();
                 } else {
                     console.log("Query-menu: No query Array!");
+
                 }
 
             });
