@@ -5,6 +5,8 @@ import {NewQuery} from "../../NewQuery";
 import {DirectoryService} from "../../directory.service";
 import {Project} from "../../Project";
 import {Group} from "../../Group";
+import {Query} from "../../Query";
+import {Router} from "@angular/router";
 
 export interface name {
     name: string;
@@ -20,10 +22,10 @@ export class QueryTypeSelectionViewComponent implements OnInit {
 
     private listOfGroups: Group[] = [];
     private name = '';
-    private  isLoading = false;
+    private isLoading = false;
 
 
-    constructor(private fbService: FBServiceService, private dialog: MatDialog, private directoryService: DirectoryService) {
+    constructor(private fbService: FBServiceService, private dialog: MatDialog, private directoryService: DirectoryService, private router: Router) {
     }
 
     @Output()
@@ -56,10 +58,33 @@ export class QueryTypeSelectionViewComponent implements OnInit {
                     {max: 100, tags: []}
                 );
 
-
-                this.fbService.DoSearchForPosts(exportQuery);
                 this.isLoading = true;
-            } else {
+                this.fbService.DoSearchForPosts(exportQuery).then((response) => {
+                    const postList = [];
+
+                    response.forEach(postArray => {
+                        postArray.forEach((data) => {
+                            postList.push(data);
+                        });
+                    });
+
+                    const query = new Query(
+                        exportQuery.name,
+                        exportQuery.params,
+                        exportQuery.timeperiod,
+                        exportQuery.groups,
+                        exportQuery.filter,
+                        postList);
+                    this.directoryService.createQueryJSON(
+                        this.directoryService.selectedUser,
+                        this.directoryService.selectedProject,
+                        query
+                    );
+
+                    this.router.navigate(['/projekt', exportQuery.name]);
+
+
+                });
 
             }
 

@@ -5,9 +5,10 @@ import {Group} from '../../Group';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DirectoryService} from 'src/app/directory.service';
 import {FBServiceService} from 'src/app/fb-service.service';
-
+import {Query} from "../../Query";
 import {Project} from '../../Project';
 import {NewQuery} from 'src/app/NewQuery';
+import {Router} from "@angular/router";
 
 export interface QuerySettingsInterface {
     name: string;
@@ -63,7 +64,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
     groupsSelected: Group[] = [];
 
 
-    constructor(private directoryservice: DirectoryService, private fbservice: FBServiceService, private formBuilder: FormBuilder) {
+    constructor(private directoryservice: DirectoryService, private fbservice: FBServiceService, private formBuilder: FormBuilder, private router: Router) {
 
     }
 
@@ -171,7 +172,25 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
             filter: {max: this.maxInput.value, tags: chosenTags}
         };
         // ---- THIS DOES NOT WORK ---->>>>>>> ERROR CODE: 98607452dh34562xs -- Code does not compile --
-        this.fbservice.DoSearchForPosts(exportQuery);
+        this.fbservice.DoSearchForPosts(exportQuery).then((response) => {
+            const postList = [];
+
+            response.forEach(postArray => {
+                postArray.forEach((data) => {
+                    postList.push(data);
+                });
+            });
+
+            const query = new Query(exportQuery.name, exportQuery.params, exportQuery.timeperiod, exportQuery.groups, exportQuery.filter, postList)
+            this.directoryservice.createQueryJSON(
+                this.directoryservice.selectedUser,
+                this.directoryservice.selectedProject,
+                query
+            );
+
+            this.router.navigate(['/projekt', exportQuery.name]);
+
+        });
     }
 
     ngAfterContentInit(): void {
