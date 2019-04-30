@@ -3,7 +3,7 @@ import {DirectoryService} from './directory.service';
 import {NewQuery} from "./NewQuery";
 import {Query} from "./Query";
 import {Router} from "@angular/router";
-import {Observable, Subject} from "rxjs";
+import {Subject} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -175,26 +175,26 @@ export class FBServiceService {
 
     DoSearchForPosts(newQuery: NewQuery) {
         const finalPosts = [];
+
         newQuery.groups.forEach((group, index, array) => {
 
             let limit = 0;
             newQuery.filter.max !== null ? limit = newQuery.filter.max : limit = 25;
-            console.log(limit);
 
             const url = '/' + group.id + '/feed?fields=' + newQuery.params + '&limit=' + limit;
 
             this.getPosts(url).then((posts: any[]) => {
-                this.directoryService.createQueryJSON(
-                    this.directoryService.selectedUser,
-                    this.directoryService.selectedProject,
-                    new Query(newQuery.name, newQuery.params, newQuery.timeperiod, newQuery.groups, newQuery.filter, posts)
-                );
 
                 posts.forEach((data) => {
                     finalPosts.push(data);
                 });
 
                 if (index === (array.length - 1)) {
+                    this.directoryService.createQueryJSON(
+                        this.directoryService.selectedUser,
+                        this.directoryService.selectedProject,
+                        new Query(newQuery.name, newQuery.params, newQuery.timeperiod, newQuery.groups, newQuery.filter, finalPosts)
+                    );
                     this.router.navigate(['/projekt', newQuery.name]);
                 }
 
