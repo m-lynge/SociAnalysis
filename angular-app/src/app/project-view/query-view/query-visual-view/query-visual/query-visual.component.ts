@@ -6,6 +6,7 @@ import * as d3Array from 'd3-array';
 import * as Occurences from 'Occurences';
 
 import { NavigationService } from 'src/app/navigation.service';
+import { QueryService } from 'src/app/query.service';
 
 @Component({
   selector: 'app-query-visual',
@@ -32,10 +33,16 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
   private sortedStatsArray;
   private simulation;
 
-  constructor(private navigationservice: NavigationService) {
+  constructor(private navigationservice: NavigationService, private queryservice: QueryService) {
     this.navigationservice.setNavi = true;
     this.height = 500;
     this.width = 500;
+
+    this.queryservice.allPostsTextSubject.subscribe((text) => {
+      this.countWords(text);
+      this.Init();
+      this.DrawCirles();
+    });
 
   }
 
@@ -43,9 +50,7 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    this.countWords(this.rawText);
-    this.Init();
-    this.DrawCirles();
+
   }
 
   private Init() {
@@ -106,10 +111,10 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
     this.statsArray = Object.keys(this.textOccurrences.stats).map(key => {
       return { word: key, number: this.textOccurrences.stats[key] };
     });
-
+    console.log('StatsArray: ', this.statsArray);
     this.sortedStatsArray = this.statsArray.sort((a, b) => (a.number > b.number) ? 1 : ((b.number > a.number) ? -1 : 0));
     this.sortedStatsArray.reverse();
-
+    console.log('Sorted: ', this.sortedStatsArray);
     this.sortedStatsArray = this.sortedStatsArray.slice(0, 10);
   }
 }

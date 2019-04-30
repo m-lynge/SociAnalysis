@@ -14,10 +14,12 @@ import { QueryService } from 'src/app/query.service';
 })
 export class QueryMenuComponent implements AfterViewInit {
 
-    constructor(private directoryservice: DirectoryService, private router: Router,
-        private newprojectservice: NewProjectService, private navigationservice: NavigationService,
-                private queryservice: QueryService) {
-    }
+    constructor(private directoryservice: DirectoryService,
+                private router: Router,
+                private newprojectservice: NewProjectService,
+                private navigationservice: NavigationService,
+                public queryservice: QueryService,
+                ) {}
 
     data: any;
 
@@ -26,10 +28,13 @@ export class QueryMenuComponent implements AfterViewInit {
             .subscribe((queryArray) => {
 
                 if (queryArray[0]) {
+                    console.log(queryArray[0]);
                     this.directoryservice.selectedQuery = queryArray[0];
                     this.queryservice.getSelectedQuery();
+                    this.queryservice.hasQuerys = true;
                 } else {
                     console.log("Query-menu: No query Array!");
+                    this.queryservice.hasQuerys = false;
 
                 }
 

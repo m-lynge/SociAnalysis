@@ -1,6 +1,7 @@
 <app-project-navigation></app-project-navigation>
 <app-query-view></app-query-view>
 <app-new-query-view></app-new-query-view>
-<app-query-parameters></app-query-parameters>
+<app-query-parameters *ngIf='this.queryservice.hasQuerys'></app-query-parameters>
+<app-query-visual-view *ngIf='this.queryservice.hasQuerys'></app-query-visual-view>
 <!-- <app-query-visual-view></app-query-visual-view> -->
 <!--<app-query-parameters></app-query-parameters>-->

@@ -12,7 +12,7 @@
         <p class="text">Ny forespørgsel</p>
       </th>
     </tr>
-    <tr class="clickable-row" (click)="updateQuery()">
+    <tr class="clickable-row" (click)="updateQuery()" *ngIf='this.queryservice.hasQuerys'>
       <th class="icons">
         <div class="icon"></div>
       </th>
@@ -20,7 +20,7 @@
         <p class="text">Opdater forespørgsel</p>
       </th>
     </tr>
-    <tr class="clickable-row" (click)="exportQuery()">
+    <tr class="clickable-row" (click)="exportQuery()" *ngIf='this.queryservice.hasQuerys'>
       <th>
         <div class="icon"></div>
       </th>

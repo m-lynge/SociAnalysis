@@ -5,5 +5,5 @@
 <p><b>Grupper:</b>  <a *ngFor='let groups of QueryParams.groups'> #{{groups.name}}</a></p>
 <p><b>Maks posts:</b> {{QueryParams.filter.max}}</p>
 <p><b>Tags: </b> <a *ngFor='let filter of this.QueryParams.filter.tags'>#{{filter}} </a></p>
-<p><b>Antal posts: </b>{{QueryParams.fbData.length}}</p>
+<p><b>Antal posts: </b>{{amountOfPosts}}</p>
 </div>

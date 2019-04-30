@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { DirectoryService } from "../../directory.service";
 import { NavigationService } from 'src/app/navigation.service';
+import { QueryService } from 'src/app/query.service';
 
 @Component({
   selector: 'app-query-view',
@@ -9,7 +10,8 @@ import { NavigationService } from 'src/app/navigation.service';
 })
 export class QueryViewComponent implements OnInit, AfterContentInit {
 
-  constructor(private directoryservice: DirectoryService, private navigationservice: NavigationService) { }
+  constructor(private directoryservice: DirectoryService, private navigationservice: NavigationService, 
+    public queryservice: QueryService) { }
 
   ngOnInit() {
     // this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
