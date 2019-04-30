@@ -18,7 +18,7 @@ export class QueryParametersComponent implements OnInit, AfterContentInit {
 
 
   constructor(private directoryservice: DirectoryService) {
-    this.dataReady = true;
+    this.dataReady = false;
 
   }
 
@@ -26,18 +26,22 @@ export class QueryParametersComponent implements OnInit, AfterContentInit {
 
   }
   ngAfterContentInit(): void {
+   if (this.directoryservice.selectedQuery) {
     this.directoryservice.getQuery(
       this.directoryservice.selectedUser,
       this.directoryservice.selectedProject,
       this.directoryservice.selectedQuery).then((data => {
+        console.log(data);
         this.QueryParams.name = data.name;
         this.QueryParams.timeperiod = data.timeperiod;
         this.QueryParams.filter = data.filter;
         this.QueryParams.groups = data.groups;
         this.QueryParams.fbData = data.fbData;
+        this.QueryParams.params = data.params;
         this.dataReady = true;
       } ));
   }
+}
 
 
 }

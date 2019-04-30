@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 const directoryRoute = express.Router();
-const fs = require('fs')
+const fs = require('fs');
+const fs_extra = require('fs-extra');
+const rimraf = require('rimraf');
 
 directoryRoute.post('/test', (req, res) => {
     res.jsonp("fun");
@@ -165,7 +167,7 @@ directoryRoute.post('/getQueryJson', (req, res) => {
     let queryName = result.body.query;
 
     //   The JSON file being written is a query.json file
-    const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/' + queryName;
+    const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/' + queryName +'.json';
 
     returnQuery = fs.readFileSync(finalPath, 'utf8', (err, data) => {
         if (err) throw err;
@@ -207,5 +209,27 @@ directoryRoute.post('/getProjectJson', (req, res) => {
     })
     res.jsonp(returnProject);
 });
+
+directoryRoute.post('/copyFile', (req, res) => {
+    const user = req.body.user;
+    const oldProject = req.body.oldProjectName;
+    const newProject = req.body.newProjectName;
+    const queryName = req.body.queryName;
+    const oldPath = './users/' + user + '/' + oldProject + '/query/' + queryName;
+    const newPath = './users/' + user + '/' + newProject + '/query/' + queryName;
+    fs_extra.copyFileSync(oldPath, newPath);
+    res.jsonp(true)
+})
+
+directoryRoute.post('/removeProject', (req, res) => {
+    const user = req.body.user;
+    const project = req.body.projectName;
+    const projectPath = './users/' + user + '/' + project +'/';
+    rimraf(projectPath, function () {
+
+        console.log('removed the previous project')
+    });
+    res.jsonp(true)
+})
 
 module.exports = directoryRoute;
