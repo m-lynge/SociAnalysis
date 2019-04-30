@@ -4,6 +4,8 @@ import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import { Router } from '@angular/router';
 import { NewProjectService } from 'src/app/new-project.service';
 import { NavigationService } from 'src/app/navigation.service';
+import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
+import { QueryService } from 'src/app/query.service';
 
 
 @Component({
@@ -14,7 +16,8 @@ import { NavigationService } from 'src/app/navigation.service';
 export class QueryMenuComponent implements AfterViewInit {
 
     constructor(private directoryservice: DirectoryService, private router: Router,
-        private newprojectservice: NewProjectService, private navigationservice: NavigationService) {
+        private newprojectservice: NewProjectService, private navigationservice: NavigationService,
+                private queryservice: QueryService) {
     }
 
     data: any;
@@ -25,8 +28,10 @@ export class QueryMenuComponent implements AfterViewInit {
 
                 if (queryArray[0]) {
                     this.directoryservice.selectedQuery = queryArray[0];
+                    this.queryservice.getSelectedQuery();
                 } else {
                     console.log("Query-menu: No query Array!");
+
                 }
 
             });

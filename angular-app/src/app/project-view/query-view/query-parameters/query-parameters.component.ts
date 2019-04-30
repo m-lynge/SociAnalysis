@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { Group } from 'src/app/Group';
 import { DirectoryService } from 'src/app/directory.service';
+import { QueryService } from 'src/app/query.service';
 
 @Component({
   selector: 'app-query-parameters',
@@ -17,27 +18,17 @@ export class QueryParametersComponent implements OnInit, AfterContentInit {
 
 
 
-  constructor(private directoryservice: DirectoryService) {
-    this.dataReady = true;
+  constructor(private directoryservice: DirectoryService, private queryservice: QueryService) {
 
   }
 
   ngOnInit() {
-
+      this.queryservice.selectedQuerySubject.subscribe((data) => {
+      this.QueryParams = data;
+    });
   }
   ngAfterContentInit(): void {
-    this.directoryservice.getQuery(
-      this.directoryservice.selectedUser,
-      this.directoryservice.selectedProject,
-      this.directoryservice.selectedQuery).then((data => {
-        this.QueryParams.name = data.name;
-        this.QueryParams.timeperiod = data.timeperiod;
-        this.QueryParams.filter = data.filter;
-        this.QueryParams.groups = data.groups;
-        this.QueryParams.fbData = data.fbData;
-        this.dataReady = true;
-      } ));
-  }
+}
 
 
 }
