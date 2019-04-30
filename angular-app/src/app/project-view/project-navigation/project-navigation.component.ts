@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewChecked} from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { DirectoryService } from 'src/app/directory.service';
-import {NewProjectService} from '../../new-project.service';
+import { NewProjectService } from '../../new-project.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class ProjectNavigationComponent implements OnInit, AfterViewChecked {
   projectName: string;
   constructor(
-    private directoryservice: DirectoryService, 
+    private directoryservice: DirectoryService,
     private newprojectservice: NewProjectService,
     private router: Router) { }
 
@@ -23,14 +23,15 @@ export class ProjectNavigationComponent implements OnInit, AfterViewChecked {
   }
 
   callUpdate() {
-   // this.projectName = this.directoryservice.selectedProject;
+    // this.projectName = this.directoryservice.selectedProject;
   }
 
   ngAfterViewChecked(): void {
-   // this.projectName = this.directoryservice.selectedProject;
+    // this.projectName = this.directoryservice.selectedProject;
   }
 
   editProject(toggle: number) {
+    this.newprojectservice.ViewingNewProject = true;
     this.newprojectservice.loadExistingProject(toggle);
     this.router.navigate(['/opretprojekt']);
 

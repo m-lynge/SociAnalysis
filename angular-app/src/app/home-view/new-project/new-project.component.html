@@ -1,1 +1,3 @@
-<button class="newProject" (click)="createNewProject()">Opret nyt projekt</button>
+<button class="newProject"
+    (click)="this.newprojectservice.ViewingNewProject=true;this.newprojectservice.NewProject=true;createNewProject()">Opret
+    nyt projekt</button>

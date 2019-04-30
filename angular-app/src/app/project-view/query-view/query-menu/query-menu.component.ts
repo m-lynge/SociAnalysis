@@ -1,6 +1,9 @@
-import {AfterViewInit, Component} from '@angular/core';
-import {DirectoryService} from "../../../directory.service";
-import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
+import { AfterViewInit, Component } from '@angular/core';
+import { DirectoryService } from "../../../directory.service";
+import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
+import { Router } from '@angular/router';
+import { NewProjectService } from 'src/app/new-project.service';
+import { NavigationService } from 'src/app/navigation.service';
 
 
 @Component({
@@ -10,7 +13,8 @@ import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
 })
 export class QueryMenuComponent implements AfterViewInit {
 
-    constructor(private directoryservice: DirectoryService) {
+    constructor(private directoryservice: DirectoryService, private router: Router,
+        private newprojectservice: NewProjectService, private navigationservice: NavigationService) {
     }
 
     data: any;
@@ -28,7 +32,13 @@ export class QueryMenuComponent implements AfterViewInit {
             });
 
     }
-    
+
+    newQuery() {
+        this.navigationservice.GoBackRoute = ['/projekt', '']
+        this.router.navigate(['/project_ny_soegning']);
+        // routerLink = "/project_ny_soegning"
+    }
+
     updateQuery() {
     }
 
@@ -45,7 +55,7 @@ export class QueryMenuComponent implements AfterViewInit {
                 if (post.message) {
                     const postMessage = post.message.replace(/(\r\n|\n|\r|,)/gm, '');
                     const postID = post.id;
-                    emptyArray.push({message: postMessage, id: postID});
+                    emptyArray.push({ message: postMessage, id: postID });
                 }
             });
 
