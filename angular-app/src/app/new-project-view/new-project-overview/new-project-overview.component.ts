@@ -35,7 +35,7 @@ export class NewProjectOverviewComponent implements OnInit {
       this.newprojectservice.descr,
       this.newprojectservice.listOfSelectedGroups);
     this.directoryservice.createProjectDirectory(this.directoryservice.selectedUser, projectInfo);
-    this.router.navigate(['/projekt']);
+    this.router.navigate(['/projekt', this.newprojectservice.name]);
 
   }
 }

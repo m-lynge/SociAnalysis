@@ -1,14 +1,13 @@
 import {AfterContentInit, Component, OnInit} from '@angular/core';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
-import { Group } from '../../Group';
-import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { DirectoryService } from 'src/app/directory.service';
-import { FBServiceService } from 'src/app/fb-service.service';
-import {MatFormField, MatInputModule} from "@angular/material";
+import {MatChipInputEvent} from '@angular/material/chips';
+import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
+import {Group} from '../../Group';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {DirectoryService} from 'src/app/directory.service';
+import {FBServiceService} from 'src/app/fb-service.service';
 
-import { Project } from '../../Project';
-import { NewQuery } from 'src/app/NewQuery';
+import {Project} from '../../Project';
+import {NewQuery} from 'src/app/NewQuery';
 
 export interface QuerySettingsInterface {
     name: string;
@@ -74,9 +73,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                 Validators.required,
                 Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚÆØÅæøå ]+$')
             ]],
-            useDate: [false, [
-
-            ]]
+            useDate: [false, []]
         });
 
         this.myForm.valueChanges.subscribe(console.log);
@@ -106,7 +103,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
         const value = event.value;
 
         if ((value || '').trim()) {
-            this.searchTags.push({ tag: value.trim() });
+            this.searchTags.push({tag: value.trim()});
         }
 
         if (input) {
@@ -126,15 +123,14 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
 
         this.showLoading = true;
 
-   
 
         const allParams: any = [
-            { name: 'message', clicked: this.postsCheck.value },
-            { name: 'comments', clicked: this.commentsCheck.value },
-            { name: 'likes', clicked: this.likesCheck.value },
-            { name: 'reactions', clicked: this.reactionsCheck.value },
-            { name: 'picture', clicked: this.picturesCheck.value },
-            { name: 'link', clicked: this.linksCheck.value }
+            {name: 'message', clicked: this.postsCheck.value},
+            {name: 'comments', clicked: this.commentsCheck.value},
+            {name: 'likes', clicked: this.likesCheck.value},
+            {name: 'reactions', clicked: this.reactionsCheck.value},
+            {name: 'picture', clicked: this.picturesCheck.value},
+            {name: 'link', clicked: this.linksCheck.value}
         ];
 
         const chosenParams = allParams.filter((param: any) => {
@@ -149,16 +145,30 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
             return tag.tag;
         });
 
+        let beginDate;
+        let endDate;
+
+        if (this.useDate) {
+            if (this.beginDate.value !== false && this.endDate.value !== false) {
+                beginDate = this.beginDate.value.toLocaleDateString();
+                endDate = this.endDate.value.toLocaleDateString();
+            }
+        } else {
+            beginDate = '0';
+            endDate = '0';
+        }
+
+
         // to fb service
         const exportQuery: NewQuery = {
             name: this.queryName,
             params: chosenParams,
             timeperiod: {
-                from: this.beginDate.value.toLocaleDateString(),
-                till: this.endDate.value.toLocaleDateString()
+                from: beginDate,
+                till: endDate
             },
             groups: this.groupsSelected,
-            filter: { max: this.maxInput.value, tags: chosenTags }
+            filter: {max: this.maxInput.value, tags: chosenTags}
         };
         // ---- THIS DOES NOT WORK ---->>>>>>> ERROR CODE: 98607452dh34562xs -- Code does not compile --
         this.fbservice.DoSearchForPosts(exportQuery);

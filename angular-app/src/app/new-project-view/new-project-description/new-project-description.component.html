@@ -5,14 +5,15 @@
     <mat-form-field class="textTitle" hintlabel="Max 25 tegn">
       <input matInput #input maxlength="25" placeholder="Projekt titel" value="" name="projectName"
         [(ngModel)]="this.newprojectservice.name"
-             onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9]/g) === null" [(ngModel)]="data.name" />
+             onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9]/g) === null"
+              />
     </mat-form-field>
     <br /><br /><br />
     <mat-form-field class="textBox" hintLabel="Max 250 tegn">
       <textarea input matInput #input matTextareaAutosize matAutosizeMinRows=4 matAutosizeMaxRows=3 maxlength="250"
         placeholder="Project beskrivelse" name="ProjectDescription" id="Description"
         [(ngModel)]="this.newprojectservice.descr"
-                onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9|.|,]/g) === null" [(ngModel)]="data.name"
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9|.|,| ]/g) === null"
       ></textarea>
       <mat-hint align="end">{{ input.value?.length || 0 }}/250</mat-hint>
     </mat-form-field>
