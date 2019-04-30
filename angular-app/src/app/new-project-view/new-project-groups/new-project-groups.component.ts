@@ -115,13 +115,13 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
                 this.newprojectservice.listOfSelectedGroups = this.groupsSelected;
                 this.newprojectservice.Toggle = 2;
             } else {
-                this.newprojectservice.saveProject();
+                // this.newprojectservice.saveProject();
                 this.navigationservice.GoBackRoute = ['/home'];
                 this.newprojectservice.ViewingNewProject = false;
                 this.router.navigate(['/projekt', '']);
             }
         } else {
-            alert('Minimumr en gruppe skal være tilknyttet et projekt');
+            alert('Minimum en gruppe skal være tilknyttet et projekt');
         }
 
     }

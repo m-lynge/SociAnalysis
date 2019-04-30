@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, AfterContentInit } from "@angu
 import { NewProjectService } from "src/app/new-project.service";
 import { Router } from '@angular/router';
 import { NavigationService } from 'src/app/navigation.service';
+import { DirectoryService } from 'src/app/directory.service';
 
 @Component({
   selector: 'app-new-project-description',
@@ -12,7 +13,11 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
 
   @Output() show: EventEmitter<number> = new EventEmitter();
 
-  constructor(public newprojectservice: NewProjectService, private router: Router, public navigationservice: NavigationService) { }
+  constructor(
+    public newprojectservice: NewProjectService,
+    private router: Router,
+    public navigationservice: NavigationService,
+    public directoryservice: DirectoryService) { }
 
   ngOnInit() { }
 
@@ -30,16 +35,13 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
     //It's a new project 
     if (this.newprojectservice.NewProject) {
       if (this.newprojectservice.name.length > 0 && this.newprojectservice.descr.length > 0) {
-      this.newprojectservice.Toggle = 1;
+        this.newprojectservice.Toggle = 1;
       } else {
         alert('Både navn og beskrivelse skal udfyldes');
       }
     } else {
       //It's an old project
-      this.newprojectservice.saveProject();
-      this.navigationservice.GoBackRoute = ['/home'];
-      this.newprojectservice.ViewingNewProject = false;
-      this.router.navigate(['/projekt', '']);
+      this.newprojectservice.copyProject();
     }
   }
 }

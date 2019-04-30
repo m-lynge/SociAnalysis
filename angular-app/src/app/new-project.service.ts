@@ -4,6 +4,9 @@ import { FBServiceService } from './fb-service.service';
 import { Project } from './Project';
 import { DirectoryService } from './directory.service';
 import { BehaviorSubject, observable, Subject } from 'rxjs';
+import { query } from '@angular/animations';
+import { NavigationService } from './navigation.service';
+import { Router } from '@angular/router';
 
 
 
@@ -26,7 +29,10 @@ export class NewProjectService {
 
   laterPushOfAllGroups: Subject<Group[]> = new Subject<Group[]>();
   laterPushOfSelectedGroups: Subject<Group[]> = new Subject<Group[]>();
-  constructor(private fbservice: FBServiceService, private directoryservice: DirectoryService) {
+  constructor(private fbservice: FBServiceService,
+    private directoryservice: DirectoryService,
+    private navigationservice: NavigationService,
+    private router: Router) {
   }
   public get Toggle(): number {
     return this.toggle;
@@ -136,7 +142,7 @@ export class NewProjectService {
 
 
 
-  public saveProject() {
+  public async copyProject() {
     // 1: create new project dir with new name
 
     if (this.directoryservice.selectedProject !== this.name) {
@@ -150,35 +156,38 @@ export class NewProjectService {
           ).done((handleData) => {
             this.directoryservice.createDirectory(
               this.directoryservice.selectedUser + '/' + this.name + '/query/').subscribe((queryfolderCreated) => {
+                console.log('querfoldercreatedresponse: ', queryfolderCreated)
                 if (queryfolderCreated) {
                   console.log('query folder was created: ', queryfolderCreated);
+                  console.log('finding queries in:', this.directoryservice.selectedUser, ' ', this.directoryservice.selectedProject)
                   this.directoryservice.getAllQueries(
                     this.directoryservice.selectedUser, this.directoryservice.selectedProject)
-                    .subscribe((allQueries) => {
+                    .subscribe(async (allQueries) => {
+                      console.log("TEST1");
                       if (allQueries) {
-                        allQueries.forEach((element: string) => {
+                        const promises = allQueries.map(async query => {
                           console.log('copying query from old to new folder');
-                          console.log('queryName: ', element);
-                          // move file to new folder
-                          this.directoryservice.copyQueryJSON(
-                            this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.name, element)
+                          console.log('queryName: ', query);
+                          return this.directoryservice.copyQueryJSON(
+                            this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.name, query)
+                        });
+
+                        return await Promise.all(promises).then(() => {
+                          this.directoryservice.removeProject(
+                            this.directoryservice.selectedUser, this.directoryservice.selectedProject)
                             .done(() => {
-                              console.log('copied query');
+                              console.log("TEST2");
+                              console.log('removed previous project');
+                              this.directoryservice.selectedProject = this.name;
+                              this.navigationservice.GoBackRoute = ['/home'];
+                              this.ViewingNewProject = false;
+                              this.router.navigate(['/projekt', '']);
                             });
                         });
-                        this.directoryservice.removeProject(
-                          this.directoryservice.selectedUser, this.directoryservice.selectedProject)
-                          .done(() => {
-                            console.log('removed previous project');
-                            this.directoryservice.selectedProject = this.name;
-
-                          });
-
                       }
                     });
                 }
               });
-
           });
           // 2: create new projectinfo.json with sleeted name, description, and groups selected
           // promiseFunction.then((bool) => {
