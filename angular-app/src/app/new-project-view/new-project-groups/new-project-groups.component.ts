@@ -115,6 +115,8 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
             this.newprojectservice.Toggle = 2;
         } else {
             this.newprojectservice.saveProject();
+            this.navigationservice.GoBackRoute = ['/home'];
+            this.newprojectservice.ViewingNewProject = false;
             this.router.navigate(['/projekt', '']);
         }
     }

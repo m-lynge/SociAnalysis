@@ -33,6 +33,8 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
     } else {
       //It's an old project
       this.newprojectservice.saveProject();
+      this.navigationservice.GoBackRoute = ['/home'];
+      this.newprojectservice.ViewingNewProject = false;
       this.router.navigate(['/projekt', '']);
     }
   }
