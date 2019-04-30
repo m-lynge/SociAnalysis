@@ -189,21 +189,22 @@ export class NewProjectService {
                 }
               });
           });
-          // 2: create new projectinfo.json with sleeted name, description, and groups selected
-          // promiseFunction.then((bool) => {
-          //   console.log('returned ', bool, ' from newproject service');
-          // });
         }
       });
     }
+  }
 
-
-
-    // 3: copy all queries from previous directory to new directory
-    // 4: delete previous directory
-    // Should take the project parameters and save(if new project) / overwrite (if already existing project)
-    // const tempProject = new Project(this.name, this.descr, this.listOfSelectedGroups);
-    // this.directoryservice.createProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject, tempProject);
+  public saveProject() {
+    this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject).then((project: Project) => {
+      const projectInstance = new Project(project.name, project.desc, this.listOfSelectedGroups);
+      this.directoryservice.createProjectInfoJSON(
+        this.directoryservice.selectedUser, project.name, projectInstance
+      ).done((handleData) => {
+        this.navigationservice.GoBackRoute = ['/home'];
+        this.ViewingNewProject = false;
+        this.router.navigate(['/projekt', '']);
+      })
+    })
   }
 
   public getGroupsFromAPI() {

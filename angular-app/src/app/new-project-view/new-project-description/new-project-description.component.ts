@@ -41,7 +41,10 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
       }
     } else {
       //It's an old project
-      this.newprojectservice.copyProject();
+      if (this.newprojectservice.listOfSelectedGroups.length > 0) {
+        this.newprojectservice.copyProject();
+      }
+
     }
   }
 }
