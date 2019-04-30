@@ -29,10 +29,16 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
   buttonClicked(): void {
     //It's a new project 
     if (this.newprojectservice.NewProject) {
+      if (this.newprojectservice.name.length > 0 && this.newprojectservice.descr.length > 0) {
       this.newprojectservice.Toggle = 1;
+      } else {
+        alert('Både navn og beskrivelse skal udfyldes');
+      }
     } else {
       //It's an old project
       this.newprojectservice.saveProject();
+      this.navigationservice.GoBackRoute = ['/home'];
+      this.newprojectservice.ViewingNewProject = false;
       this.router.navigate(['/projekt', '']);
     }
   }

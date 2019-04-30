@@ -46,7 +46,10 @@ export class NewProjectOverviewComponent implements OnInit, AfterContentInit {
       this.newprojectservice.name,
       this.newprojectservice.descr,
       this.newprojectservice.listOfSelectedGroups);
+    this.navigationservice.GoBackRoute = ['/home'];
+    this.newprojectservice.ViewingNewProject = false;
     this.directoryservice.createProjectDirectory(this.directoryservice.selectedUser, projectInfo);
+    this.directoryservice.selectedProject = projectInfo.name;
     this.router.navigate(['/projekt', this.newprojectservice.name]);
 
   }
