@@ -3,6 +3,8 @@ import { NewProjectService } from "src/app/new-project.service";
 import { FBServiceService } from 'src/app/fb-service.service';
 import { Project } from '../../Project';
 import { DirectoryService } from 'src/app/directory.service';
+import { Router } from '@angular/router';
+
 
 
 
@@ -18,7 +20,8 @@ export class NewProjectOverviewComponent implements OnInit {
   constructor(
     public newprojectservice: NewProjectService,
     private fbservice: FBServiceService,
-    private directoryservice: DirectoryService) { }
+    private directoryservice: DirectoryService,
+    private router: Router) { }
 
   ngOnInit() { }
 
@@ -32,5 +35,7 @@ export class NewProjectOverviewComponent implements OnInit {
       this.newprojectservice.descr,
       this.newprojectservice.listOfSelectedGroups);
     this.directoryservice.createProjectDirectory(this.directoryservice.selectedUser, projectInfo);
+    this.router.navigate(['/projekt']);
+
   }
 }
