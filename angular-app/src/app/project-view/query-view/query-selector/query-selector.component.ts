@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { DirectoryService } from 'src/app/directory.service';
+import { QueryService } from 'src/app/query.service';
 
 @Component({
   selector: 'app-query-selector',
@@ -7,13 +8,14 @@ import { DirectoryService } from 'src/app/directory.service';
   styleUrls: ['./query-selector.component.css']
 })
 export class QuerySelectorComponent implements OnInit, AfterContentInit {
-
+  querytest;
   retrievedQueryNames: string[];
   shownQueryNames: string[];
 
   searchTerm = '';
 
-  constructor(private directoryservice: DirectoryService) { }
+  constructor(private directoryservice: DirectoryService,
+              private queryservice: QueryService) { }
 
   ngOnInit() {
 
@@ -25,6 +27,7 @@ export class QuerySelectorComponent implements OnInit, AfterContentInit {
       .subscribe((queryArray) => {
         this.retrievedQueryNames = queryArray;
         this.shownQueryNames = this.retrievedQueryNames;
+        this.querytest = queryArray[0];
       });
   }
 
@@ -43,6 +46,7 @@ export class QuerySelectorComponent implements OnInit, AfterContentInit {
 
   newQuerySelected(querySelected: any): void {
     this.directoryservice.selectedQuery = querySelected;
+    this.queryservice.getSelectedQuery();
   }
 
 }
