@@ -167,7 +167,7 @@ directoryRoute.post('/getQueryJson', (req, res) => {
     let queryName = result.body.query;
 
     //   The JSON file being written is a query.json file
-    const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/' + queryName;
+    const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/' + queryName +'.json';
 
     returnQuery = fs.readFileSync(finalPath, 'utf8', (err, data) => {
         if (err) throw err;

@@ -142,30 +142,17 @@ export class DirectoryService {
         });
     }
 
-    async getQueryJSON(user: string, project: string, queryName: string) {
-        let returnValue: Query;
-        $.ajax({
-            url: this.uri + '/getQueryJson',
-            type: 'POST',
-            data: { user, project, queryName },
+    // public getQueryJSON(user: string, project: string, queryName: string) {
+    //     $.ajax({
+    //         url: this.uri + '/getQueryJson',
+    //         type: 'POST',
+    //         data: { user, project, queryName },
 
-            success: response => {
-                const newResponse = JSON.parse(response);
-                returnValue = new Query(newResponse.name,
-                    newResponse.params,
-                    newResponse.timeperiod,
-                    newResponse.groups,
-                    newResponse.filter,
-                    newResponse.fbData);
-            }
-        });
+    //         success: response => {
+    //         }
+    //     });
 
-        while (!returnValue) {
-            await this.wait(100);
-        }
-
-        return returnValue;
-    }
+    // }
 
     async wait(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
