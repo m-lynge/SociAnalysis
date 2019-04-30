@@ -12,6 +12,7 @@ import { Subject } from 'rxjs';
 export class QueryService {
   private selectedQuery: Query;
   private allPostsText: string;
+  hasQuerys = false;
   allPostsTextSubject: Subject<string> = new Subject<string>();
   selectedQuerySubject: Subject<Query> = new Subject<Query>();
 

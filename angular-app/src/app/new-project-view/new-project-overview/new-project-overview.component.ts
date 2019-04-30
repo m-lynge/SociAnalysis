@@ -5,6 +5,7 @@ import { Project } from '../../Project';
 import { DirectoryService } from 'src/app/directory.service';
 import { Router } from '@angular/router';
 import { NavigationService } from 'src/app/navigation.service';
+import { QueryService } from 'src/app/query.service';
 
 
 
@@ -23,7 +24,8 @@ export class NewProjectOverviewComponent implements OnInit, AfterContentInit {
     private fbservice: FBServiceService,
     private directoryservice: DirectoryService,
     private router: Router,
-    private navigationservice: NavigationService) { }
+    private navigationservice: NavigationService,
+    private queryservice: QueryService) { }
 
   ngOnInit() {
   }
@@ -42,6 +44,7 @@ export class NewProjectOverviewComponent implements OnInit, AfterContentInit {
   }
 
   createProject() {
+    this.queryservice.hasQuerys = false;
     const projectInfo = new Project(
       this.newprojectservice.name,
       this.newprojectservice.descr,
