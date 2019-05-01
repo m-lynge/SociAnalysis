@@ -137,7 +137,7 @@
             </div>
 
 
-            <button mat-raised-button color="primary" [disabled]="myForm.invalid" (click)="StartQuery()">SØG!</button>
+            <button mat-raised-button color="primary" [disabled]="myForm.invalid || !isValid" (click)="StartQuery()">SØG!</button>
 
         </form>
     </div>

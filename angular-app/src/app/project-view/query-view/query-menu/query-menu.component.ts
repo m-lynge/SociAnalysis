@@ -70,7 +70,11 @@ export class QueryMenuComponent implements AfterViewInit {
 
             // console.log(emptyArray);
 
-            const messages = new Angular5Csv(emptyArray, 'My Report');
+            const options = {
+                fieldSeparator: ';',
+                decimalseparator: ';'
+            };
+            const messages = new Angular5Csv( emptyArray, 'My Report', options );
         });
 
 

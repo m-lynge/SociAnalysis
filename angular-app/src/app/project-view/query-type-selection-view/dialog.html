@@ -1,10 +1,19 @@
 <div mat-dialog-content>
     <p>Hvad skal din søgning hedde?</p>
-    <mat-form-field>
-        <input matInput onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9]/g) === null" [(ngModel)]="data.name">
-    </mat-form-field>
+    <form [formGroup]="myForm">
+        <mat-form-field>
+            <input matInput
+                    formControlName="name"
+                   [(ngModel)]="data.name">
+
+            <mat-error *ngIf="name.invalid || (name.dirty && name.touched)">
+                Kun bostaver og tal tilladt!
+            </mat-error>
+        </mat-form-field>
+
+    </form>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Tilbage</button>
-    <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Ok!</button>
+    <button mat-button [disabled]="myForm.invalid" [mat-dialog-close]="data.name" cdkFocusInitial>Ok!</button>
 </div>
