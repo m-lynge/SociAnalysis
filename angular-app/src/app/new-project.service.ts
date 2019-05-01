@@ -163,20 +163,18 @@ export class NewProjectService {
                   this.directoryservice.getAllQueries(
                     this.directoryservice.selectedUser, this.directoryservice.selectedProject)
                     .subscribe(async (allQueries) => {
-                      console.log("TEST1");
                       if (allQueries) {
                         const promises = allQueries.map(async query => {
                           console.log('copying query from old to new folder');
                           console.log('queryName: ', query);
                           return this.directoryservice.copyQueryJSON(
-                            this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.name, query)
+                            this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.name, query);
                         });
 
                         return await Promise.all(promises).then(() => {
                           this.directoryservice.removeProject(
                             this.directoryservice.selectedUser, this.directoryservice.selectedProject)
                             .done(() => {
-                              console.log("TEST2");
                               console.log('removed previous project');
                               this.directoryservice.selectedProject = this.name;
                               this.navigationservice.GoBackRoute = ['/home'];
@@ -195,16 +193,18 @@ export class NewProjectService {
   }
 
   public saveProject() {
-    this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject).then((project: Project) => {
-      const projectInstance = new Project(project.name, project.desc, this.listOfSelectedGroups);
-      this.directoryservice.createProjectInfoJSON(
-        this.directoryservice.selectedUser, project.name, projectInstance
-      ).done((handleData) => {
-        this.navigationservice.GoBackRoute = ['/home'];
-        this.ViewingNewProject = false;
-        this.router.navigate(['/projekt', '']);
-      })
-    })
+    this.directoryservice.getProjectInfoJSON(
+      this.directoryservice.selectedUser, this.directoryservice.selectedProject)
+      .then((project: Project) => {
+        const projectInstance = new Project(project.name, project.desc, this.listOfSelectedGroups);
+        this.directoryservice.createProjectInfoJSON(
+          this.directoryservice.selectedUser, project.name, projectInstance
+        ).done((handleData) => {
+          this.navigationservice.GoBackRoute = ['/home'];
+          this.ViewingNewProject = false;
+          this.router.navigate(['/projekt', '']);
+        });
+      });
   }
 
   public getGroupsFromAPI() {
