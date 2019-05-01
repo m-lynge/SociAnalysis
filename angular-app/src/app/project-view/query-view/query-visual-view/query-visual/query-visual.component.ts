@@ -31,40 +31,46 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
   private statsArray: any;
   private sortedStatsArray;
   private simulation;
-  private stopwords = ['ad','af','aldrig','alle','alt','anden','andet',
-  'andre','at','bare','begge','blev','blive','bliver','da','de','dem',
-  'den','denne','der','deres','det','dette','dig','din','dine','disse',
-  'dit','dog','du','efter','ej','eller','en','end','ene','eneste','enhver',
-  'er','et','far','fem','fik','fire','flere','fleste','for','fordi',
-  'forrige','fra','få','får','før','god','godt','ham','han','hans','har',
-  'havde','have','hej','helt','hende','hendes','her','hos','hun','hvad',
-  'hvem','hver','hvilken','hvis','hvor','hvordan','hvorfor','hvornår','i',
-  'ikke','ind','ingen','intet','ja','jeg','jer','jeres','jo','kan','kom',
-  'komme','kommer','kun','kunne','lad','lav','lidt','lige','lille','man',
-  'mand','mange','med','meget','men','mens','mere','mig','min','mine','mit',
-  'mod','må','ned','nej','ni','nogen','noget','nogle','nu','ny','nyt','når',
-  'nær','næste','næsten','og','også','okay','om','op','os','otte','over','på',
-  'se','seks','selv','ser','ses','sig','sige','sin','sine','sit','skal','skulle',
-  'som','stor','store','syv','så','sådan','tag','tage','thi','ti','til','to','tre',
-  'ud','under','var','ved','vi','vil','ville','vor','vores','være','været','alene',
-  'allerede','alligevel','altid','bag','blandt','burde','bør','dens','derefter','derfor',
-  'derfra','deri','dermed','derpå','derved','egen','ellers','endnu','ens','enten','flest',
-  'foran','først','gennem','gjorde','gjort','gør','gøre','gørende','hel','heller','hen',
-  'henover','herefter','heri','hermed','herpå','hvilke','hvilkes','hvorefter','hvorfra',
-  'hvorhen','hvori','hvorimod','hvorved','igen','igennem','imellem','imens','imod','indtil',
-  'langs','lave','lavet','ligesom','længere','mellem','mest','mindre','mindst','måske','nemlig',
-  'nogensinde','nok','omkring','overalt','samme','sammen','selvom','senere','siden','stadig',
-  'synes','syntes','således','temmelig','tidligere','tilbage','tit','uden','udover',
-  'undtagen','via','vore','vær','øvrigt'];
+  private stopwords = ['ad', 'af', 'aldrig', 'alle', 'alt', 'anden', 'andet',
+    'andre', 'at', 'bare', 'begge', 'blev', 'blive', 'bliver', 'da', 'de', 'dem',
+    'den', 'denne', 'der', 'deres', 'det', 'dette', 'dig', 'din', 'dine', 'disse',
+    'dit', 'dog', 'du', 'efter', 'ej', 'eller', 'en', 'end', 'ene', 'eneste', 'enhver',
+    'er', 'et', 'far', 'fem', 'fik', 'fire', 'flere', 'fleste', 'for', 'fordi',
+    'forrige', 'fra', 'få', 'får', 'før', 'god', 'godt', 'ham', 'han', 'hans', 'har',
+    'havde', 'have', 'hej', 'helt', 'hende', 'hendes', 'her', 'hos', 'hun', 'hvad',
+    'hvem', 'hver', 'hvilken', 'hvis', 'hvor', 'hvordan', 'hvorfor', 'hvornår', 'i',
+    'ikke', 'ind', 'ingen', 'intet', 'ja', 'jeg', 'jer', 'jeres', 'jo', 'kan', 'kom',
+    'komme', 'kommer', 'kun', 'kunne', 'lad', 'lav', 'lidt', 'lige', 'lille', 'man',
+    'mand', 'mange', 'med', 'meget', 'men', 'mens', 'mere', 'mig', 'min', 'mine', 'mit',
+    'mod', 'må', 'ned', 'nej', 'ni', 'nogen', 'noget', 'nogle', 'nu', 'ny', 'nyt', 'når',
+    'nær', 'næste', 'næsten', 'og', 'også', 'okay', 'om', 'op', 'os', 'otte', 'over', 'på',
+    'se', 'seks', 'selv', 'ser', 'ses', 'sig', 'sige', 'sin', 'sine', 'sit', 'skal', 'skulle',
+    'som', 'stor', 'store', 'syv', 'så', 'sådan', 'tag', 'tage', 'thi', 'ti', 'til', 'to', 'tre',
+    'ud', 'under', 'var', 'ved', 'vi', 'vil', 'ville', 'vor', 'vores', 'være', 'været', 'alene',
+    'allerede', 'alligevel', 'altid', 'bag', 'blandt', 'burde', 'bør', 'dens', 'derefter', 'derfor',
+    'derfra', 'deri', 'dermed', 'derpå', 'derved', 'egen', 'ellers', 'endnu', 'ens', 'enten', 'flest',
+    'foran', 'først', 'gennem', 'gjorde', 'gjort', 'gør', 'gøre', 'gørende', 'hel', 'heller', 'hen',
+    'henover', 'herefter', 'heri', 'hermed', 'herpå', 'hvilke', 'hvilkes', 'hvorefter', 'hvorfra',
+    'hvorhen', 'hvori', 'hvorimod', 'hvorved', 'igen', 'igennem', 'imellem', 'imens', 'imod', 'indtil',
+    'langs', 'lave', 'lavet', 'ligesom', 'længere', 'mellem', 'mest', 'mindre', 'mindst', 'måske', 'nemlig',
+    'nogensinde', 'nok', 'omkring', 'overalt', 'samme', 'sammen', 'selvom', 'senere', 'siden', 'stadig',
+    'synes', 'syntes', 'således', 'temmelig', 'tidligere', 'tilbage', 'tit', 'uden', 'udover',
+    'undtagen', 'via', 'vore', 'vær', 'øvrigt'];
   constructor(private navigationservice: NavigationService, private queryservice: QueryService) {
     this.navigationservice.setNavi = true;
     this.height = 500;
     this.width = 500;
 
     this.queryservice.allPostsTextSubject.subscribe((text) => {
-      this.countWords(text);
-      this.Init();
-      this.DrawCirles();
+      if (this.svg) {
+        console.log('deleting svg');
+        this.svg.selectAll('*').remove();
+        }
+      if (text) {
+        this.countWords(text);
+        this.Init();
+        this.DrawCirles();
+      }
     });
 
   }
@@ -130,7 +136,7 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
   }
 
   private countWords(text: string) {
-    this.textOccurrences = new Occurences(text, {ignored: this.stopwords});
+    this.textOccurrences = new Occurences(text, { ignored: this.stopwords });
     this.statsArray = Object.keys(this.textOccurrences.stats).map(key => {
       return { word: key, number: this.textOccurrences.stats[key] };
     });
