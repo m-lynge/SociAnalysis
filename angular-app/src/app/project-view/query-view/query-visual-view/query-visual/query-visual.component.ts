@@ -62,9 +62,15 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
     this.width = 500;
 
     this.queryservice.allPostsTextSubject.subscribe((text) => {
-      this.countWords(text);
-      this.Init();
-      this.DrawCirles();
+      if (this.svg) {
+        console.log('deleting svg');
+        this.svg.selectAll('*').remove();
+        }
+      if (text) {
+        this.countWords(text);
+        this.Init();
+        this.DrawCirles();
+      }
     });
 
   }
@@ -130,7 +136,7 @@ export class QueryVisualComponent implements OnInit, AfterContentInit {
   }
 
   private countWords(text: string) {
-    this.textOccurrences = new Occurences(text, {ignored: this.stopwords});
+    this.textOccurrences = new Occurences(text, { ignored: this.stopwords });
     this.statsArray = Object.keys(this.textOccurrences.stats).map(key => {
       return { word: key, number: this.textOccurrences.stats[key] };
     });
