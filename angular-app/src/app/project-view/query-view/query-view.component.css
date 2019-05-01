@@ -1,10 +1,10 @@
 .query-selector {
     display: table-cell;
-    padding: 20px;
+   
 }
 .query-menu {
     display: table-cell;
-    padding: 20px;
+   
 }
 .query-selector-container {
     display: table;
@@ -13,4 +13,19 @@
 .query-menu-container{
     display: table;
     width: 20%;
+}
+#gridContainer{
+    float: right;
+    width: 70%;
+    padding: 20px;
+}
+.wrapper{
+    width: 100%;
+    height: 100%;
+}
+.queryWrapper{
+    display:inline-block;
+    float: left;
+    padding: 20px;
+
 }

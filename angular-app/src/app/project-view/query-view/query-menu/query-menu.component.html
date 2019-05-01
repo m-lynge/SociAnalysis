@@ -3,30 +3,36 @@
 
 
 <div class="menuItems">
-  <table class="table">
-    <tr (click) = 'newQuery()' class="clickable-row" >
-      <th>
-        <div class="icon"></div>
-      </th>
-      <th class="tableHorizontal">
-        <p class="text">Ny forespørgsel</p>
-      </th>
-    </tr>
-    <tr class="clickable-row" (click)="updateQuery()" *ngIf='this.queryservice.hasQuerys'>
-      <th class="icons">
-        <div class="icon"></div>
-      </th>
-      <th class="tableHorizontal">
-        <p class="text">Opdater forespørgsel</p>
-      </th>
-    </tr>
-    <tr class="clickable-row" (click)="exportQuery()" *ngIf='this.queryservice.hasQuerys'>
-      <th>
-        <div class="icon"></div>
-      </th>
-      <th class="tableHorizontal">
-        <p class="text">Eksporter forespørgsel</p>
-      </th>
-    </tr>
-  </table>
+    <table class="table">
+        <tr (click)='newQuery()' class="clickable-row">
+            <th>
+                <div class="icon">
+                    <img class="logo" src="assets/logos/Logos-01.svg">
+                </div>
+            </th>
+            <th class="tableHorizontal">
+                <p class="text">Ny forespørgsel</p>
+            </th>
+        </tr>
+        <tr class="clickable-row" (click)="updateQuery()" *ngIf='this.queryservice.hasQuerys'>
+            <th class="icons">
+                <div class="icon">
+                    <img class="logo" src="assets/logos/Logos-02.svg">
+                </div>
+            </th>
+            <th class="tableHorizontal">
+                <p class="text">Opdater forespørgsel</p>
+            </th>
+        </tr>
+        <tr class="clickable-row" (click)="exportQuery()" *ngIf='this.queryservice.hasQuerys'>
+            <th>
+                <div class="icon">
+                    <img class="logo" src="assets/logos/Logos-03.svg">
+                </div>
+            </th>
+            <th class="tableHorizontal">
+                <p class="text">Eksporter forespørgsel</p>
+            </th>
+        </tr>
+    </table>
 </div>

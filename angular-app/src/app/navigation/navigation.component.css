@@ -9,8 +9,19 @@
   position: -webkit-sticky;
   z-index: 3000;
   width: 100%;
+  height: 85px;
+}
+.logo{
+  height: 80%;
+}
+.personName{
+  font-size: 15px;
 }
 .addMargin{
   /* height: 9vh; */
 }
+.optOutContainter{
+  text-align: center;
+}
+
 

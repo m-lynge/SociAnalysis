@@ -1,9 +1,22 @@
 <!--<app-project-navigation></app-project-navigation>-->
-<div class="query-selector-container" *ngIf='this.queryservice.hasQuerys'>
-    <app-query-selector class="query-selector"></app-query-selector>
-</div>
+<div class="wrapper">
+    <div class="queryWrapper">
+        <div class="query-selector-container" *ngIf='this.queryservice.hasQuerys'>
+            <app-query-selector class="query-selector"></app-query-selector>
+        </div>
 
-
-<div class="query-menu-container">
-    <app-query-menu class="query-menu"></app-query-menu>
+        <div class="query-menu-container">
+            <app-query-menu class="query-menu"></app-query-menu>
+        </div>
+    </div>
+    <div *ngIf='this.queryservice.hasQuerys' id="gridContainer">
+        <mat-grid-list cols="2">
+            <mat-grid-tile>
+                <app-query-parameters></app-query-parameters>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <app-query-visual-view></app-query-visual-view>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
 </div>

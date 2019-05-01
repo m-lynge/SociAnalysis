@@ -1,17 +1,20 @@
 <!-- NAME -->
 <div class="navigator">
   <div class="container">
-    <div class="projectName">{{this.directoryservice.selectedProject}}</div>
+    <div class="projectName">
+     <p class="projectTxt"> Projekt: </p>
+      {{this.directoryservice.selectedProject}}
+    </div>
     <div class="icon-container">
       <form>
         <div class="icon">
-          <input type="submit" value="" name="" (click)='editProject(0)'>
+          <img src="assets/logos/description.svg" (click)='editProject(0)'>
         </div>
         <div class="icon">
-          <input type="submit" value="" name="" (click)='editProject(1)'>
+          <img src="assets/logos/groups.svg" (click)='editProject(1)'>
         </div>
         <div class="icon">
-          <input type="submit" value="" name="" (click)='editProject(2)'>
+          <img src="assets/logos/overview.svg" (click)='editProject(2)'>
         </div>
       </form>
     </div>
