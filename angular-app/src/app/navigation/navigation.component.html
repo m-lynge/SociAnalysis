@@ -1,7 +1,9 @@
 <mat-toolbar color="primary" class="navigationBar">
-     <button mat-raised-button color="accent" (click)="goBack()">Gå tilbage</button>
+    <button mat-raised-button color="accent" (click)="goBack()">Gå tilbage</button>
 
-
+    <div class="mainLogo">
+        <img (click)="routeToHome()" src="assets/logos/name.svg ">
+    </div>
     <span class="example-fill-remaining-space"></span>
     <div class="optOutContainter">
         <div class="personName">{{name}}</div>

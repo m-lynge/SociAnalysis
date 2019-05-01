@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { FBServiceService } from "../../fb-service.service";
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material";
-import { NewQuery } from "../../NewQuery";
-import { DirectoryService } from "../../directory.service";
-import { Project } from "../../Project";
-import { Group } from "../../Group";
-import { Query } from "../../Query";
-import { Router } from "@angular/router";
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {FBServiceService} from "../../fb-service.service";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
+import {NewQuery} from "../../NewQuery";
+import {DirectoryService} from "../../directory.service";
+import {Project} from "../../Project";
+import {Group} from "../../Group";
+import {Query} from "../../Query";
+import {Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 export interface name {
     name: string;
@@ -130,12 +131,29 @@ export class QueryTypeSelectionViewComponent implements OnInit {
     selector: 'app-dialog-overview-example-dialog',
     templateUrl: 'dialog.html',
 })
-export class DialogOverviewExampleDialogComponent {
+export class DialogOverviewExampleDialogComponent implements OnInit {
+
+    myForm: FormGroup;
 
     constructor(
         public dialogRef: MatDialogRef<DialogOverviewExampleDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: name) {
+        @Inject(MAT_DIALOG_DATA) public data: name, private formBuilder: FormBuilder) {
     }
+
+
+    ngOnInit(): void {
+        this.myForm = this.formBuilder.group({
+            name: ['', [
+                Validators.required,
+                Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚÆØÅæøå ]+$')
+            ]]
+        });
+    }
+
+    get name() {
+        return this.myForm.get('name');
+    }
+
 
     onNoClick(): void {
         this.dialogRef.close();

@@ -35,7 +35,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
 
 
     queryName: string;
-
+    isValid = false;
     showLoading: boolean;
 
     postsCheck = new FormControl(false);
@@ -74,7 +74,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                 Validators.required,
                 Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚÆØÅæøå ]+$')
             ]],
-            useDate: [false, []]
+            useDate: [false, []],
         });
 
         this.myForm.valueChanges.subscribe(console.log);
@@ -88,15 +88,27 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
         return this.myForm.get('useDate');
     }
 
+    get hasGroup() {
+        return this.myForm.get('hasGroup');
+    }
+
 
     addToSelected(i: number) {
+        console.log(this.hasGroup);
         this.groupsSelected.push(this.groupsAvailable[i]);
         this.groupsAvailable.splice(i, 1);
+        this.isValid = true;
+        console.log(this.hasGroup);
     }
 
     addToAvailable(i: number) {
         this.groupsAvailable.push(this.groupsSelected[i]);
         this.groupsSelected.splice(i, 1);
+
+        if (this.groupsSelected.length <= 0) {
+            this.isValid = false;
+        }
+
     }
 
     add(event: MatChipInputEvent): void {
