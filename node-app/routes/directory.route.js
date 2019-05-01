@@ -78,7 +78,7 @@ directoryRoute.route('/getQuery/:user/:project/:query').get(function (req, res) 
 // checks if directory given already exists, returns true or false
 directoryRoute.route('/dirExists/:path').get(function (req, res) {
     const finalPath = './users/' + req.params.path;
-    if (fs.existsSync(finalPath)) {
+    if (fs.existsSync(finalPath) === true) {
         res.jsonp(true)
     } else {
         res.jsonp(false)
@@ -87,9 +87,22 @@ directoryRoute.route('/dirExists/:path').get(function (req, res) {
 // checks if directory given already exists, returns true or false
 directoryRoute.route('/dirExists/:user/:project').get(function (req, res) {
     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
-    if (fs.existsSync(finalPath)) {
+    if (fs.existsSync(finalPath) === true) {
         res.jsonp(true)
     } else {
+        res.jsonp(false)
+    }
+})
+// checks if directory given already exists, returns true or false
+directoryRoute.route('/dirExists/:user/:project/:query').get(function (req, res) {
+    const finalPath = './users/' + req.params.user + '/' + req.params.project + '/' + 'query/' + req.params.query + '/';
+    console.log('checking if query:' + req.params.query + ' already exists')
+    console.log('in the following path: ', finalPath);
+    if (fs.existsSync(finalPath) === true) {
+        console.log('query true')
+        res.jsonp(true)
+    } else {
+        console.log('query false')
         res.jsonp(false)
     }
 })

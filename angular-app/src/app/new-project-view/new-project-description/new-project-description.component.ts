@@ -32,19 +32,25 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
   }
 
   buttonClicked(): void {
-    //It's a new project 
-    if (this.newprojectservice.NewProject) {
-      if (this.newprojectservice.name.length > 0 && this.newprojectservice.descr.length > 0) {
-        this.newprojectservice.Toggle = 1;
-      } else {
-        alert('Både navn og beskrivelse skal udfyldes');
-      }
-    } else {
-      //It's an old project
-      if (this.newprojectservice.listOfSelectedGroups.length > 0) {
-        this.newprojectservice.copyProject();
-      }
+    this.directoryservice.projectExists(this.directoryservice.selectedUser, this.newprojectservice.name).subscribe((projectExists) => {
+      if (projectExists !== true) {
+        //It's a new project 
+        if (this.newprojectservice.NewProject) {
+          if (this.newprojectservice.name.length > 0 && this.newprojectservice.descr.length > 0) {
+            this.newprojectservice.Toggle = 1;
+          } else {
+            alert('Både navn og beskrivelse skal udfyldes');
+          }
+        } else {
+          //It's an old project
+          if (this.newprojectservice.listOfSelectedGroups.length > 0) {
+            this.newprojectservice.copyProject();
+          }
 
-    }
+        }
+      } else {
+        alert('Et projekt med denne titel er allerede eksisterende');
+      }
+    });
   }
 }
