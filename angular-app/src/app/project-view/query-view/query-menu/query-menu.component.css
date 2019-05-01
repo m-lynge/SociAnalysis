@@ -2,7 +2,6 @@
     margin-right: 10px;
     height: 50px;
     width: 50px;
-    background-color: #555;
     display: table-cell;
     border-spacing: 10px;
     /* padding-left: 20px */
@@ -28,4 +27,7 @@
 
 .clickable-row{
     cursor: pointer;
+}
+.logo{
+    height: 100%;
 }
