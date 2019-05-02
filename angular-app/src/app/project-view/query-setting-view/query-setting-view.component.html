@@ -6,11 +6,7 @@
 
         <form [formGroup]="myForm" class="example-form">
             <mat-form-field class="example-full-width">
-                <input matInput
-                       [(ngModel)]="queryName"
-                       formControlName="name"
-                       placeholder="Søge Navn"
-                       value="">
+                <input matInput [(ngModel)]="queryName" formControlName="name" placeholder="Søge Navn" value="">
 
 
                 <mat-hint>Navn på din forspørgsel</mat-hint>
@@ -51,7 +47,7 @@
                     <h3 class="header">Periode</h3>
                     <mat-form-field class="matFormDate">
                         <input [disabled]="!useDate.value" matInput [matDatepicker]="picker1" placeholder="Fra"
-                               [formControl]="beginDate">
+                            [formControl]="beginDate">
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1></mat-datepicker>
                         <mat-hint>Fra dato</mat-hint>
@@ -59,7 +55,7 @@
 
                     <mat-form-field class="matFormDate">
                         <input matInput [disabled]="!useDate.value" [matDatepicker]="picker2" placeholder="Til"
-                               [formControl]="endDate">
+                            [formControl]="endDate">
                         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                         <mat-datepicker #picker2></mat-datepicker>
                         <mat-hint>Til dato</mat-hint>
@@ -72,7 +68,7 @@
 
                     <mat-form-field style="width: 100%">
                         <input matInput placholder="Max" type="number" [formControl]="maxInput" placeholder="Max"
-                               id="myNumber"/>
+                            id="myNumber" />
                         <mat-hint>Antallet af opslag du henter</mat-hint>
 
                         <!-- <input matInput placeholder="Max" value=" "> -->
@@ -83,14 +79,13 @@
                     <mat-form-field class="example-chip-list">
                         <mat-chip-list #chipList>
                             <mat-chip *ngFor="let tag of searchTags" [selectable]="selectable" [removable]="removable"
-                                      (removed)="remove(tag)">
+                                (removed)="remove(tag)">
                                 {{tag.tag}}
                                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                             </mat-chip>
                             <input placeholder="Søge Tags... " [matChipInputFor]="chipList"
-                                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                   [matChipInputAddOnBlur]="addOnBlur"
-                                   (matChipInputTokenEnd)="add($event)">
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                                (matChipInputTokenEnd)="add($event)">
                         </mat-chip-list>
 
                         <mat-hint>Søge ord der bliver filtreret efter</mat-hint>
@@ -105,8 +100,7 @@
                 <div class="halfWidth noGrid">
                     <div class="cardContainer">
                         <mat-card class="mat-card-content notSelected"
-                                  *ngFor="let group of groupsAvailable; let i = index"
-                                  (click)="addToSelected(i)">
+                            *ngFor="let group of groupsAvailable; let i = index" (click)="addToSelected(i)">
                             <div style="">
                                 <div style="display: block">
                                     {{group.name}}
@@ -122,7 +116,7 @@
                 <div class="halfWidth noGrid">
                     <div class="cardContainer">
                         <mat-card class="mat-card-content selected" *ngFor="let group of groupsSelected;  let i = index"
-                                  (click)="addToAvailable(i)">
+                            (click)="addToAvailable(i)">
                             <div style="">
                                 <div style="display: block">
                                     {{group.name}}
@@ -137,7 +131,8 @@
             </div>
 
 
-            <button mat-raised-button color="primary" [disabled]="myForm.invalid || !isValid" (click)="StartQuery()">SØG!</button>
+            <button mat-raised-button color="primary" [disabled]="myForm.invalid || !isValid"
+                (click)="StartQuery()">SØG!</button>
 
         </form>
     </div>

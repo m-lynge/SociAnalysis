@@ -43,13 +43,12 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
           }
         } else {
           //It's an old project
-          if (this.newprojectservice.listOfSelectedGroups.length > 0) {
+          if (this.newprojectservice.name.length > 0 && this.newprojectservice.descr.length > 0) {
             this.newprojectservice.copyProject();
           }
-
         }
       } else {
-        alert('Et projekt med denne titel er allerede eksisterende');
+        alert('Et projekt med denne titel eksisterer allerede');
       }
     });
   }
