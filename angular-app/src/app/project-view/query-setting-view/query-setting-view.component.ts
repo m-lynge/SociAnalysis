@@ -114,14 +114,34 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
     add(event: MatChipInputEvent): void {
         const input = event.input;
         const value = event.value;
-
-        if ((value || '').trim()) {
-            this.searchTags.push({ tag: value.trim() });
+        let temp: SearchTag = { tag: value.trim() };
+        console.log('checking input tag')
+        let alreadyExist: boolean = false;
+        if (this.searchTags) {
+            this.searchTags.forEach((previousTag) => {
+                if (previousTag.tag.toLowerCase() === value.trim().toLowerCase()) {
+                    console.log('tag already exists');
+                    alreadyExist = true;
+                }
+            });
         }
 
-        if (input) {
-            input.value = '';
+        if (alreadyExist === false) {
+            console.log('tag inputted ', temp, 'is not present in previous tags:', this.searchTags);
+            if ((value || '').trim()) {
+                this.searchTags.push({ tag: value.trim() });
+            }
+
+            if (input) {
+                input.value = '';
+            }
+        } else {
+            console.log('tag inputted ', temp, 'is present in previous tags:', this.searchTags);
+            if (input) {
+                input.value = '';
+            }
         }
+
     }
 
     remove(tag: SearchTag): void {
