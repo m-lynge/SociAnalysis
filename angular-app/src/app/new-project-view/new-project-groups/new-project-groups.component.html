@@ -4,8 +4,8 @@
 
     <div class="divContainer" id="leftBox">
       <div>
-        <h1>Tilgængelige grupper</h1>
-        <h4>Disse grupper er tilgængelige</h4>
+        <h4>Tilgængelige grupper</h4>
+        <h6>Disse grupper er tilgængelige</h6>
         <mat-form-field>
           <input name="GroupSearcher" value="" (ngModelChange)="findMatchingGroups()" [(ngModel)]="searchTerm" matInput
             placeholder="Søg i grupper">
@@ -14,12 +14,12 @@
 
       <hr />
       <div class="groupContainer">
-        <mat-card  *ngFor="let group of groupsShown; let i = index" (click)="addToSelected(i)">
+        <mat-card *ngFor="let group of groupsShown; let i = index" (click)="addToSelected(i)">
           <div class="card">
             <span class="content">
-              <div style="display: block" style="color:aliceblue">
+              <div style="display: block" style="color:aliceblue" class="gTitle">
                 {{ group.name }}
-                <div style="color:white">
+                <div style="color:black" class="gDesc">
                   {{ group.desc }}
                 </div>
               </div>
@@ -33,20 +33,19 @@
 
     <div class="divContainer" id="rightBox">
       <div id="headRight">
-        <h1>Valgte grupper</h1>
-        <h4>Disse grupper har du valgt</h4>
+        <h4>Valgte grupper</h4>
+        <h6>Disse grupper har du valgt</h6>
       </div>
 
       <hr />
 
       <div class="groupContainer">
-        <mat-card  *ngFor="let group of groupsSelected; let i = index"
-          (click)="addToAvailable(i)">
+        <mat-card *ngFor="let group of groupsSelected; let i = index" (click)="addToAvailable(i)" color="primary">
           <span class="card">
             <div class="content">
-              <div style="display: block" style="color:aliceblue">
+              <div style="display: block" style="color:aliceblue" class="gTitle">
                 {{ group.name }}
-                <div style="color:white">
+                <div style="color:black" class="gDesc">
                   {{ group.desc }}
                 </div>
               </div>
@@ -60,7 +59,8 @@
     </div>
     <div class="vLine"></div>
     <div class=buttonContainer>
-      <input type="submit" value="{{this.newprojectservice.nextButton}}" id="confirmBttn" name="" (click)="showNext()" />
+      <button mat-raised-button type="submit" color="accent" value="{{this.newprojectservice.nextButton}}" id="confirmBttn" name=""
+        (click)="showNext()">Videre</button>
     </div>
   </form>
 </div>
