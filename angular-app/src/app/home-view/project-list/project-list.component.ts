@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { DirectoryService } from 'src/app/directory.service';
 import { Project } from '../../Project';
 import { Router } from '@angular/router';
 import { NewProjectService } from 'src/app/new-project.service';
+import { DOCUMENT } from '@angular/common';
 
 
 @Component({
@@ -20,7 +21,12 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
     private newprojectservice: NewProjectService
   ) {
     this.noProjects = true;
+
   }
+
+  @ViewChildren('list')
+  myDivs: ElementRef[];
+
   ngAfterViewInit(): void {
     // This line makes it run on test-data:
     // this.directoryservice.selectedUser = '01';
@@ -63,5 +69,10 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
         }
       }
     });
+  }
+
+  test() {
+    console.log('offfff')
+    $("#list").off();
   }
 }
