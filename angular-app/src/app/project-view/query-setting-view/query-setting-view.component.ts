@@ -140,10 +140,12 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                     const hasConfirmed = confirm('Ved at acceptere følgende sletter du en tidligere søgning med samme navn')
                     if (hasConfirmed === true) {
                         this.showLoading = true;
+                        this.directoryservice.selectedQuery = this.queryName + '.json';
                         this.SaveQuery();
                     }
                 } else {
                     this.showLoading = true;
+                    this.directoryservice.selectedQuery = this.queryName + '.json';
                     this.SaveQuery();
                 }
             });

@@ -66,11 +66,13 @@ export class QueryTypeSelectionViewComponent implements OnInit {
                             const hasConfirmed = confirm('Ved at acceptere følgende sletter du en tidligere søgning med samme navn')
                             if (hasConfirmed === true) {
                                 this.isLoading = true;
+                                this.directoryservice.selectedQuery = this.name + '.json';
                                 this.saveQuery(exportQuery);
                             }
                         } else {
                             this.isLoading = true;
                             this.saveQuery(exportQuery);
+                            this.directoryservice.selectedQuery = this.name + '.json';
                         }
                     });
 

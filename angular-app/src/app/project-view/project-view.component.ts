@@ -23,7 +23,7 @@ export class ProjectViewComponent implements OnInit, AfterViewInit {
 
         if (this.route.snapshot.paramMap.get('queryName')) {
             const qname = this.route.snapshot.paramMap.get('queryName');
-            this.directoryservice.selectedQuery = qname;
+            // this.directoryservice.selectedQuery = qname;
         }
 
     }

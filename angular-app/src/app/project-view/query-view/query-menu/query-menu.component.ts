@@ -28,12 +28,16 @@ export class QueryMenuComponent implements AfterViewInit {
             .subscribe((queryArray) => {
 
                 if (queryArray && queryArray[0]) {
-                    console.log(queryArray[0]);
-                    this.directoryservice.selectedQuery = queryArray[0];
+                    console.log('selected query: ', this.directoryservice.selectedQuery);
+                    if (!this.directoryservice.selectedQuery) {
+                        console.log('if selected user not');
+                        this.directoryservice.selectedQuery = queryArray[0];
+                    }
+
                     this.queryservice.getSelectedQuery();
                     this.queryservice.hasQuerys = true;
                 } else {
-                    console.log("Query-menu: No query Array!");
+                    console.log('Query-menu: No query Array!');
                     this.queryservice.hasQuerys = false;
 
                 }
@@ -43,7 +47,7 @@ export class QueryMenuComponent implements AfterViewInit {
     }
 
     newQuery() {
-        this.navigationservice.GoBackRoute = ['/projekt', '']
+        this.navigationservice.GoBackRoute = ['/projekt', ''];
         this.router.navigate(['/project_ny_soegning']);
         // routerLink = "/project_ny_soegning"
     }
