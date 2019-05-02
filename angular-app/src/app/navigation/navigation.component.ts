@@ -48,10 +48,11 @@ export class NavigationComponent implements OnInit, AfterViewInit {
       this.router.navigate(this.navigationservice.GoBackRoute);
     }
 
-
-
-
     // this.location.back();
+  }
+
+  routeToHome() {
+    this.router.navigate(['/home']);
   }
 
   logoutOfFacebook() {

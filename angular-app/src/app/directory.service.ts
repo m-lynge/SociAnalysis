@@ -77,10 +77,15 @@ export class DirectoryService {
         return this.directoryExists(user);
     }
 
-    public projectExists(user: string, project: Project) {
-        const path = user + '/' + project.name;
+    public projectExists(user: string, project: string) {
+        const path = user + '/' + project;
         return this.directoryExists(path);
     }
+    public queryExists(user: string, project: string, query: string) {
+        const path = user + '/' + project + '/' + query;
+        return this.directoryExists(path);
+    }
+
 
     private directoryExists(path: string) {
         return this
@@ -191,7 +196,7 @@ export class DirectoryService {
                 returnValue = newResponse;
             },
             error: response => {
-              //  console.log(response);
+                //  console.log(response);
             }
         });
 

@@ -1,14 +1,14 @@
-import {AfterContentInit, Component, OnInit} from '@angular/core';
-import {MatChipInputEvent} from '@angular/material/chips';
-import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
-import {Group} from '../../Group';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {DirectoryService} from 'src/app/directory.service';
-import {FBServiceService} from 'src/app/fb-service.service';
-import {Query} from "../../Query";
-import {Project} from '../../Project';
-import {NewQuery} from 'src/app/NewQuery';
-import {Router} from "@angular/router";
+import { AfterContentInit, Component, OnInit } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
+import { Group } from '../../Group';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DirectoryService } from 'src/app/directory.service';
+import { FBServiceService } from 'src/app/fb-service.service';
+import { Query } from "../../Query";
+import { Project } from '../../Project';
+import { NewQuery } from 'src/app/NewQuery';
+import { Router } from "@angular/router";
 
 export interface QuerySettingsInterface {
     name: string;
@@ -35,7 +35,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
 
 
     queryName: string;
-
+    isValid = false;
     showLoading: boolean;
 
     postsCheck = new FormControl(false);
@@ -74,7 +74,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                 Validators.required,
                 Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚÆØÅæøå ]+$')
             ]],
-            useDate: [false, []]
+            useDate: [false, []],
         });
 
         this.myForm.valueChanges.subscribe(console.log);
@@ -88,15 +88,27 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
         return this.myForm.get('useDate');
     }
 
+    get hasGroup() {
+        return this.myForm.get('hasGroup');
+    }
+
 
     addToSelected(i: number) {
+        console.log(this.hasGroup);
         this.groupsSelected.push(this.groupsAvailable[i]);
         this.groupsAvailable.splice(i, 1);
+        this.isValid = true;
+        console.log(this.hasGroup);
     }
 
     addToAvailable(i: number) {
         this.groupsAvailable.push(this.groupsSelected[i]);
         this.groupsSelected.splice(i, 1);
+
+        if (this.groupsSelected.length <= 0) {
+            this.isValid = false;
+        }
+
     }
 
     add(event: MatChipInputEvent): void {
@@ -104,7 +116,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
         const value = event.value;
 
         if ((value || '').trim()) {
-            this.searchTags.push({tag: value.trim()});
+            this.searchTags.push({ tag: value.trim() });
         }
 
         if (input) {
@@ -121,17 +133,30 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
     }
 
     StartQuery() {
+        this.directoryservice.queryExists(
+            this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.queryName + '.json')
+            .subscribe((queryExists) => {
+                if (queryExists === true) {
+                    const hasConfirmed = confirm('Ved at acceptere følgende sletter du en tidligere søgning med samme navn')
+                    if (hasConfirmed === true) {
+                        this.showLoading = true;
+                        this.SaveQuery();
+                    }
+                } else {
+                    this.showLoading = true;
+                    this.SaveQuery();
+                }
+            });
+    }
 
-        this.showLoading = true;
-
-
+    SaveQuery() {
         const allParams: any = [
-            {name: 'message', clicked: this.postsCheck.value},
-            {name: 'comments', clicked: this.commentsCheck.value},
-            {name: 'likes', clicked: this.likesCheck.value},
-            {name: 'reactions', clicked: this.reactionsCheck.value},
-            {name: 'picture', clicked: this.picturesCheck.value},
-            {name: 'link', clicked: this.linksCheck.value}
+            { name: 'message', clicked: this.postsCheck.value },
+            { name: 'comments', clicked: this.commentsCheck.value },
+            { name: 'likes', clicked: this.likesCheck.value },
+            { name: 'reactions', clicked: this.reactionsCheck.value },
+            { name: 'picture', clicked: this.picturesCheck.value },
+            { name: 'link', clicked: this.linksCheck.value }
         ];
 
         const chosenParams = allParams.filter((param: any) => {
@@ -159,7 +184,6 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
             endDate = '0';
         }
 
-
         // to fb service
         const exportQuery: NewQuery = {
             name: this.queryName,
@@ -169,7 +193,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                 till: endDate
             },
             groups: this.groupsSelected,
-            filter: {max: this.maxInput.value, tags: chosenTags}
+            filter: { max: this.maxInput.value, tags: chosenTags }
         };
         // ---- THIS DOES NOT WORK ---->>>>>>> ERROR CODE: 98607452dh34562xs -- Code does not compile --
         this.fbservice.DoSearchForPosts(exportQuery).then((response) => {
@@ -181,7 +205,15 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                 });
             });
 
-            const query = new Query(exportQuery.name, exportQuery.params, exportQuery.timeperiod, exportQuery.groups, exportQuery.filter, postList)
+            const query = new Query(
+                exportQuery.name,
+                exportQuery.params,
+                exportQuery.timeperiod,
+                exportQuery.groups,
+                exportQuery.filter,
+                postList
+            );
+
             this.directoryservice.createQueryJSON(
                 this.directoryservice.selectedUser,
                 this.directoryservice.selectedProject,

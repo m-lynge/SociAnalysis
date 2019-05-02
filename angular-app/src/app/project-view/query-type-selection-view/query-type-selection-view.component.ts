@@ -7,6 +7,7 @@ import {Project} from "../../Project";
 import {Group} from "../../Group";
 import {Query} from "../../Query";
 import {Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 export interface name {
     name: string;
@@ -25,7 +26,7 @@ export class QueryTypeSelectionViewComponent implements OnInit {
     private isLoading = false;
 
 
-    constructor(private fbService: FBServiceService, private dialog: MatDialog, private directoryService: DirectoryService, private router: Router) {
+    constructor(private fbService: FBServiceService, private dialog: MatDialog, private directoryservice: DirectoryService, private router: Router) {
     }
 
     @Output()
@@ -33,7 +34,7 @@ export class QueryTypeSelectionViewComponent implements OnInit {
 
 
     ngOnInit() {
-        this.directoryService.getProject(this.directoryService.selectedUser, this.directoryService.selectedProject)
+        this.directoryservice.getProject(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((projects: string) => {
                 const tempProject: Project = JSON.parse(projects);
                 this.listOfGroups = tempProject.group;
@@ -43,7 +44,7 @@ export class QueryTypeSelectionViewComponent implements OnInit {
     openDialog() {
         const dialogRef = this.dialog.open(DialogOverviewExampleDialogComponent, {
             width: '300px',
-            data: {name: this.name}
+            data: { name: this.name }
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -53,38 +54,29 @@ export class QueryTypeSelectionViewComponent implements OnInit {
                 const exportQuery: NewQuery = new NewQuery(
                     this.name,
                     ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
-                    {from: '', till: ''},
+                    { from: '', till: '' },
                     this.listOfGroups,
-                    {max: 100, tags: []}
+                    { max: 100, tags: [] }
                 );
 
-                this.isLoading = true;
-                this.fbService.DoSearchForPosts(exportQuery).then((response) => {
-                    const postList = [];
-
-                    response.forEach(postArray => {
-                        postArray.forEach((data) => {
-                            postList.push(data);
-                        });
+                this.directoryservice.queryExists(
+                    this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.name + '.json')
+                    .subscribe((queryExists) => {
+                        if (queryExists === true) {
+                            const hasConfirmed = confirm('Ved at acceptere følgende sletter du en tidligere søgning med samme navn')
+                            if (hasConfirmed === true) {
+                                this.isLoading = true;
+                                this.saveQuery(exportQuery);
+                            }
+                        } else {
+                            this.isLoading = true;
+                            this.saveQuery(exportQuery);
+                        }
                     });
 
-                    const query = new Query(
-                        exportQuery.name,
-                        exportQuery.params,
-                        exportQuery.timeperiod,
-                        exportQuery.groups,
-                        exportQuery.filter,
-                        postList);
-                    this.directoryService.createQueryJSON(
-                        this.directoryService.selectedUser,
-                        this.directoryService.selectedProject,
-                        query
-                    );
-
-                    this.router.navigate(['/projekt', exportQuery.name]);
 
 
-                });
+
 
             }
 
@@ -103,18 +95,65 @@ export class QueryTypeSelectionViewComponent implements OnInit {
         }
     }
 
+    saveQuery(exportQuery) {
+
+        this.fbService.DoSearchForPosts(exportQuery).then((response) => {
+            const postList = [];
+
+            response.forEach(postArray => {
+                postArray.forEach((data) => {
+                    postList.push(data);
+                });
+            });
+
+            const query = new Query(
+                exportQuery.name,
+                exportQuery.params,
+                exportQuery.timeperiod,
+                exportQuery.groups,
+                exportQuery.filter,
+                postList);
+            this.directoryservice.createQueryJSON(
+                this.directoryservice.selectedUser,
+                this.directoryservice.selectedProject,
+                query
+            );
+
+            this.router.navigate(['/projekt', exportQuery.name]);
+
+
+        });
+    }
+
 }
 
 @Component({
     selector: 'app-dialog-overview-example-dialog',
     templateUrl: 'dialog.html',
 })
-export class DialogOverviewExampleDialogComponent {
+export class DialogOverviewExampleDialogComponent implements OnInit {
+
+    myForm: FormGroup;
 
     constructor(
         public dialogRef: MatDialogRef<DialogOverviewExampleDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: name) {
+        @Inject(MAT_DIALOG_DATA) public data: name, private formBuilder: FormBuilder) {
     }
+
+
+    ngOnInit(): void {
+        this.myForm = this.formBuilder.group({
+            name: ['', [
+                Validators.required,
+                Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚÆØÅæøå ]+$')
+            ]]
+        });
+    }
+
+    get name() {
+        return this.myForm.get('name');
+    }
+
 
     onNoClick(): void {
         this.dialogRef.close();
