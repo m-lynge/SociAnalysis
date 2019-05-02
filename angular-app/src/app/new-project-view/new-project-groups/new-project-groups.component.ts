@@ -83,11 +83,18 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
             if (this.newprojectservice.listOfAllGroups.length > 0) {
                 this.groupsShown = this.newprojectservice.listOfAllGroups;
                 this.showList = true;
+                if (this.newprojectservice.listOfSelectedGroups.length > 0) {
+                    this.groupsSelected = this.newprojectservice.listOfSelectedGroups;
+                }
                 // Else subscribe on observable for later update:
             } else {
                 this.newprojectservice.laterPushOfAllGroups.subscribe((value) => {
                     this.groupsShown = value;
                     this.showList = true;
+                    if (this.newprojectservice.listOfSelectedGroups.length > 0) {
+                        this.groupsSelected = this.newprojectservice.listOfSelectedGroups;
+                    }
+
                 });
             }
 

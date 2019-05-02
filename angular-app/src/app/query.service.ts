@@ -24,7 +24,7 @@ export class QueryService {
             this.selectedQuery = data;
             this.selectedQuerySubject.next(this.selectedQuery);
             this.makeAllPostsToString();
-            console.log(data);
+            // console.log(data);
         }));
     }
 
