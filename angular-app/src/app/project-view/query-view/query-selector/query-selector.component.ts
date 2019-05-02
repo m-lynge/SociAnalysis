@@ -46,6 +46,7 @@ export class QuerySelectorComponent implements OnInit, AfterContentInit {
   }
 
   newQuerySelected(querySelected: any): void {
+    console.log('QSC: getSelectedQuery()');
     this.directoryservice.selectedQuery = querySelected;
     this.queryservice.getSelectedQuery();
   }

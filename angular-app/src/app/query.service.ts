@@ -23,6 +23,7 @@ export class QueryService {
             this.directoryservice.selectedQuery).then((data => {
             this.selectedQuery = data;
             this.selectedQuerySubject.next(this.selectedQuery);
+            // this.selectedQuerySubject.complete();
             this.makeAllPostsToString();
             // console.log(data);
         }));

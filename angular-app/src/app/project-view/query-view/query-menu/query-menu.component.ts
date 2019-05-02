@@ -33,7 +33,7 @@ export class QueryMenuComponent implements AfterViewInit {
                         console.log('if selected user not');
                         this.directoryservice.selectedQuery = queryArray[0];
                     }
-
+                    console.log('QMC: getSelectedQuery()');
                     this.queryservice.getSelectedQuery();
                     this.queryservice.hasQuerys = true;
                 } else {
