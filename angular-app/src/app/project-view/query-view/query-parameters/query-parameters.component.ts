@@ -13,7 +13,7 @@ import { QueryService } from 'src/app/query.service';
 })
 
 export class QueryParametersComponent implements OnInit, AfterContentInit {
-  QueryParams: Query = new Query('',[],{from: '', till: ''}, [],{max: 0, tags:[]}, []);
+  QueryParams: Query = new Query('', [], { from: '', till: '' }, [], { max: 0, tags: [] }, []);
   amountOfPosts: number;
   dataReady: boolean;
 
@@ -24,14 +24,15 @@ export class QueryParametersComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit() {
-      this.queryservice.selectedQuerySubject.subscribe((data) => {
+    this.queryservice.selectedQuerySubject.subscribe((data) => {
       this.QueryParams = data;
+      console.log('queryParams:',data)
       this.amountOfPosts = this.QueryParams.fbData.length;
 
     });
   }
   ngAfterContentInit(): void {
-}
+  }
 
 
 }
