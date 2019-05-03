@@ -6,7 +6,7 @@
 
         <form [formGroup]="myForm" class="example-form">
             <mat-form-field class="example-full-width">
-                <input matInput [(ngModel)]="queryName" formControlName="name" placeholder="Søge Navn" value="">
+                <input matInput [(ngModel)]="queryName" formControlName="name" placeholder="Søgningens navn" value="">
 
 
                 <mat-hint>Navn på din søgning</mat-hint>
@@ -20,7 +20,7 @@
 
             <div class="fullsizeFormElement">
                 <div class="halfWidth">
-                    <mat-checkbox class="example-margin" [formControl]="postsCheck">Besked</mat-checkbox>
+                    <mat-checkbox class="example-margin" [formControl]="postsCheck">Opslag</mat-checkbox>
                     <mat-checkbox class="example-margin" [formControl]="commentsCheck">Kommentarer</mat-checkbox>
                     <mat-checkbox class="example-margin" [formControl]="likesCheck">Likes</mat-checkbox>
                     <mat-checkbox class="example-margin" [formControl]="reactionsCheck">Reaktioner</mat-checkbox>
@@ -39,7 +39,7 @@
 
 
                 <mat-checkbox class="useDateField" formControlName="useDate">
-                    Inkluder dato i søgning
+                    Inkluder dato i din søgning
                 </mat-checkbox>
                 <br>
 
@@ -67,9 +67,9 @@
                 <div class="halfWidth">
 
                     <mat-form-field style="width: 100%">
-                        <input matInput placholder="Max" type="number" [formControl]="maxInput" placeholder="Max"
+                        <input matInput type="number" [formControl]="maxInput" placeholder="Maks"
                             id="myNumber" />
-                        <mat-hint>Antallet af opslag du henter</mat-hint>
+                        <mat-hint>Antallet af opslag din søgning maks kan hente</mat-hint>
 
                         <!-- <input matInput placeholder="Max" value=" "> -->
                     </mat-form-field>
@@ -88,14 +88,14 @@
                                 (matChipInputTokenEnd)="add($event)">
                         </mat-chip-list>
 
-                        <mat-hint>Søge ord der bliver filtreret efter</mat-hint>
+                        <mat-hint>Søgningen returnerer kun opslag der indeholder disse tags</mat-hint>
                     </mat-form-field>
 
                 </div>
             </div>
 
 
-            <h3 class="header">Inkluderet Grupper</h3>
+            <h3 class="header">Tilføj/fjern grupper der skal søges på</h3>
             <div class="fullsizeFormElement noHeight">
                 <div class="halfWidth noGrid">
                     <div class="cardContainer">
@@ -112,7 +112,6 @@
                         </mat-card>
                     </div>
                 </div>
-
                 <div class="halfWidth noGrid">
                     <div class="cardContainer">
                         <mat-card class="mat-card-content selected" *ngFor="let group of groupsSelected;  let i = index"
