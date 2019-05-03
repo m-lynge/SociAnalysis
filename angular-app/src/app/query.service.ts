@@ -17,6 +17,11 @@ export class QueryService {
     }
 
     getSelectedQuery() {
+        // ML18
+        console.log('User ', this.directoryservice.selectedUser, 'Project: ',
+        this.directoryservice.selectedProject, 'Query: ',
+        this.directoryservice.selectedQuery);
+
         this.directoryservice.getQuery(
             this.directoryservice.selectedUser,
             this.directoryservice.selectedProject,
@@ -27,7 +32,6 @@ export class QueryService {
             // ML18
             console.log('Calling .next from query service');
             this.selectedQuerySubject.next(this.selectedQuery);
-     
         }));
     }
 

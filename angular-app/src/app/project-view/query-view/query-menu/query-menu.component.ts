@@ -26,10 +26,11 @@ export class QueryMenuComponent implements AfterViewInit {
     ngAfterViewInit() {
         this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((queryArray) => {
-
+                // ML18
+                console.log('Getting all queries ', queryArray);
                 if (queryArray && queryArray[0]) {
                     // console.log('selected query: ', this.directoryservice.selectedQuery);
-                    if (!this.directoryservice.selectedQuery) {
+                    if (!this.directoryservice.selectedQuery || this.directoryservice.selectedQuery === '') {
                         // console.log('if selected user not');
                         this.directoryservice.selectedQuery = queryArray[0];
                     }
