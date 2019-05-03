@@ -23,8 +23,11 @@ export class QueryService {
             this.directoryservice.selectedQuery).then((data => {
             this.selectedQuery = data;
             this.translateParameters();
-            this.selectedQuerySubject.next(this.selectedQuery);
             this.makeAllPostsToString();
+            // ML18
+            console.log('Calling .next from query service');
+            this.selectedQuerySubject.next(this.selectedQuery);
+     
         }));
     }
 
