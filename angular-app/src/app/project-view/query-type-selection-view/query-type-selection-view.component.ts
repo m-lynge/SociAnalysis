@@ -1,13 +1,13 @@
-import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
-import {FBServiceService} from "../../fb-service.service";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
-import {NewQuery} from "../../NewQuery";
-import {DirectoryService} from "../../directory.service";
-import {Project} from "../../Project";
-import {Group} from "../../Group";
-import {Query} from "../../Query";
-import {Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { FBServiceService } from "../../fb-service.service";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material";
+import { NewQuery } from "../../NewQuery";
+import { DirectoryService } from "../../directory.service";
+import { Project } from "../../Project";
+import { Group } from "../../Group";
+import { Query } from "../../Query";
+import { Router } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 export interface name {
     name: string;
@@ -26,7 +26,11 @@ export class QueryTypeSelectionViewComponent implements OnInit {
     private isLoading = false;
 
 
-    constructor(private fbService: FBServiceService, private dialog: MatDialog, private directoryservice: DirectoryService, private router: Router) {
+    constructor(
+        private fbService: FBServiceService,
+        private dialog: MatDialog,
+        private directoryservice: DirectoryService,
+        private router: Router) {
     }
 
     @Output()

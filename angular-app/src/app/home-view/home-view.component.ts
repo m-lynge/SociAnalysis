@@ -16,7 +16,7 @@ export class HomeViewComponent implements OnInit, AfterViewInit {
     }
 
     changeToLoginView() {
-        this.router.navigate(['/projekt']);
+        this.router.navigate(['/projekt', '']);
     }
 
     ngAfterViewInit(): void {

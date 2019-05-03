@@ -71,9 +71,4 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
-  test() {
-    console.log('offfff')
-    $("#list").off();
-  }
 }

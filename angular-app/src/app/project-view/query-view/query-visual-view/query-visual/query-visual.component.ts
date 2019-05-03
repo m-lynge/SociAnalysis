@@ -14,7 +14,7 @@ import { ObjectUnsubscribedError, Subscription } from 'rxjs';
   templateUrl: './query-visual.component.html',
   styleUrls: ['./query-visual.component.css']
 })
-export class QueryVisualComponent implements OnInit, AfterContentInit, OnDestroy {
+export class QueryVisualComponent implements OnDestroy {
 
   private height: number;
   private width: number;
@@ -75,16 +75,14 @@ export class QueryVisualComponent implements OnInit, AfterContentInit, OnDestroy
     'hereafter', 'hereby', 'herein', 'hereupon', 'hers', 'herself', 'him', 'himself', 'his', 'how',
     'however', 'hundred', 'ie', 'if', 'in', 'inc', 'indeed', 'interest', 'into', 'is', 'it', 'its',
     'itself', 'keep', 'last', 'latter', 'latterly', 'least', 'less', 'ltd', 'made', 'many', 'may', 'me', 'meanwhile', 'might', 'mill', 'mine', 'more', 'moreover', 'most', 'mostly', 'move', 'much', 'must', 'my', 'myself', 'name', 'namely', 'neither', 'never', 'nevertheless', 'next', 'nine', 'no', 'nobody', 'none', 'noone', 'nor', 'not', 'nothing', 'now', 'nowhere', 'of', 'off', 'often', 'on', 'once', 'one', 'only', 'onto', 'or', 'other', 'others', 'otherwise', 'our', 'ours', 'ourselves', 'out', 'over', 'own', 'part', 'per', 'perhaps', 'please', 'put', 'rather', 're', 'same', 'see', 'seem', 'seemed', 'seeming', 'seems', 'serious', 'several', 'she', 'should', 'show', 'side', 'since', 'sincere', 'six', 'sixty', 'so', 'some', 'somehow', 'someone', 'something', 'sometime', 'sometimes', 'somewhere', 'still', 'such', 'system', 'take', 'ten', 'than', 'that', 'the', 'their', 'them', 'themselves', 'then', 'thence', 'there', 'thereafter', 'thereby', 'therefore', 'therein', 'thereupon', 'these', 'they', 'thickv', 'thin', 'third', 'this', 'those', 'though', 'three', 'through', 'throughout', 'thru', 'thus', 'to', 'together', 'too', 'top', 'toward', 'towards', 'twelve', 'twenty', 'two', 'un', 'under', 'until', 'up', 'upon', 'us', 'very', 'via', 'was', 'we', 'well', 'were', 'what', 'whatever', 'when', 'whence', 'whenever', 'where', 'whereafter', 'whereas', 'whereby', 'wherein', 'whereupon', 'wherever', 'whether', 'which', 'while', 'whither', 'who', 'whoever', 'whole', 'whom', 'whose', 'why', 'will', 'with', 'within', 'without', 'would', 'yet', 'you', 'your', 'yours', 'yourself', 'yourselves', 'the'];
-  
-    private dataforCircles: any;
+
+  private dataforCircles: any;
   constructor(private navigationservice: NavigationService, private queryservice: QueryService) {
-  
+
     this.navigationservice.setNavi = true;
     this.height = 500;
     this.width = 500;
-    // console.log('QVC construtor');
     this.subscription = this.queryservice.allPostsTextSubject.subscribe((text) => {
-
       if (this.svg) {
         this.svg.selectAll('*').remove();
       }
@@ -94,19 +92,10 @@ export class QueryVisualComponent implements OnInit, AfterContentInit, OnDestroy
         this.DrawCirles();
       }
     });
-
-  }
-
-  ngOnInit(): void {
-
-  }
-
-  ngAfterContentInit(): void {
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-
   }
 
   private Init() {
@@ -116,13 +105,14 @@ export class QueryVisualComponent implements OnInit, AfterContentInit, OnDestroy
       .style('text-anchor', 'middle')
       .append('g')
       .attr('transform', 'translate(250,250)');
+
     // calculate max amount of words to make the domain correct:
+
     this.svg.on('click', () => {
       this.svg.selectAll('*').remove();
       this.stopWordsActive = !this.stopWordsActive;
       this.DrawCirles();
     });
-
     // mapping the domain to a range for calculating the correct radius for the circles
   }
 
@@ -135,9 +125,9 @@ export class QueryVisualComponent implements OnInit, AfterContentInit, OnDestroy
       this.max = this.sortedStatsArrayWithOutStopWords[0].number;
     }
     this.ratioScale = d3Scale
-    .scaleSqrt()
-    .domain([1, this.max])
-    .range([20, 60]);
+      .scaleSqrt()
+      .domain([1, this.max])
+      .range([20, 60]);
 
     this.circles = this.svg.selectAll('.words')
       .data(this.dataforCircles)
@@ -153,7 +143,7 @@ export class QueryVisualComponent implements OnInit, AfterContentInit, OnDestroy
       .text((d) => d.word);
     this.RunSimulation();
   }
-  
+
   private ticked() {
     this.circles
       .attr('cx', (d) => d.x)
@@ -183,13 +173,16 @@ export class QueryVisualComponent implements OnInit, AfterContentInit, OnDestroy
     this.statsArrayWithOutStopWords = Object.keys(this.textOccurrencesWithOutStopWords.stats).map(key => {
       return { word: key, number: this.textOccurrencesWithOutStopWords.stats[key] };
     });
-    this.sortedStatsArrayWithStopWords = this.statsArrayWithStopWords.sort((a, b) => (a.number > b.number) ? 1 : ((b.number > a.number) ? -1 : 0));
-    this.sortedStatsArrayWithStopWords = this.sortedStatsArrayWithStopWords.slice(this.sortedStatsArrayWithStopWords.length - 11, this.sortedStatsArrayWithStopWords.length - 1);
+    this.sortedStatsArrayWithStopWords = this.statsArrayWithStopWords.sort(
+      (a, b) => (a.number > b.number) ? 1 : ((b.number > a.number) ? -1 : 0));
+    this.sortedStatsArrayWithStopWords = this.sortedStatsArrayWithStopWords.slice(
+      this.sortedStatsArrayWithStopWords.length - 11, this.sortedStatsArrayWithStopWords.length - 1);
     this.sortedStatsArrayWithStopWords.reverse();
 
-    this.sortedStatsArrayWithOutStopWords = this.statsArrayWithOutStopWords.sort((a, b) => (a.number > b.number) ? 1 : ((b.number > a.number) ? -1 : 0));
-    this.sortedStatsArrayWithOutStopWords = this.sortedStatsArrayWithOutStopWords.slice(this.sortedStatsArrayWithOutStopWords.length - 11, this.sortedStatsArrayWithOutStopWords.length - 1);
+    this.sortedStatsArrayWithOutStopWords = this.statsArrayWithOutStopWords.sort(
+      (a, b) => (a.number > b.number) ? 1 : ((b.number > a.number) ? -1 : 0));
+    this.sortedStatsArrayWithOutStopWords = this.sortedStatsArrayWithOutStopWords.slice(
+      this.sortedStatsArrayWithOutStopWords.length - 11, this.sortedStatsArrayWithOutStopWords.length - 1);
     this.sortedStatsArrayWithOutStopWords.reverse();
-
   }
 }

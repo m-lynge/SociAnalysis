@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { DirectoryService } from "../../../directory.service";
-import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
+import { DirectoryService } from '../../../directory.service';
+import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 import { Router } from '@angular/router';
 import { NewProjectService } from 'src/app/new-project.service';
 import { NavigationService } from 'src/app/navigation.service';
@@ -16,41 +16,30 @@ export class QueryMenuComponent implements AfterViewInit {
 
     constructor(private directoryservice: DirectoryService,
                 private router: Router,
-                private newprojectservice: NewProjectService,
                 private navigationservice: NavigationService,
                 public queryservice: QueryService,
-                ) {}
+    ) { }
 
     data: any;
 
     ngAfterViewInit() {
         this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((queryArray) => {
-                // ML18
-                console.log('Getting all queries ', queryArray);
                 if (queryArray && queryArray[0]) {
-                    // console.log('selected query: ', this.directoryservice.selectedQuery);
                     if (!this.directoryservice.selectedQuery || this.directoryservice.selectedQuery === '') {
-                        // console.log('if selected user not');
                         this.directoryservice.selectedQuery = queryArray[0];
                     }
-                    // console.log('QMC: getSelectedQuery()');
                     this.queryservice.getSelectedQuery();
                     this.queryservice.hasQuerys = true;
                 } else {
-                    console.log('Query-menu: No query Array!');
                     this.queryservice.hasQuerys = false;
-
                 }
-
             });
-
     }
 
     newQuery() {
         this.navigationservice.GoBackRoute = ['/projekt', ''];
         this.router.navigate(['/project_ny_soegning']);
-        // routerLink = "/project_ny_soegning"
     }
 
     updateQuery() {
@@ -63,7 +52,7 @@ export class QueryMenuComponent implements AfterViewInit {
             this.directoryservice.selectedQuery
         ).then((data) => {
             this.data = data.fbData;
-            let emptyArray: object[] = [];
+            const emptyArray: object[] = [];
             data.fbData.forEach(post => {
 
                 if (post.message) {
@@ -73,15 +62,11 @@ export class QueryMenuComponent implements AfterViewInit {
                 }
             });
 
-            // console.log(emptyArray);
-
             const options = {
                 fieldSeparator: ';',
                 decimalseparator: ';'
             };
-            const messages = new Angular5Csv( emptyArray, 'My Report', options );
+            const messages = new Angular5Csv(emptyArray, 'My Report', options);
         });
-
-
     }
 }

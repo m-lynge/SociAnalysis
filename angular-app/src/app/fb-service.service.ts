@@ -178,22 +178,17 @@ export class FBServiceService {
     }
 
     FetchPosts(url: string, groupID: string, params: NewQuery) {
-
-
         if (groupID) {
             url = '/' + groupID + '/feed?fields=' + params.params.map((check) => {
                 return check;
             }) + '&limit=100';
-
         }
 
         FB.api(
             url,
             response => {
-
                 if (response && !response.error) {
                     this.updatePostList(response.data);
-
                     if (response.paging) {
                         this.FetchPosts(response.paging.next, '', params);
                     } else {
@@ -202,7 +197,6 @@ export class FBServiceService {
                             this.directoryService.selectedProject,
                             new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts)
                         );
-
                         this.listOfPosts = [];
                     }
                 } else {
@@ -211,6 +205,4 @@ export class FBServiceService {
             },
         );
     }
-
 }
-

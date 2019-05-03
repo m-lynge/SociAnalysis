@@ -7,7 +7,7 @@ import { QueryService } from 'src/app/query.service';
   templateUrl: './query-selector.component.html',
   styleUrls: ['./query-selector.component.css']
 })
-export class QuerySelectorComponent implements OnInit, AfterContentInit, OnDestroy {
+export class QuerySelectorComponent implements AfterContentInit, OnDestroy {
   querytest;
   retrievedQueryNames: string[];
   shownQueryNames: string[];
@@ -17,27 +17,15 @@ export class QuerySelectorComponent implements OnInit, AfterContentInit, OnDestr
   constructor(private directoryservice: DirectoryService,
               private queryservice: QueryService) { }
 
-  ngOnInit() {
-
-  }
-
   ngAfterContentInit(): void {
-    // Called after ngOnInit when the component's or directive's content has been initialized.
     this.subscription = this.queryservice.selectedQuerySubject.subscribe(() =>{
       this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
       .subscribe((queryArray) => {
-        // ML18
-        console.log('query-selector, query: ', this.directoryservice.selectedQuery);
         this.retrievedQueryNames = queryArray;
         this.shownQueryNames = this.retrievedQueryNames;
-        // console.log('From selector: ', this.directoryservice.selectedQuery);
         this.querytest = this.directoryservice.selectedQuery;
       });
     });
-
-  }
-
-  printSearchTerm(): void {
   }
 
   findMatchingQueries(): void {

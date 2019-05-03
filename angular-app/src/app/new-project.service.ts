@@ -23,7 +23,7 @@ export class NewProjectService {
   private toggle = 0;
   private viewingNewproject: boolean;
 
-// Text for buttons and header in new project view
+  // Text for buttons and header in new project view
   headerProjectName: string;
   nextButton: string;
   makeProjectButton: string;
@@ -76,7 +76,6 @@ export class NewProjectService {
     if (this.toggle !== 1) {
       this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
         .then(response => {
-          console.log('Getting project: ', this.directoryservice.selectedProject, 'response: ', response);
           this.name = response.name;
           this.descr = response.desc;
           this.listOfSelectedGroups = response.group;
@@ -86,10 +85,8 @@ export class NewProjectService {
 
 
     } else {
-      console.log('running');
       this.directoryservice.getProjectInfoJSON(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
         .then(response => {
-          console.log('Getting project: ', this.directoryservice.selectedProject, 'response: ', response);
           const ListPreSelectedGroups = response.group;
           this.name = response.name;
           this.descr = response.desc;
@@ -120,24 +117,10 @@ export class NewProjectService {
               });
             });
 
-            // console.log('A', ListPreSelectedGroups, 'B', ListFromFacebook);
-            // ListFromFacebook.forEach(B => {
-            //   console.log('B ', B);
-            //   console.log(ListPreSelectedGroups.indexOf(B));
-            //   if (ListPreSelectedGroups.indexOf(B) !== -1) {
-            //     SelectedGroups.push(B);
-            //   } else {
-            //     AvailableGroups.push(B);
-            //   }
-            // });
-
-
             this.listOfSelectedGroups = SelectedGroups;
             this.listOfAllGroups = ListFromFacebook;
-
             this.laterPushOfSelectedGroups.next(this.listOfSelectedGroups);
             this.laterPushOfAllGroups.next(this.listOfAllGroups);
-            console.log('All users groups were collected from facebook');
           });
         });
     }
@@ -146,30 +129,21 @@ export class NewProjectService {
 
 
   public async copyProject() {
-    // 1: create new project dir with new name
-
     if (this.directoryservice.selectedProject !== this.name) {
-      console.log('name has been changed');
       this.directoryservice.createDirectory(this.directoryservice.selectedUser + '/' + this.name + '/').subscribe((folderCreated) => {
         if (folderCreated) {
-          console.log('folder was created: ', folderCreated);
           const temp = new Project(this.name, this.descr, this.listOfSelectedGroups);
           this.directoryservice.createProjectInfoJSON(
             this.directoryservice.selectedUser, this.name, temp
           ).done((handleData) => {
             this.directoryservice.createDirectory(
               this.directoryservice.selectedUser + '/' + this.name + '/query/').subscribe((queryfolderCreated) => {
-                console.log('querfoldercreatedresponse: ', queryfolderCreated)
                 if (queryfolderCreated) {
-                  console.log('query folder was created: ', queryfolderCreated);
-                  console.log('finding queries in:', this.directoryservice.selectedUser, ' ', this.directoryservice.selectedProject)
                   this.directoryservice.getAllQueries(
                     this.directoryservice.selectedUser, this.directoryservice.selectedProject)
                     .subscribe(async (allQueries) => {
                       if (allQueries) {
                         const promises = allQueries.map(async query => {
-                          console.log('copying query from old to new folder');
-                          console.log('queryName: ', query);
                           return this.directoryservice.copyQueryJSON(
                             this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.name, query);
                         });
@@ -178,7 +152,6 @@ export class NewProjectService {
                           this.directoryservice.removeProject(
                             this.directoryservice.selectedUser, this.directoryservice.selectedProject)
                             .done(() => {
-                              console.log('removed previous project');
                               this.directoryservice.selectedProject = this.name;
                               this.navigationservice.GoBackRoute = ['/home'];
                               this.ViewingNewProject = false;
@@ -211,7 +184,6 @@ export class NewProjectService {
   }
 
   public getGroupsFromAPI() {
-    console.log('attempting to get groups');
     this.fbservice.getGroups(
       '/' + this.directoryservice.selectedUser + '/groups?fields=administrator,name,description'
     ).then((groups) => {
@@ -221,7 +193,6 @@ export class NewProjectService {
         return new Group(filteredGroup.name, filteredGroup.description, filteredGroup.id);
       });
       this.laterPushOfAllGroups.next(this.listOfAllGroups);
-      console.log('All users groups were collected from facebook');
     });
   }
 
@@ -232,7 +203,4 @@ export class NewProjectService {
     this.listOfAllGroups = [];
     this.toggle = 0;
   }
-
-
-
 }

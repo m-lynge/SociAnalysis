@@ -8,24 +8,12 @@ import { QueryService } from 'src/app/query.service';
   templateUrl: './query-view.component.html',
   styleUrls: ['./query-view.component.css']
 })
-export class QueryViewComponent implements OnInit, AfterContentInit {
+export class QueryViewComponent implements AfterContentInit {
 
-  constructor(private directoryservice: DirectoryService, private navigationservice: NavigationService, 
-    public queryservice: QueryService) { }
-
-  ngOnInit() {
-    // this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
-    //     .subscribe((queryArray) => {
-    //       if (queryArray[0]){
-    //         this.directoryservice.selectedQuery = queryArray[0];
-    //       } else {
-    //       }
-    //
-    //     });
-  }
+  constructor(private directoryservice: DirectoryService, private navigationservice: NavigationService,
+              public queryservice: QueryService) { }
 
   ngAfterContentInit(): void {
-    console.log("routing back to home");
     this.navigationservice.GoBackRoute = ['/home'];
   }
 }

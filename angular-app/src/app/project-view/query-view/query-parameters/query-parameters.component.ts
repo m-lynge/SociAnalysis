@@ -12,31 +12,22 @@ import { QueryService } from 'src/app/query.service';
   styleUrls: ['./query-parameters.component.css']
 })
 
-export class QueryParametersComponent implements OnInit, AfterContentInit, OnDestroy {
+export class QueryParametersComponent implements OnInit, OnDestroy {
   QueryParams: Query = new Query('', [], { from: '', till: '' }, [], { max: 0, tags: [] }, []);
   amountOfPosts: number;
   dataReady: boolean;
   private subscription;
 
-
-  constructor(private directoryservice: DirectoryService, private queryservice: QueryService) {
-
-  }
+  constructor(private directoryservice: DirectoryService, private queryservice: QueryService) { }
 
   ngOnInit() {
     this.subscription = this.queryservice.selectedQuerySubject.subscribe((data) => {
-      // ML18
-      console.log('Query-parameters.subscribe getting: ', data);
-
       this.QueryParams = data;
       this.amountOfPosts = this.QueryParams.fbData.length;
-
     });
   }
-  ngAfterContentInit(): void {
-  }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 

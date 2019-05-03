@@ -28,16 +28,12 @@ export interface SearchTag {
     styleUrls: ['./query-setting-view.component.css']
 })
 
-
 export class QuerySettingViewComponent implements AfterContentInit, OnInit {
-
-    myForm: FormGroup;
-
-
     queryName: string;
     isValid = false;
     showLoading: boolean;
 
+    myForm: FormGroup;
     postsCheck = new FormControl(false);
     commentsCheck = new FormControl(false);
     likesCheck = new FormControl(false);
@@ -46,11 +42,8 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
     linksCheck = new FormControl(false);
     beginDate = new FormControl(false);
     endDate = new FormControl(false);
-
     useDateControl = new FormControl(false);
-
     maxInput = new FormControl();
-
 
     visible = true;
     selectable = true;
@@ -60,13 +53,13 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
 
     searchTags: SearchTag[] = [];
     groupsAvailable: Group[] = [];
-
     groupsSelected: Group[] = [];
 
-
-    constructor(private directoryservice: DirectoryService, private fbservice: FBServiceService, private formBuilder: FormBuilder, private router: Router) {
-
-    }
+    constructor(
+        private directoryservice: DirectoryService,
+        private fbservice: FBServiceService,
+        private formBuilder: FormBuilder,
+        private router: Router) { }
 
     ngOnInit(): void {
         this.myForm = this.formBuilder.group({
@@ -94,59 +87,47 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
 
 
     addToSelected(i: number) {
-        console.log(this.hasGroup);
         this.groupsSelected.push(this.groupsAvailable[i]);
         this.groupsAvailable.splice(i, 1);
         this.isValid = true;
-        console.log(this.hasGroup);
     }
 
     addToAvailable(i: number) {
         this.groupsAvailable.push(this.groupsSelected[i]);
         this.groupsSelected.splice(i, 1);
-
         if (this.groupsSelected.length <= 0) {
             this.isValid = false;
         }
-
     }
 
     add(event: MatChipInputEvent): void {
         const input = event.input;
         const value = event.value;
-        let temp: SearchTag = { tag: value.trim() };
-        console.log('checking input tag')
-        let alreadyExist: boolean = false;
+        let alreadyExist = false;
         if (this.searchTags) {
             this.searchTags.forEach((previousTag) => {
                 if (previousTag.tag.toLowerCase() === value.trim().toLowerCase()) {
-                    console.log('tag already exists');
                     alreadyExist = true;
                 }
             });
         }
 
         if (alreadyExist === false) {
-            console.log('tag inputted ', temp, 'is not present in previous tags:', this.searchTags);
             if ((value || '').trim()) {
                 this.searchTags.push({ tag: value.trim() });
             }
-
             if (input) {
                 input.value = '';
             }
         } else {
-            console.log('tag inputted ', temp, 'is present in previous tags:', this.searchTags);
             if (input) {
                 input.value = '';
             }
         }
-
     }
 
     remove(tag: SearchTag): void {
         const index = this.searchTags.indexOf(tag);
-
         if (index >= 0) {
             this.searchTags.splice(index, 1);
         }
@@ -217,45 +198,37 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
             groups: this.groupsSelected,
             filter: { max: this.maxInput.value, tags: chosenTags }
         };
-        // ---- THIS DOES NOT WORK ---->>>>>>> ERROR CODE: 98607452dh34562xs -- Code does not compile --
+
         this.fbservice.DoSearchForPosts(exportQuery).then((response) => {
             const postList = [];
-
             response.forEach(postArray => {
                 postArray.forEach((data) => {
                     postList.push(data);
                 });
             });
 
-            const query = new Query(
-                exportQuery.name,
-                exportQuery.params,
-                exportQuery.timeperiod,
-                exportQuery.groups,
-                exportQuery.filter,
-                postList
-            );
-
             this.directoryservice.createQueryJSON(
                 this.directoryservice.selectedUser,
                 this.directoryservice.selectedProject,
-                query
+                new Query(
+                    exportQuery.name,
+                    exportQuery.params,
+                    exportQuery.timeperiod,
+                    exportQuery.groups,
+                    exportQuery.filter,
+                    postList
+                )
             );
 
             this.router.navigate(['/projekt', exportQuery.name]);
-
         });
     }
 
     ngAfterContentInit(): void {
-
         this.directoryservice.getProject(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((projects: string) => {
                 const tempProject: Project = JSON.parse(projects);
                 this.groupsAvailable = tempProject.group;
-
-
             });
     }
-
 }

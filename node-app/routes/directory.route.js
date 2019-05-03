@@ -5,10 +5,6 @@ const fs = require('fs');
 const fs_extra = require('fs-extra');
 const rimraf = require('rimraf');
 
-directoryRoute.post('/test', (req, res) => {
-    res.jsonp("fun");
-})
-
 // returns all the user's paths found in the directory
 directoryRoute.get('/getUsers', (req, res) => {
     const path = './users/';
@@ -24,8 +20,6 @@ directoryRoute.route('/getProjects/:user').get(function (req, res) {
     fs.readdir(path, function (err, items) {
         if (items) {
             if (items.length > 0) {
-                console.log('length of items: ', items.length);
-                console.log('items: ', items);
                 finalProejct = items.map((projectName) => {
                     newPath = path + projectName + '/' + 'projectinfo.json';
                     projectInfo = fs.readFileSync(newPath, 'utf8', (err, data) => {
@@ -84,6 +78,7 @@ directoryRoute.route('/dirExists/:path').get(function (req, res) {
         res.jsonp(false)
     }
 })
+
 // checks if directory given already exists, returns true or false
 directoryRoute.route('/dirExists/:user/:project').get(function (req, res) {
     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
@@ -93,16 +88,13 @@ directoryRoute.route('/dirExists/:user/:project').get(function (req, res) {
         res.jsonp(false)
     }
 })
+
 // checks if directory given already exists, returns true or false
 directoryRoute.route('/dirExists/:user/:project/:query').get(function (req, res) {
     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/' + 'query/' + req.params.query + '/';
-    console.log('checking if query:' + req.params.query + ' already exists')
-    console.log('in the following path: ', finalPath);
     if (fs.existsSync(finalPath) === true) {
-        console.log('query true')
         res.jsonp(true)
     } else {
-        console.log('query false')
         res.jsonp(false)
     }
 })
@@ -144,29 +136,13 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
     })
 })
 
-// // Route for saving JSON files (object:string)
-// directoryRoute.route('/saveJSON/:user/:project/:object').get(function (req, res) {
-//     // The JSON file being written is the group.json
-//     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
-//     fs.writeFile(finalPath + 'projectinfo' + '.json', String(req.params.object), (err) => {
-//         if (err) {
-//             res.jsonp(err)
-//         } else {
-//             res.jsonp(true)
-//         }
-//     });
-// })
-
 directoryRoute.post('/saveQueryJSON', (req, res) => {
-
-    const result = req;
-    let username = result.body.user;
-    let project = result.body.project;
-    let query = result.body.query;
+    let username = req.body.user;
+    let project = req.body.project;
+    let query = req.body.query;
 
     //   The JSON file being written is a query.json file
     const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/';
-
     fs.writeFile(finalPath + query.name + '.json', JSON.stringify(query), (err) => {
         if (err) {
             res.jsonp(err)
@@ -177,15 +153,12 @@ directoryRoute.post('/saveQueryJSON', (req, res) => {
 });
 
 directoryRoute.post('/getQueryJson', (req, res) => {
-
-    const result = req;
-    let username = result.body.user;
-    let project = result.body.projectName;
-    let queryName = result.body.query;
+    let username = req.body.user;
+    let project = req.body.projectName;
+    let queryName = req.body.query;
 
     //   The JSON file being written is a query.json file
     const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/' + queryName;
-
     returnQuery = fs.readFileSync(finalPath, 'utf8', (err, data) => {
         if (err) throw err;
     })
@@ -193,15 +166,12 @@ directoryRoute.post('/getQueryJson', (req, res) => {
 });
 
 directoryRoute.post('/saveProjectJSON', (req, res) => {
-
-    const result = req;
-    let username = result.body.user;
-    let project = result.body.project;
-    let projectInfo = result.body.projectInfoObject;
+    let username = req.body.user;
+    let project = req.body.project;
+    let projectInfo = req.body.projectInfoObject;
 
     //   The JSON file being written is a query.json file
     const finalPath = './users/' + username + '/' + project + '/';
-
     fs.writeFile(finalPath + 'projectinfo.json', JSON.stringify(projectInfo), (err) => {
         if (err) {
             res.jsonp(err)
@@ -212,15 +182,11 @@ directoryRoute.post('/saveProjectJSON', (req, res) => {
 });
 
 directoryRoute.post('/getProjectJson', (req, res) => {
-
-    const result = req;
-    let username = result.body.user;
-    let projectName = result.body.projectName;
-
+    let username = req.body.user;
+    let projectName = req.body.projectName;
 
     //   The JSON file being written is a query.json file
     const finalPath = './users/' + username + '/' + projectName + '/' + 'projectinfo.json';
-
     returnProject = fs.readFileSync(finalPath, 'utf8', (err, data) => {
         if (err) throw err;
     })
@@ -243,7 +209,6 @@ directoryRoute.post('/removeProject', (req, res) => {
     const project = req.body.projectName;
     const projectPath = './users/' + user + '/' + project + '/';
     rimraf(projectPath, function () {
-
         console.log('removed the previous project')
     });
     res.jsonp(true)

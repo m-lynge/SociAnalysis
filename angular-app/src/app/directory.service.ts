@@ -12,7 +12,6 @@ import { JsonPipe } from '@angular/common';
 })
 
 export class DirectoryService {
-
     private uri = '//localhost:4000/directory';
     private selected: Selected;
 
@@ -20,7 +19,6 @@ export class DirectoryService {
         this.selected = new Selected(null, null, null);
     }
 
-    // Getters and setters for selecting user
     public get selectedUser(): string {
         return this.selected.user;
     }
@@ -45,15 +43,12 @@ export class DirectoryService {
         this.selected.query = v;
     }
 
-
     public getAllUsers(): Observable<object> {
         return this
             .http
             .get(`${this.uri}/getUsers`);
     }
 
-
-    // returns a javascript array
     public getAllProjects(user: string): Observable<any> {
         return this
             .http
@@ -72,7 +67,6 @@ export class DirectoryService {
             .get(`${this.uri}/getProject/${user}/${project}`);
     }
 
-
     public userExists(user: string) {
         return this.directoryExists(user);
     }
@@ -81,11 +75,11 @@ export class DirectoryService {
         const path = user + '/' + project;
         return this.directoryExists(path);
     }
+
     public queryExists(user: string, project: string, query: string) {
         const path = user + '/' + project + '/' + query;
         return this.directoryExists(path);
     }
-
 
     private directoryExists(path: string) {
         return this
@@ -120,15 +114,10 @@ export class DirectoryService {
     }
 
     public createProjectInfoJSON(user: string, project: string, projectInfoObject: Project) {
-
         return $.ajax({
             url: this.uri + '/saveProjectJSON',
             type: 'POST',
             data: { user, project, projectInfoObject },
-
-            success: response => {
-                console.log('returned true from directory service')
-            },
             error: (XMLHttpRequest, textStatus, errorThrown) => {
                 alert("Status: " + textStatus); alert("Error: " + errorThrown);
             },
@@ -141,23 +130,8 @@ export class DirectoryService {
             url: this.uri + '/saveQueryJSON',
             type: 'POST',
             data: { user, project, query },
-
-            success: response => {
-            }
         });
     }
-
-    // public getQueryJSON(user: string, project: string, queryName: string) {
-    //     $.ajax({
-    //         url: this.uri + '/getQueryJson',
-    //         type: 'POST',
-    //         data: { user, project, queryName },
-
-    //         success: response => {
-    //         }
-    //     });
-
-    // }
 
     async wait(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
@@ -169,37 +143,27 @@ export class DirectoryService {
             url: this.uri + '/getProjectJson',
             type: 'POST',
             data: { user, projectName },
-
             success: response => {
                 const newResponse = JSON.parse(response);
                 returnValue = new Project(newResponse.name, newResponse.desc, newResponse.group);
             }
         });
-
         while (!returnValue) {
             await this.wait(100);
         }
-
         return returnValue;
     }
 
     async getQuery(user: string, projectName: string, query: string) {
         let returnValue;
-
         $.ajax({
             url: this.uri + '/getQueryJson',
             type: 'POST',
             data: { user, projectName, query },
-
             success: response => {
-                const newResponse = JSON.parse(response);
-                returnValue = newResponse;
-            },
-            error: response => {
-                //  console.log(response);
+                returnValue = JSON.parse(response);
             }
         });
-
         while (!returnValue) {
             await this.wait(100);
         }
@@ -211,9 +175,6 @@ export class DirectoryService {
             url: this.uri + '/copyFile',
             type: 'POST',
             data: { user, oldProjectName, newProjectName, queryName },
-
-            success: response => {
-            },
             error: (XMLHttpRequest, textStatus, errorThrown) => {
                 alert("Status: " + textStatus); alert("Error: " + errorThrown);
             },
@@ -221,26 +182,13 @@ export class DirectoryService {
     }
 
     public removeProject(user: string, projectName: string) {
-        console.log('removing project: ', projectName)
         return $.ajax({
             url: this.uri + '/removeProject',
             type: 'POST',
             data: { user, projectName },
-
-            success: response => {
-            },
             error: (XMLHttpRequest, textStatus, errorThrown) => {
                 alert("Status: " + textStatus); alert("Error: " + errorThrown);
             },
         });
     }
-
-
-    // public getQuery(user: string, project: string, query: string): Observable<any> {
-    //     return this
-    //         .http
-    //         .get(`${this.uri}/getProject/${user}/${project}/${query}`);
-    // }
-
 }
-

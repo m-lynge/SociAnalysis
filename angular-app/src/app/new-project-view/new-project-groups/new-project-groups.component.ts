@@ -135,44 +135,31 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
                             });
 
                             return await Promise.all(promises).then((queryies: any) => {
-                                console.log("printing all found queires:");
-                                console.log(queryies);
-                                console.log("found the following results:");
-                                const conflictGroupsAndQueries = this.groupAttatchedToQuery(this.groupsShown, queryies)
-                                console.log('PHIHIPI:,', conflictGroupsAndQueries);
+                                const conflictGroupsAndQueries = this.groupAttatchedToQuery(this.groupsShown, queryies);
                                 if (conflictGroupsAndQueries.length > 0) {
-                                    let string = '';
+                                    let alertString = '';
                                     conflictGroupsAndQueries.forEach(element => {
-                                        string = string + ' Gruppen: ' + JSON.stringify(element.groupInstance.name);
-                                        string = string + ' - er brugt i: ';
-                                        console.log('feelsbad', element.usedInQueries);
+                                        alertString = alertString + ' Gruppen: ' + JSON.stringify(element.groupInstance.name);
+                                        alertString = alertString + ' - er brugt i: ';
                                         if (element.usedInQueries.length > 1) {
                                             for (let index = 0; index < element.usedInQueries.length; index++) {
-                                                console.log('more than one query')
-                                                string = string + JSON.stringify(element.usedInQueries[index].name);
+                                                alertString = alertString + JSON.stringify(element.usedInQueries[index].name);
                                                 if (index !== element.usedInQueries.length - 1) {
-                                                    string = string + ' og ';
+                                                    alertString = alertString + ' og ';
                                                 }
                                             }
                                         } else {
-                                            string = string + JSON.stringify(element.usedInQueries[0].name);
+                                            alertString = alertString + JSON.stringify(element.usedInQueries[0].name);
                                         }
                                     });
-                                    console.log('string made', string);
-                                    alert('Gem kan ikke gennemføres da: ' + '\n' + string + ' og kan derfor ikke fjernes fra projektet');
+                                    alert('Gem kan ikke gennemføres da: ' + '\n' + alertString +
+                                        ' og kan derfor ikke fjernes fra projektet');
                                 } else {
                                     this.newprojectservice.saveProject();
                                 }
-
                             });
                         }
-
-
-
                     });
-                // // this.groupAttatchedToQuery(this.groupsShown, )
-                // this.groupsShown
-
             }
         } else {
             alert('Minimum en gruppe skal være tilknyttet et projekt');
@@ -195,19 +182,15 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
                         }
                     }
                 });
-                // console.log('Does query group: ', query.groups, ' include: ', group, ': ', bool);
                 return bool;
             });
-            // console.log('temp: ', usedInQueries);
             if (usedInQueries.length > 0) {
                 return { usedInQueries, groupInstance };
             } else {
                 return;
             }
-
         });
 
-        // console.log('affectedgroups: ', affectedGroups);
         return affectedGroups.filter((affectedGroup) => {
             return (affectedGroup);
         });

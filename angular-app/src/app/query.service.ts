@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Query} from './Query';
-import {DirectoryService} from './directory.service';
-import {Subject} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Query } from './Query';
+import { DirectoryService } from './directory.service';
+import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -17,22 +17,16 @@ export class QueryService {
     }
 
     getSelectedQuery() {
-        // ML18
-        console.log('User ', this.directoryservice.selectedUser, 'Project: ',
-        this.directoryservice.selectedProject, 'Query: ',
-        this.directoryservice.selectedQuery);
-
         this.directoryservice.getQuery(
             this.directoryservice.selectedUser,
             this.directoryservice.selectedProject,
-            this.directoryservice.selectedQuery).then((data => {
-            this.selectedQuery = data;
-            this.translateParameters();
-            this.makeAllPostsToString();
-            // ML18
-            console.log('Calling .next from query service');
-            this.selectedQuerySubject.next(this.selectedQuery);
-        }));
+            this.directoryservice.selectedQuery).
+            then((data => {
+                this.selectedQuery = data;
+                this.translateParameters();
+                this.makeAllPostsToString();
+                this.selectedQuerySubject.next(this.selectedQuery);
+            }));
     }
 
     makeAllPostsToString() {
