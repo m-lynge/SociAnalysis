@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class ProjectNavigationComponent implements OnInit, AfterViewChecked {
   projectName: string;
   constructor(
-    private directoryservice: DirectoryService,
+    public directoryservice: DirectoryService,
     private newprojectservice: NewProjectService,
     private router: Router) { }
 

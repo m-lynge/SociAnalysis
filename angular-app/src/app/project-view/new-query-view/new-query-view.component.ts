@@ -19,6 +19,5 @@ export class NewQueryViewComponent implements OnInit {
   changeView(newview: string) {
     this.shownComponent = newview;
     this.nagivationservice.setNavi = true;
-
   }
 }

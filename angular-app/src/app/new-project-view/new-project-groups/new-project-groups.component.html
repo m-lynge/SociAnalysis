@@ -5,7 +5,7 @@
     <div class="divContainer" id="leftBox">
       <div>
         <h4>Tilgængelige grupper</h4>
-        <h6>Disse grupper er tilgængelige</h6>
+        <h6>Disse grupper er tilgængelige til at hente data fra</h6>
         <mat-form-field>
           <input name="GroupSearcher" value="" (ngModelChange)="findMatchingGroups()" [(ngModel)]="searchTerm" matInput
             placeholder="Søg i grupper">
@@ -34,7 +34,7 @@
     <div class="divContainer" id="rightBox">
       <div id="headRight">
         <h4>Valgte grupper</h4>
-        <h6>Disse grupper har du valgt</h6>
+        <h6>Disse grupper har du valgt til dit projekt</h6>
       </div>
 
       <hr />
@@ -60,7 +60,7 @@
     <div class="vLine"></div>
     <div class=buttonContainer>
       <button mat-raised-button type="submit" color="accent" value="{{this.newprojectservice.nextButton}}" id="confirmBttn" name=""
-        (click)="showNext()">Videre</button>
+        (click)="showNext()">{{this.newprojectservice.nextButton}}</button>
     </div>
   </form>
 </div>

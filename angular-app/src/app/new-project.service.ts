@@ -23,6 +23,8 @@ export class NewProjectService {
   private toggle = 0;
   private viewingNewproject: boolean;
 
+// Text for buttons and header in new project view
+  headerProjectName: string;
   nextButton: string;
   makeProjectButton: string;
 
@@ -57,15 +59,17 @@ export class NewProjectService {
     this.clearAllVariables();
     this.getGroupsFromAPI();
     this.nextButton = 'Videre';
-    this.makeProjectButton = 'Opret Projekt';
+    this.makeProjectButton = 'Gem Projekt';
+    this.headerProjectName = 'Beskriv dit projekt';
     this.Toggle = 0;
   }
 
   // This is called from QueryView
   public loadExistingProject(toggle: number) {
     this.clearAllVariables();
-    this.nextButton = 'Opdater';
-    this.makeProjectButton = '';
+    this.nextButton = 'Gem';
+    this.makeProjectButton = 'Gå tilbage';
+    this.headerProjectName = 'Ændre dit projekt';
     this.Toggle = toggle;
     this.newProject = false;
 

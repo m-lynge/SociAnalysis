@@ -1,14 +1,14 @@
 <ng-container class="container">
     <div>
         <mat-form-field class="example-full-width">
-            <mat-label>Søg efter en forespørgsel</mat-label>
+            <mat-label>Søg i dine søgninger</mat-label>
             <input (ngModelChange)="findMatchingQueries()" [(ngModel)]="searchTerm" matInput placeholder="" value="">
         </mat-form-field>
     </div>
 
     <div>
         <mat-form-field class="example-full-width">
-            <mat-label>Vælg en forespørgsel</mat-label>
+            <mat-label>Vælg en søgning</mat-label>
             <mat-select (selectionChange)="newQuerySelected($event.value)" [(value)]='querytest'>
                 <mat-option *ngFor="let query of shownQueryNames" [value]="query">
                     {{query}}
