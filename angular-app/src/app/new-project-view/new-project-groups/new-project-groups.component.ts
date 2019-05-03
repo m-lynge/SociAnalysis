@@ -124,7 +124,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
                 this.newprojectservice.listOfSelectedGroups = this.groupsSelected;
                 this.newprojectservice.Toggle = 2;
             } else {
-                //if no queries includes the groups unselected
+                // if no queries includes the groups unselected
                 this.directoryservice.getAllQueries(
                     this.directoryservice.selectedUser, this.directoryservice.selectedProject)
                     .subscribe(async (AllQueries) => {
@@ -143,7 +143,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
                                 if (conflictGroupsAndQueries.length > 0) {
                                     let string = '';
                                     conflictGroupsAndQueries.forEach(element => {
-                                        string = string + JSON.stringify(element.groupInstance.name);
+                                        string = string + ' Gruppen: ' + JSON.stringify(element.groupInstance.name);
                                         string = string + ' - er brugt i: ';
                                         console.log('feelsbad', element.usedInQueries);
                                         if (element.usedInQueries.length > 1) {
@@ -159,7 +159,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
                                         }
                                     });
                                     console.log('string made', string);
-                                    alert('De følgende grupper er tilknyttet de følgende forespørgsler:' + '\n' + string);
+                                    alert('Gem kan ikke gennemføres da: ' + '\n' + string + ' og kan derfor ikke fjernes fra projektet');
                                 } else {
                                     this.newprojectservice.saveProject();
                                 }
