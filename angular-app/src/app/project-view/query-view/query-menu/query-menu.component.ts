@@ -28,12 +28,12 @@ export class QueryMenuComponent implements AfterViewInit {
             .subscribe((queryArray) => {
 
                 if (queryArray && queryArray[0]) {
-                    console.log('selected query: ', this.directoryservice.selectedQuery);
+                    // console.log('selected query: ', this.directoryservice.selectedQuery);
                     if (!this.directoryservice.selectedQuery) {
-                        console.log('if selected user not');
+                        // console.log('if selected user not');
                         this.directoryservice.selectedQuery = queryArray[0];
                     }
-                    console.log('QMC: getSelectedQuery()');
+                    // console.log('QMC: getSelectedQuery()');
                     this.queryservice.getSelectedQuery();
                     this.queryservice.hasQuerys = true;
                 } else {

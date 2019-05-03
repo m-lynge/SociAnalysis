@@ -131,7 +131,6 @@ export class NewProjectService {
             //   }
             // });
 
-            console.log('A', SelectedGroups, 'B', ListFromFacebook);
 
             this.listOfSelectedGroups = SelectedGroups;
             this.listOfAllGroups = ListFromFacebook;

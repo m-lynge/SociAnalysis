@@ -27,7 +27,7 @@ export class QuerySelectorComponent implements OnInit, AfterContentInit {
       .subscribe((queryArray) => {
         this.retrievedQueryNames = queryArray;
         this.shownQueryNames = this.retrievedQueryNames;
-        console.log('From selector: ', this.directoryservice.selectedQuery);
+        // console.log('From selector: ', this.directoryservice.selectedQuery);
         this.querytest = this.directoryservice.selectedQuery;
       });
   }
@@ -46,7 +46,6 @@ export class QuerySelectorComponent implements OnInit, AfterContentInit {
   }
 
   newQuerySelected(querySelected: any): void {
-    console.log('QSC: getSelectedQuery()');
     this.directoryservice.selectedQuery = querySelected;
     this.queryservice.getSelectedQuery();
   }

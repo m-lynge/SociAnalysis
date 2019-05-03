@@ -22,10 +22,9 @@ export class QueryService {
             this.directoryservice.selectedProject,
             this.directoryservice.selectedQuery).then((data => {
             this.selectedQuery = data;
+            this.translateParameters();
             this.selectedQuerySubject.next(this.selectedQuery);
-            // this.selectedQuerySubject.complete();
             this.makeAllPostsToString();
-            // console.log(data);
         }));
     }
 
@@ -49,5 +48,21 @@ export class QueryService {
         //  this.allPostsText = 'a a a a a a is is is ist ist ist ist test test test test test';
         this.allPostsTextSubject.next(this.allPostsText);
         this.allPostsText = '';
+    }
+    translateParameters() {
+        this.selectedQuery.params.forEach((params, index) => {
+            if (params === 'message') {
+                this.selectedQuery.params[index] = 'besked';
+            }
+            if (params === 'comments') {
+                this.selectedQuery.params[index] = 'kommentarer';
+            }
+            if (params === 'reactions') {
+                this.selectedQuery.params[index] = 'reaktioner';
+            }
+            if (params === 'picture') {
+                this.selectedQuery.params[index] = 'billeder';
+            }
+        });
     }
 }

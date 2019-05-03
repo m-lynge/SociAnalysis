@@ -82,14 +82,13 @@ export class QueryVisualComponent implements OnInit, AfterContentInit, OnDestroy
     this.navigationservice.setNavi = true;
     this.height = 500;
     this.width = 500;
-    console.log('QVC construtor');
+    // console.log('QVC construtor');
     this.subscription = this.queryservice.allPostsTextSubject.subscribe((text) => {
 
       if (this.svg) {
         this.svg.selectAll('*').remove();
       }
       if (text) {
-        console.log('runing INIT, DRAWCIRCLES');
         this.countWords(text);
         this.Init();
         this.DrawCirles();
@@ -99,11 +98,10 @@ export class QueryVisualComponent implements OnInit, AfterContentInit, OnDestroy
   }
 
   ngOnInit(): void {
-    console.log('QVC ngOnInit');
+
   }
 
   ngAfterContentInit(): void {
-    console.log('QVC ngAfterContentInit');
   }
 
   ngOnDestroy() {
@@ -129,8 +127,6 @@ export class QueryVisualComponent implements OnInit, AfterContentInit, OnDestroy
   }
 
   private DrawCirles() {
-    console.log('Draw CIrcles....');
-    //console.log('StopwordsActive', this.stopWordsActive);
     if (this.stopWordsActive) {
       this.dataforCircles = this.sortedStatsArrayWithStopWords;
       this.max = this.sortedStatsArrayWithStopWords[0].number;
@@ -157,6 +153,7 @@ export class QueryVisualComponent implements OnInit, AfterContentInit, OnDestroy
       .text((d) => d.word);
     this.RunSimulation();
   }
+  
   private ticked() {
     this.circles
       .attr('cx', (d) => d.x)

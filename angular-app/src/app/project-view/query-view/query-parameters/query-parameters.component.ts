@@ -26,7 +26,7 @@ export class QueryParametersComponent implements OnInit, AfterContentInit {
   ngOnInit() {
     this.queryservice.selectedQuerySubject.subscribe((data) => {
       this.QueryParams = data;
-      console.log('queryParams:', data);
+      // console.log('queryParams:', data);
       this.amountOfPosts = this.QueryParams.fbData.length;
 
     });
