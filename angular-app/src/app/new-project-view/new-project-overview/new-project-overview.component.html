@@ -1,23 +1,23 @@
 <div id="wrapper">
-  
-    <div class="descView">
-      <h2>Projekt titel:</h2>
-      <br />
-      <h3>{{ this.newprojectservice.name }}</h3>
-      <br />
-      <h2>Projekt Beskrivelse:</h2>
-      <br />
-      <div id="LEFT">
+
+  <div class="descView">
+    <h2>Projekt titel:</h2>
+    <br />
+    <h3>{{ this.newprojectservice.name }}</h3>
+    <br />
+    <h2>Projekt Beskrivelse:</h2>
+    <br />
+    <div id="LEFT">
       <p>{{ this.newprojectservice.descr }}</p>
     </div>
-    </div>
+  </div>
 
-    <div class="rightBox" id="chosenbois">
-      <br>
-      <h2 id="groupHD">Valgte Facebook grupper</h2>
-      <div class="groupContainer">
-        <mat-card class="rightGroup" *ngFor="let group of this.newprojectservice.listOfSelectedGroups; let i = index">
-         <span class="card">
+  <div class="rightBox" id="chosenbois">
+    <br>
+    <h2 id="groupHD">Valgte Facebook grupper</h2>
+    <div class="groupContainer">
+      <mat-card class="rightGroup" *ngFor="let group of this.newprojectservice.listOfSelectedGroups; let i = index">
+        <span class="card">
           <div class="content">
             <div style="display: block" style="color:aliceblue">
               {{ group.name }}
@@ -27,15 +27,14 @@
             </div>
           </div>
         </span>
-        </mat-card>
-      </div>
+      </mat-card>
+    </div>
 
-    </div>
-    <div id="buttonContainer">
-      <form>
-        <input type="submit" value="{{this.newprojectservice.makeProjectButton}}" id="confirmBttn" name="" (click)="createProject()" />
-      </form>
-    </div>
   </div>
-  <div class="vLine"></div>
-<!-- Lav plads til searchbar. -->
+  <div id="buttonContainer">
+    <form>
+      <button mat-raised-button type="submit" color="accent" value="{{this.newprojectservice.makeProjectButton}}"
+        id="confirmBttn" name="" (click)="createProject()">{{this.newprojectservice.makeProjectButton}}</button>
+    </form>
+  </div>
+</div>

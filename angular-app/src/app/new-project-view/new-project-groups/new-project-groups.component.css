@@ -37,14 +37,11 @@
     padding-right: 15%;
 }
 .card{
-   /* margin-bottom: 2px;
-     padding-bottom: 5px;*/
-    
+  
     cursor: pointer;
     background-color:rgb(87, 152, 196);
     height: 13vh;
     padding-left: 5%
-    
 }
 .mat-card{
     padding:0;
@@ -53,7 +50,7 @@
 }
 .content{
     width:90%;
-    height: 40vh;
+    height: 45vh;
     align-content: center;
     overflow: hidden;
 }
@@ -74,4 +71,7 @@
 }
 .gDesc{
     font-size: 10px;
+}
+#headright{
+    margin-top: 15vh;
 }
