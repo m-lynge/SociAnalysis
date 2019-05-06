@@ -92,12 +92,8 @@ export class QueryTypeSelectionViewComponent implements OnInit {
     changeView(input: string) {
         if (input === 'brugerdefineret') {
             this.exportView.emit('1');
-
-
         } else if (input === 'standard') {
-            this.fbService.retrievePosts();
             this.exportView.emit('2');
-
         }
     }
 
