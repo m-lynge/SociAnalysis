@@ -8,6 +8,7 @@ import { QueryService } from 'src/app/query.service';
 import { FBServiceService } from 'src/app/fb-service.service';
 import { NewQuery } from 'src/app/NewQuery';
 import { Query } from 'src/app/Query';
+import {MatDialog, MatDialogRef} from "@angular/material";
 
 
 @Component({
