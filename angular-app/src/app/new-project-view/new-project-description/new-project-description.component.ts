@@ -22,11 +22,11 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
   ngOnInit() { }
 
   ngAfterContentInit(): void {
-    //It's a new project 
+    // It's a new project 
     if (this.newprojectservice.NewProject) {
       this.navigationservice.GoBackRoute = ['/home'];
     } else {
-      //It's an old project
+      // It's an old project
       this.navigationservice.GoBackRoute = ['/projekt'];
     }
   }
@@ -34,7 +34,7 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
   buttonClicked(): void {
     this.directoryservice.projectExists(this.directoryservice.selectedUser, this.newprojectservice.name).subscribe((projectExists) => {
       if (projectExists !== true) {
-        //It's a new project 
+        // It's a new project 
         if (this.newprojectservice.NewProject) {
           if (this.newprojectservice.name.length > 0 && this.newprojectservice.descr.length > 0) {
             this.newprojectservice.Toggle = 1;
@@ -42,7 +42,7 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
             alert('Både navn og beskrivelse skal udfyldes');
           }
         } else {
-          //It's an old project
+          // It's an old project
           if (this.newprojectservice.name.length > 0 && this.newprojectservice.descr.length > 0) {
             this.newprojectservice.copyProject();
           }

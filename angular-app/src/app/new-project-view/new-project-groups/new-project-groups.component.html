@@ -12,7 +12,6 @@
         </mat-form-field>
       </div>
 
-      <hr />
       <div class="groupContainer">
         <mat-card *ngFor="let group of groupsShown; let i = index" (click)="addToSelected(i)">
           <div class="card">
@@ -37,9 +36,8 @@
         <h6>Disse grupper har du valgt til dit projekt</h6>
       </div>
 
-      <hr />
 
-      <div class="groupContainer">
+      <div id="selectedContainer">
         <mat-card *ngFor="let group of groupsSelected; let i = index" (click)="addToAvailable(i)" color="primary">
           <span class="card">
             <div class="content">

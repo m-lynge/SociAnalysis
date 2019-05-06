@@ -18,7 +18,7 @@ export class QueryVisualComponent implements OnDestroy {
 
   private height: number;
   private width: number;
-  private svg: any;
+  private svg;
   private circles: any;
   private text: any;
   private ratioScale: any;
@@ -37,6 +37,7 @@ export class QueryVisualComponent implements OnDestroy {
   private sortedStatsArrayWithOutStopWords;
   private simulation;
   private statsArrayWithOutStopWords;
+  private chartDiv: any;
   private stopwords = ['ad', 'af', 'aldrig', 'alle', 'alt', 'anden', 'andet',
     'andre', 'at', 'bare', 'begge', 'blev', 'blive', 'bliver', 'da', 'de', 'dem',
     'den', 'denne', 'der', 'deres', 'det', 'dette', 'dig', 'din', 'dine', 'disse',
@@ -80,8 +81,8 @@ export class QueryVisualComponent implements OnDestroy {
   constructor(private navigationservice: NavigationService, private queryservice: QueryService) {
 
     this.navigationservice.setNavi = true;
-    this.height = 500;
-    this.width = 500;
+    // this.height = 500;
+    // this.width = 500;
     this.subscription = this.queryservice.allPostsTextSubject.subscribe((text) => {
       if (this.svg) {
         this.svg.selectAll('*').remove();
@@ -99,14 +100,22 @@ export class QueryVisualComponent implements OnDestroy {
   }
 
   private Init() {
+    // this.svg = d3.select('svg')
+    //   .attr('height', this.height)
+    //   .attr('width', this.width)
+    //   .style('text-anchor', 'middle')
+    //   .append('g')
+    //   .attr('transform', 'translate(250,250)');
+
     this.svg = d3.select('svg')
-      .attr('height', this.height)
-      .attr('width', this.width)
+      .classed("svg-container", true)
+      .attr("preserveAspectRatio", "xMinYMin meet")
+      .attr("viewBox", "0 0 600 400")
+      .classed("svg-content-responsive", true)
       .style('text-anchor', 'middle')
       .append('g')
-      .attr('transform', 'translate(250,250)');
+      .style('transform', 'translate(50%,50%)');
 
-    // calculate max amount of words to make the domain correct:
 
     this.svg.on('click', () => {
       this.svg.selectAll('*').remove();
@@ -127,7 +136,7 @@ export class QueryVisualComponent implements OnDestroy {
     this.ratioScale = d3Scale
       .scaleSqrt()
       .domain([1, this.max])
-      .range([20, 60]);
+      .range([20, 70]);
 
     this.circles = this.svg.selectAll('.words')
       .data(this.dataforCircles)
