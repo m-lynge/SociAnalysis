@@ -103,7 +103,7 @@ export class QueryTypeSelectionViewComponent implements OnInit {
 
     saveQuery(exportQuery) {
 
-        this.fbService.DoSearchForPosts(exportQuery).then((response) => {
+        this.fbService.DoAPISearchForQuery(exportQuery).then((response) => {
             const postList = [];
 
             response.forEach(postArray => {
@@ -125,7 +125,8 @@ export class QueryTypeSelectionViewComponent implements OnInit {
                 query
             );
 
-            this.router.navigate(['/projekt', exportQuery.name]);
+            //this.router.navigate(['/projekt', exportQuery.name]);
+            this.router.navigate(['/projekt']);
 
 
         });

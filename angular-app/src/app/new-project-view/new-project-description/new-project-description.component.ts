@@ -27,7 +27,7 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
       this.navigationservice.GoBackRoute = ['/home'];
     } else {
       //It's an old project
-      this.navigationservice.GoBackRoute = ['/projekt', ''];
+      this.navigationservice.GoBackRoute = ['/projekt'];
     }
   }
 

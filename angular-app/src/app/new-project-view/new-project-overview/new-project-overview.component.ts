@@ -33,7 +33,7 @@ export class NewProjectOverviewComponent implements OnInit, AfterContentInit {
   ngAfterContentInit(): void {
     //It's a new project 
     if (this.newprojectservice.NewProject) {
-      this.navigationservice.GoBackRoute = ['/projekt', ''];
+      this.navigationservice.GoBackRoute = ['/projekt'];
     } else {
       //It's an old project
       // this.router.navigate(['/projekt', '']);
@@ -53,7 +53,8 @@ export class NewProjectOverviewComponent implements OnInit, AfterContentInit {
     this.newprojectservice.ViewingNewProject = false;
     this.directoryservice.createProjectDirectory(this.directoryservice.selectedUser, projectInfo);
     this.directoryservice.selectedProject = projectInfo.name;
-    this.router.navigate(['/projekt', this.newprojectservice.name]);
+    this.directoryservice.selectedQuery = '';
+    this.router.navigate(['/projekt']);
 
   }
 }

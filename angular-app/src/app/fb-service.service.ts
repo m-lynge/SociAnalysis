@@ -124,16 +124,16 @@ export class FBServiceService {
         };
     }
 
-    async getPosts(url) {
-        const fragment = await (this.getPostFragment(url));
+    async getApiCall(url) {
+        const fragment = await (this.getApiCallFragment(url));
         if (fragment.nextPage) {
-            return fragment.data.concat(await this.getPosts(fragment.nextPage));
+            return fragment.data.concat(await this.getApiCall(fragment.nextPage));
         } else {
             return fragment.data;
         }
     }
 
-    async getPostFragment(url) {
+    async getApiCallFragment(url) {
         let responsePlaceholder;
         FB.api(url, response => {
             if (response && !response.error) {
@@ -150,13 +150,13 @@ export class FBServiceService {
         };
     }
 
-    async DoSearchForPosts(newQuery: NewQuery) {
+    async DoAPISearchForQuery(newQuery: NewQuery) {
 
         const promises = newQuery.groups.map(async groupCall => {
             let limit = 0;
             newQuery.filter.max !== null ? limit = newQuery.filter.max : limit = 100;
             const url = '/' + groupCall.id + '/feed?fields=' + newQuery.params + '&limit=' + limit;
-            return this.getPosts(url);
+            return this.getApiCall(url);
         });
 
         return await Promise.all(promises);
