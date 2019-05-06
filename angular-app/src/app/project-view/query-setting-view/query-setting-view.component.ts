@@ -175,8 +175,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
             {name: 'comments', clicked: this.commentsCheck.value},
             {name: 'likes', clicked: this.likesCheck.value},
             {name: 'reactions', clicked: this.reactionsCheck.value},
-            {name: 'picture', clicked: this.picturesCheck.value},
-            {name: 'link', clicked: this.linksCheck.value}
+            {name: 'permalink_url', clicked: this.linksCheck.value}
         ];
 
         const chosenParams = allParams.filter((param: any) => {
