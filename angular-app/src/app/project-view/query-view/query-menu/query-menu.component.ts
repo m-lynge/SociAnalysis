@@ -55,6 +55,12 @@ export class QueryMenuComponent implements AfterViewInit {
         this.navigationservice.GoBackRoute = ['/projekt'];
         this.router.navigate(['/project_ny_soegning']);
     }
+    deleteQuery() {
+        this.directoryservice.removeQuerry(this.directoryservice.selectedUser,
+            this.directoryservice.selectedProject,
+            this.directoryservice.selectedQuery );
+        this.directoryservice.selectedQuery = '';
+    }
 
     updateQuery() {
         this.queryservice.isLoading = true;
