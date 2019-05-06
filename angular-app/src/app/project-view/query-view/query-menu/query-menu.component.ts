@@ -128,6 +128,32 @@ export class ExportDialogComponent {
                 if (comment.comments) {
                     comment.comments.data.forEach(tempCon => {
 
+//                         {…}
+// ​
+// comments: {…}
+// ​​
+// data: Array [ {…} ]
+//                     ​​
+// paging: Object { cursors: {…} }
+// ​​
+// <prototype>: Object { … }
+// ​
+// created_time: "2019-05-06T11:06:38+0000"
+// ​
+// id: "570832779989187"
+
+                        if (tempCon.comments) {
+                            tempCon.comments.data.forEach(conInCon => {
+                                emptyArray.push({
+                                    message: conInCon.message,
+                                    id: conInCon.id,
+                                    likes: conInCon.like_count,
+                                    link: conInCon.permalink_url,
+                                    created_Time: conInCon.created_time
+                                });
+                            });
+                        }
+
 
                         let permalink;
                         let createdTime;
@@ -144,7 +170,7 @@ export class ExportDialogComponent {
                             permalink = tempCon.permalink_url;
                         }
 
-                        console.log(tempCon);
+                        // console.log(tempCon);
                         emptyArray.push({
                             message: tempCon.message,
                             id: tempCon.id,
@@ -164,7 +190,7 @@ export class ExportDialogComponent {
                 headers: ['Besked', 'ID', 'Likes', 'Link', 'Oprettet dato']
 
             };
-            // const messages = new Angular5Csv(emptyArray, 'KOMMENTARER', options);
+             const messages = new Angular5Csv(emptyArray, 'KOMMENTARER', options);
         });
     }
 
