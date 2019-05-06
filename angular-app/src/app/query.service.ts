@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
     providedIn: 'root'
 })
 export class QueryService {
+    public isLoading: boolean = false;
     private selectedQuery: Query;
     private allPostsText: string;
     hasQuerys = false;

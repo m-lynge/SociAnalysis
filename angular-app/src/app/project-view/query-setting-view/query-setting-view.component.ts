@@ -216,7 +216,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
             filter: {max: this.maxInput.value, tags: chosenTags}
         };
 
-        this.fbservice.DoSearchForPosts(exportQuery).then((response) => {
+        this.fbservice.DoAPISearchForQuery(exportQuery).then((response) => {
             const postList = [];
             response.forEach(postArray => {
                 postArray.forEach((data) => {
@@ -236,8 +236,8 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                     postList
                 )
             );
-
-            this.router.navigate(['/projekt', exportQuery.name]);
+            //this.router.navigate(['/projekt', exportQuery.name]);
+            this.router.navigate(['/projekt']);
         });
     }
 

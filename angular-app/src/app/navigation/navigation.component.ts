@@ -41,7 +41,7 @@ export class NavigationComponent implements OnInit, AfterViewInit {
       } else {
         this.newprojectservice.ViewingNewProject = false;
         this.navigationservice.GoBackRoute = ['/home'];
-        this.router.navigate(['/projekt', '']);
+        this.router.navigate(['/projekt']);
 
       }
     } else {

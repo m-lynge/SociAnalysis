@@ -1,10 +1,13 @@
-import {AfterViewInit, Component} from '@angular/core';
-import {DirectoryService} from '../../../directory.service';
-import {Router} from '@angular/router';
-import {NavigationService} from 'src/app/navigation.service';
-import {QueryService} from 'src/app/query.service';
-import {MatDialog, MatDialogRef} from "@angular/material";
-import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
+import { AfterViewInit, Component } from '@angular/core';
+import { DirectoryService } from '../../../directory.service';
+import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
+import { Router } from '@angular/router';
+import { NewProjectService } from 'src/app/new-project.service';
+import { NavigationService } from 'src/app/navigation.service';
+import { QueryService } from 'src/app/query.service';
+import { FBServiceService } from 'src/app/fb-service.service';
+import { NewQuery } from 'src/app/NewQuery';
+import { Query } from 'src/app/Query';
 
 
 @Component({
@@ -15,12 +18,13 @@ import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
 export class QueryMenuComponent implements AfterViewInit {
 
     constructor(private directoryservice: DirectoryService,
-                private router: Router,
-                private navigationservice: NavigationService,
-                public queryservice: QueryService,
-                public dialog: MatDialog
-    ) {
-    }
+        private router: Router,
+        private navigationservice: NavigationService,
+        private fbservice: FBServiceService,
+        public queryservice: QueryService,
+        public dialog: MatDialog
+    ) { }
+                
 
 
 
@@ -40,11 +44,44 @@ export class QueryMenuComponent implements AfterViewInit {
     }
 
     newQuery() {
-        this.navigationservice.GoBackRoute = ['/projekt', ''];
+        this.navigationservice.GoBackRoute = ['/projekt'];
         this.router.navigate(['/project_ny_soegning']);
     }
 
     updateQuery() {
+        this.queryservice.isLoading = true;
+        this.directoryservice.getQuery(
+            this.directoryservice.selectedUser,
+            this.directoryservice.selectedProject,
+            this.directoryservice.selectedQuery
+        ).then((data: Query) => {
+            const newquery = new NewQuery(data.name, data.params, data.timeperiod, data.groups, data.filter);
+            this.fbservice.DoAPISearchForQuery(newquery).then((response) => {
+                const postList = [];
+
+                response.forEach(postArray => {
+                    postArray.forEach((fbData) => {
+                        postList.push(fbData);
+                    });
+                });
+    
+                const query = new Query(
+                    data.name,
+                    data.params,
+                    data.timeperiod,
+                    data.groups,
+                    data.filter,
+                    postList);
+                this.directoryservice.createQueryJSON(
+                    this.directoryservice.selectedUser,
+                    this.directoryservice.selectedProject,
+                    query
+                );
+                this.queryservice.isLoading = false;
+            });
+
+
+        });
     }
 
     openDialog(): void {

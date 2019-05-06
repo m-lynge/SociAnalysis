@@ -1,10 +1,4 @@
-.vLine{
-    border-left: 3px solid rgb(0, 0, 0);
-    height: 85 %;
-    position: absolute;
-    left:50%;
-    top:0;
-}
+
 .descView{
     float: left;
     width: 50%;
@@ -26,27 +20,17 @@
     text-align: center;
 }
 #confirmBttn{
-    background: rgb(110, 19, 75);
-    color: white;
+    
     height: 100px;
     width: 100%;
     position: fixed;
     bottom: 0px;
     right: 0px;
 }
-#editBttn{
-    position: absolute;
-    font-size: 12px;
-    left: 0px;
-    margin-top: 30%;
-    background: rgb(110, 19, 75);
-    color: white;
-    height: 50px;
-    width: 150px;
-    align-content: center;
-}
+
 #wrapper{
-    height: 90%;
+    overflow-y: hidden;
+    height: 80%;
     width: 100%;
     overflow-y:hidden;
 }
@@ -59,20 +43,24 @@
     height: 50vh;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 15%;
+    padding-right: 15%;
 }
 
 .card{
     cursor: pointer;
-    background-color:rgb(60, 90, 153);
+    background-color:rgb(87, 152, 196);
     height: 13vh;
     padding-left: 5%
+}
+.mat-card{
+    padding: 0;
+    margin-bottom: 5%;
 }
 
 .content{
     width:90%;
-    height: 50vh;
+    height: 45vh;
     align-content: center;
     overflow: hidden;
 }

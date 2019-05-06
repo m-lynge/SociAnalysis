@@ -18,7 +18,7 @@ export class QuerySelectorComponent implements AfterContentInit, OnDestroy {
               private queryservice: QueryService) { }
 
   ngAfterContentInit(): void {
-    this.subscription = this.queryservice.selectedQuerySubject.subscribe(() =>{
+    this.subscription = this.queryservice.selectedQuerySubject.subscribe(() => {
       this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
       .subscribe((queryArray) => {
         this.retrievedQueryNames = queryArray;
