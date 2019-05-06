@@ -247,6 +247,7 @@ export class ExportDialogComponent {
             this.directoryservice.selectedProject,
             this.directoryservice.selectedQuery
         ).then((data: Query) => {
+            
             console.log('data: ');
             console.log(data);
 
