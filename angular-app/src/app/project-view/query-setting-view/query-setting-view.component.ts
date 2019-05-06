@@ -1,14 +1,14 @@
-import {AfterContentInit, Component, OnInit} from '@angular/core';
-import {MatChipInputEvent} from '@angular/material/chips';
-import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
-import {Group} from '../../Group';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {DirectoryService} from 'src/app/directory.service';
-import {FBServiceService} from 'src/app/fb-service.service';
-import {Query} from "../../Query";
-import {Project} from '../../Project';
-import {NewQuery} from 'src/app/NewQuery';
-import {Router} from "@angular/router";
+import { AfterContentInit, Component, OnInit } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
+import { Group } from '../../Group';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DirectoryService } from 'src/app/directory.service';
+import { FBServiceService } from 'src/app/fb-service.service';
+import { Query } from "../../Query";
+import { Project } from '../../Project';
+import { NewQuery } from 'src/app/NewQuery';
+import { Router } from "@angular/router";
 
 export interface QuerySettingsInterface {
     name: string;
@@ -131,7 +131,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
 
         if (alreadyExist === false) {
             if ((value || '').trim()) {
-                this.searchTags.push({tag: value.trim()});
+                this.searchTags.push({ tag: value.trim() });
             }
             if (input) {
                 input.value = '';
@@ -171,11 +171,11 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
 
     SaveQuery() {
         const allParams: any = [
-            {name: 'message', clicked: this.postsCheck.value},
-            {name: 'comments', clicked: this.commentsCheck.value},
-            {name: 'likes', clicked: this.likesCheck.value},
-            {name: 'reactions', clicked: this.reactionsCheck.value},
-            {name: 'permalink_url', clicked: this.linksCheck.value}
+            { name: 'message', clicked: this.postsCheck.value },
+            { name: 'comments', clicked: this.commentsCheck.value },
+            { name: 'likes', clicked: this.likesCheck.value },
+            { name: 'reactions', clicked: this.reactionsCheck.value },
+            { name: 'permalink_url', clicked: this.linksCheck.value }
         ];
 
         const chosenParams = allParams.filter((param: any) => {
@@ -212,7 +212,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                 till: endDate
             },
             groups: this.groupsSelected,
-            filter: {max: this.maxInput.value, tags: chosenTags}
+            filter: { max: this.maxInput.value, tags: chosenTags }
         };
 
         this.fbservice.DoAPISearchForQuery(exportQuery).then((response) => {
@@ -223,6 +223,51 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                 });
             });
 
+            //do filtering based on filter
+            const filteresArray = postList.filter((post: any) => {
+                //if post message
+                let returnBool = false;
+                exportQuery.filter.tags.forEach((tag) => {
+                    if (post.hasOwnProperty('message')) {
+                        if (post.message.includes(tag)) {
+                            console.log('postmessage: ', post.message, ' - includes: ', tag);
+                            returnBool = true;
+                        }
+                    }
+                    if (returnBool !== true) {
+                        //if comment message
+                        if (post.hasOwnProperty('comments')) {
+                            post.comments.data.forEach(comment => {
+                                if (comment.hasOwnProperty('message')) {
+                                    if (comment.message.includes(tag)) {
+                                        console.log('commentmessage: ', comment.message, ' - includes: ', tag);
+                                        returnBool = true;
+                                    }
+                                }
+                                if (returnBool !== true) {
+                                    if (comment.hasOwnProperty('comments')) {
+                                        comment.comments.data.forEach(commentOfcomment => {
+                                            if (commentOfcomment.hasOwnProperty('message')) {
+                                                if (commentOfcomment.message.includes(tag)) {
+                                                    console.log('commentofcommentmessage: ', commentOfcomment.message, ' - includes: ', tag);
+                                                    returnBool = true;
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    }
+                
+
+                });
+                
+                return returnBool === true;
+          
+            });
+            console.log('POSTDATA', postList);
+            console.log('FILTEREDDATA', filteresArray);
             this.directoryservice.createQueryJSON(
                 this.directoryservice.selectedUser,
                 this.directoryservice.selectedProject,
