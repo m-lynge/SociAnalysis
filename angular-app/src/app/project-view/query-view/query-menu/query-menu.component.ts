@@ -8,6 +8,7 @@ import { QueryService } from 'src/app/query.service';
 import { FBServiceService } from 'src/app/fb-service.service';
 import { NewQuery } from 'src/app/NewQuery';
 import { Query } from 'src/app/Query';
+import {MatDialog, MatDialogRef} from "@angular/material";
 
 
 @Component({
@@ -22,9 +23,11 @@ export class QueryMenuComponent implements AfterViewInit {
         private navigationservice: NavigationService,
         private fbservice: FBServiceService,
         public queryservice: QueryService,
+        public dialog: MatDialog
     ) { }
+                
 
-    data: any;
+
 
     ngAfterViewInit() {
         this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
@@ -82,7 +85,31 @@ export class QueryMenuComponent implements AfterViewInit {
         });
     }
 
+    openDialog(): void {
+        const dialogRef = this.dialog.open(ExportDialogComponent, {
+            width: '500px'
+        });
+    }
+
     exportQuery() {
+
+    }
+}
+
+@Component({
+    selector: 'app-dialog-overview-example-dialog',
+    templateUrl: 'exportDialog.html',
+    styleUrls: ['./dialog.css']
+})
+export class ExportDialogComponent {
+
+    data: any;
+
+    constructor(
+        public dialogRef: MatDialogRef<ExportDialogComponent>, private directoryservice: DirectoryService) {
+    }
+
+    exportMessage() {
         this.directoryservice.getQuery(
             this.directoryservice.selectedUser,
             this.directoryservice.selectedProject,
@@ -95,7 +122,7 @@ export class QueryMenuComponent implements AfterViewInit {
                 if (post.message) {
                     const postMessage = post.message.replace(/(\r\n|\n|\r|,)/gm, '');
                     const postID = post.id;
-                    emptyArray.push({ message: postMessage, id: postID });
+                    emptyArray.push({message: postMessage, id: postID});
                 }
             });
 
@@ -103,7 +130,12 @@ export class QueryMenuComponent implements AfterViewInit {
                 fieldSeparator: ';',
                 decimalseparator: ';'
             };
-            const messages = new Angular5Csv(emptyArray, 'My Report', options);
+            const messages = new Angular5Csv(emptyArray, 'BESKEDER', options);
         });
     }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+
 }

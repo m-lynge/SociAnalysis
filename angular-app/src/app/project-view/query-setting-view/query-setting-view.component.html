@@ -67,16 +67,19 @@
                 <div class="halfWidth">
 
                     <mat-form-field style="width: 100%">
-                        <input matInput type="number" [formControl]="maxInput" placeholder="Maks"
+                        <input matInput type="number"[formControl]="maxInput" (keypress)="numberOnly($event)" placeholder="Maks"
                             id="myNumber" />
                         <mat-hint>Antallet af opslag din søgning maks kan hente</mat-hint>
-
+                        <!--<mat-error *ngIf="max.invalid || max.touched">-->
+                          <!--Du må kun bruge tal!-->
+                        <!--</mat-error>-->
                         <!-- <input matInput placeholder="Max" value=" "> -->
                     </mat-form-field>
                 </div>
 
                 <div class="halfWidth">
                     <mat-form-field class="example-chip-list">
+
                         <mat-chip-list #chipList>
                             <mat-chip *ngFor="let tag of searchTags" [selectable]="selectable" [removable]="removable"
                                 (removed)="remove(tag)">
@@ -99,8 +102,10 @@
             <div class="fullsizeFormElement noHeight">
                 <div class="halfWidth noGrid">
                     <div class="cardContainer">
+                        <p>Tilgængelige Grupper</p>
                         <mat-card class="mat-card-content notSelected"
                             *ngFor="let group of groupsAvailable; let i = index" (click)="addToSelected(i)">
+
                             <div style="">
                                 <div style="display: block">
                                     {{group.name}}
@@ -114,6 +119,7 @@
                 </div>
                 <div class="halfWidth noGrid">
                     <div class="cardContainer">
+                        <p>Valgte Grupper</p>
                         <mat-card class="mat-card-content selected" *ngFor="let group of groupsSelected;  let i = index"
                             (click)="addToAvailable(i)">
                             <div style="">
