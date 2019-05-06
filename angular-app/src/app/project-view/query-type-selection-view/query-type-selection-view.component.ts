@@ -95,7 +95,13 @@ export class QueryTypeSelectionViewComponent implements OnInit {
 
 
         } else if (input === 'standard') {
-            this.fbService.retrievePosts();
+            // new NewQuery('default',
+            //     ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
+            //     { from: '', till: '' },
+            //     [],
+            //     { max: 100, tags: [] }
+            // )
+            // this.fbService.retrievePosts();
             this.exportView.emit('2');
 
         }

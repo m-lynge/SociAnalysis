@@ -171,46 +171,4 @@ export class FBServiceService {
 
 
     }
-
-    // retrievePosts() {
-    //     this.FetchPosts(
-    //         '',
-    //         '536165083455957',
-    //         new NewQuery('default',
-    //             ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
-    //             { from: '', till: '' },
-    //             [],
-    //             { max: 100, tags: [] }
-    //         )
-    //     );
-    // }
-
-    // FetchPosts(url: string, groupID: string, params: NewQuery) {
-    //     if (groupID) {
-    //         url = '/' + groupID + '/feed?fields=' + params.params.map((check) => {
-    //             return check;
-    //         }) + ',created_time' + '&limit=100';
-    //     }
-
-    //     FB.api(
-    //         url,
-    //         response => {
-    //             if (response && !response.error) {
-    //                 this.updatePostList(response.data);
-    //                 if (response.paging) {
-    //                     this.FetchPosts(response.paging.next, '', params);
-    //                 } else {
-    //                     this.directoryService.createQueryJSON(
-    //                         this.directoryService.selectedUser,
-    //                         this.directoryService.selectedProject,
-    //                         new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts)
-    //                     );
-    //                     this.listOfPosts = [];
-    //                 }
-    //             } else {
-    //                 console.log(response.error);
-    //             }
-    //         },
-    //     );
-    // }
 }
