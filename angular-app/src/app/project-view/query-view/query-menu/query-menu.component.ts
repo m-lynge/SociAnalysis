@@ -8,8 +8,15 @@ import { QueryService } from 'src/app/query.service';
 import { FBServiceService } from 'src/app/fb-service.service';
 import { NewQuery } from 'src/app/NewQuery';
 import { Query } from 'src/app/Query';
-import {MatDialog, MatDialogRef} from "@angular/material";
+import { MatDialog, MatDialogRef } from '@angular/material';
 
+// interface ExportJSONQuery {
+//     groups: [{
+//         post: [{
+
+//         }]
+//     }]
+// }
 
 @Component({
     selector: 'app-query-menu',
@@ -19,13 +26,13 @@ import {MatDialog, MatDialogRef} from "@angular/material";
 export class QueryMenuComponent implements AfterViewInit {
 
     constructor(private directoryservice: DirectoryService,
-        private router: Router,
-        private navigationservice: NavigationService,
-        private fbservice: FBServiceService,
-        public queryservice: QueryService,
-        public dialog: MatDialog
+                private router: Router,
+                private navigationservice: NavigationService,
+                private fbservice: FBServiceService,
+                public queryservice: QueryService,
+                public dialog: MatDialog
     ) { }
-                
+
 
 
 
@@ -65,7 +72,7 @@ export class QueryMenuComponent implements AfterViewInit {
                         postList.push(fbData);
                     });
                 });
-    
+
                 const query = new Query(
                     data.name,
                     data.params,
@@ -109,7 +116,7 @@ export class ExportDialogComponent {
         public dialogRef: MatDialogRef<ExportDialogComponent>, private directoryservice: DirectoryService) {
     }
 
-    exportMessage() {
+    public exportMessage() {
         this.directoryservice.getQuery(
             this.directoryservice.selectedUser,
             this.directoryservice.selectedProject,
@@ -122,7 +129,7 @@ export class ExportDialogComponent {
                 if (post.message) {
                     const postMessage = post.message.replace(/(\r\n|\n|\r|,)/gm, '');
                     const postID = post.id;
-                    emptyArray.push({message: postMessage, id: postID});
+                    emptyArray.push({ message: postMessage, id: postID });
                 }
             });
 
@@ -131,6 +138,20 @@ export class ExportDialogComponent {
                 decimalseparator: ';'
             };
             const messages = new Angular5Csv(emptyArray, 'BESKEDER', options);
+        });
+    }
+
+
+
+    exportJSON() {
+        this.directoryservice.getQuery(
+            this.directoryservice.selectedUser,
+            this.directoryservice.selectedProject,
+            this.directoryservice.selectedQuery
+        ).then((data: Query) => {
+            console.log('data: ');
+            console.log(data);
+
         });
     }
 

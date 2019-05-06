@@ -1,9 +1,9 @@
-import {Injectable, NgZone} from '@angular/core';
-import {DirectoryService} from './directory.service';
-import {NewQuery} from "./NewQuery";
-import {Router} from "@angular/router";
-import {Subject} from "rxjs";
-import {Query} from "./Query";
+import { Injectable, NgZone } from '@angular/core';
+import { DirectoryService } from './directory.service';
+import { NewQuery } from "./NewQuery";
+import { Router } from "@angular/router";
+import { Subject } from "rxjs";
+import { Query } from "./Query";
 @Injectable({
     providedIn: 'root'
 })
@@ -51,7 +51,7 @@ export class FBServiceService {
                 } else {
                     reject('Login Failed');
                 }
-            }, {scope: 'groups_access_member_info'});
+            }, { scope: 'groups_access_member_info' });
             // , auth_type: 'reauthenticate'
         });
     }
@@ -155,7 +155,15 @@ export class FBServiceService {
         const promises = newQuery.groups.map(async groupCall => {
             let limit = 0;
             newQuery.filter.max !== null ? limit = newQuery.filter.max : limit = 100;
-            const url = '/' + groupCall.id + '/feed?fields=' + newQuery.params + '&limit=' + limit;
+            const url = '/' + groupCall.id + '/feed?fields=' + newQuery.params.map((check) => {
+                if (check === 'comments') {
+                    return (check + '{permalink_url,message,comments{permalink_url,message}}');
+                } else {
+                    return check;
+                }
+            }) + ',created_time' + '&limit=' + limit;
+
+            console.log('this is the url: ', url);
             return this.getApiCall(url);
         });
 
@@ -164,45 +172,45 @@ export class FBServiceService {
 
     }
 
-    retrievePosts() {
-        this.FetchPosts(
-            '',
-            '536165083455957',
-            new NewQuery('default',
-                ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
-                {from: '', till: ''},
-                [],
-                {max: 100, tags: []}
-            )
-        );
-    }
+    // retrievePosts() {
+    //     this.FetchPosts(
+    //         '',
+    //         '536165083455957',
+    //         new NewQuery('default',
+    //             ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
+    //             { from: '', till: '' },
+    //             [],
+    //             { max: 100, tags: [] }
+    //         )
+    //     );
+    // }
 
-    FetchPosts(url: string, groupID: string, params: NewQuery) {
-        if (groupID) {
-            url = '/' + groupID + '/feed?fields=' + params.params.map((check) => {
-                return check;
-            }) + '&limit=100';
-        }
+    // FetchPosts(url: string, groupID: string, params: NewQuery) {
+    //     if (groupID) {
+    //         url = '/' + groupID + '/feed?fields=' + params.params.map((check) => {
+    //             return check;
+    //         }) + ',created_time' + '&limit=100';
+    //     }
 
-        FB.api(
-            url,
-            response => {
-                if (response && !response.error) {
-                    this.updatePostList(response.data);
-                    if (response.paging) {
-                        this.FetchPosts(response.paging.next, '', params);
-                    } else {
-                        this.directoryService.createQueryJSON(
-                            this.directoryService.selectedUser,
-                            this.directoryService.selectedProject,
-                            new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts)
-                        );
-                        this.listOfPosts = [];
-                    }
-                } else {
-                    console.log(response.error);
-                }
-            },
-        );
-    }
+    //     FB.api(
+    //         url,
+    //         response => {
+    //             if (response && !response.error) {
+    //                 this.updatePostList(response.data);
+    //                 if (response.paging) {
+    //                     this.FetchPosts(response.paging.next, '', params);
+    //                 } else {
+    //                     this.directoryService.createQueryJSON(
+    //                         this.directoryService.selectedUser,
+    //                         this.directoryService.selectedProject,
+    //                         new Query(params.name, params.params, params.timeperiod, params.groups, params.filter, this.listOfPosts)
+    //                     );
+    //                     this.listOfPosts = [];
+    //                 }
+    //             } else {
+    //                 console.log(response.error);
+    //             }
+    //         },
+    //     );
+    // }
 }
