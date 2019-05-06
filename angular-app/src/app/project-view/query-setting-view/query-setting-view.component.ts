@@ -277,7 +277,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                     exportQuery.timeperiod,
                     exportQuery.groups,
                     exportQuery.filter,
-                    postList
+                    filteresArray
                 )
             );
             //this.router.navigate(['/projekt', exportQuery.name]);
