@@ -1,10 +1,10 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { DirectoryService } from '../../../directory.service';
-import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
-import { Router } from '@angular/router';
-import { NewProjectService } from 'src/app/new-project.service';
-import { NavigationService } from 'src/app/navigation.service';
-import { QueryService } from 'src/app/query.service';
+import {AfterViewInit, Component} from '@angular/core';
+import {DirectoryService} from '../../../directory.service';
+import {Router} from '@angular/router';
+import {NavigationService} from 'src/app/navigation.service';
+import {QueryService} from 'src/app/query.service';
+import {MatDialog, MatDialogRef} from "@angular/material";
+import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
 
 
 @Component({
@@ -18,9 +18,11 @@ export class QueryMenuComponent implements AfterViewInit {
                 private router: Router,
                 private navigationservice: NavigationService,
                 public queryservice: QueryService,
-    ) { }
+                public dialog: MatDialog
+    ) {
+    }
 
-    data: any;
+
 
     ngAfterViewInit() {
         this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
@@ -45,7 +47,31 @@ export class QueryMenuComponent implements AfterViewInit {
     updateQuery() {
     }
 
+    openDialog(): void {
+        const dialogRef = this.dialog.open(ExportDialogComponent, {
+            width: '500px'
+        });
+    }
+
     exportQuery() {
+
+    }
+}
+
+@Component({
+    selector: 'app-dialog-overview-example-dialog',
+    templateUrl: 'exportDialog.html',
+    styleUrls: ['./dialog.css']
+})
+export class ExportDialogComponent {
+
+    data: any;
+
+    constructor(
+        public dialogRef: MatDialogRef<ExportDialogComponent>, private directoryservice: DirectoryService) {
+    }
+
+    exportMessage() {
         this.directoryservice.getQuery(
             this.directoryservice.selectedUser,
             this.directoryservice.selectedProject,
@@ -58,7 +84,7 @@ export class QueryMenuComponent implements AfterViewInit {
                 if (post.message) {
                     const postMessage = post.message.replace(/(\r\n|\n|\r|,)/gm, '');
                     const postID = post.id;
-                    emptyArray.push({ message: postMessage, id: postID });
+                    emptyArray.push({message: postMessage, id: postID});
                 }
             });
 
@@ -66,7 +92,12 @@ export class QueryMenuComponent implements AfterViewInit {
                 fieldSeparator: ';',
                 decimalseparator: ';'
             };
-            const messages = new Angular5Csv(emptyArray, 'My Report', options);
+            const messages = new Angular5Csv(emptyArray, 'BESKEDER', options);
         });
     }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+
 }

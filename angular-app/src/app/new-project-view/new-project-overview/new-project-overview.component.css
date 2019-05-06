@@ -11,6 +11,12 @@
     padding: 2%;
     height: 50vh;
 }
+.titleOverview{
+    font-size: 25px;
+    margin-top: 25px;
+    font-weight: bold;
+    text-align: center;
+}
 
 .rightBox{
     width:50%;

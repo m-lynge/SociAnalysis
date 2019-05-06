@@ -24,7 +24,8 @@
                 <p class="text">Gentag søgning</p>
             </th>
         </tr>
-        <tr class="clickable-row" (click)="exportQuery()" *ngIf='this.queryservice.hasQuerys'>
+        <!--<tr class="clickable-row" (click)="exportQuery()" *ngIf='this.queryservice.hasQuerys'>-->
+        <tr class="clickable-row" (click)="openDialog()" *ngIf='this.queryservice.hasQuerys'>
             <th>
                 <div class="icon">
                     <img class="logo" src="assets/logos/Logos-03.svg">

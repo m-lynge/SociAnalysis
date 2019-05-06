@@ -5,7 +5,8 @@
     "types": [
       "facebook-js-sdk" // facebook
       ,
-      "jquery" //jquery
+      "jquery"
+      //jquery
     ]
   },
   "exclude": [

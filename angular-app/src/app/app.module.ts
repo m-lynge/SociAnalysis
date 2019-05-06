@@ -23,7 +23,7 @@ import {
 } from './project-view/query-type-selection-view/query-type-selection-view.component';
 import {QuerySettingViewComponent} from './project-view/query-setting-view/query-setting-view.component';
 import {QueryVisualViewComponent} from './project-view/query-view/query-visual-view/query-visual-view.component';
-import {QueryMenuComponent} from './project-view/query-view/query-menu/query-menu.component';
+import {ExportDialogComponent, QueryMenuComponent} from './project-view/query-view/query-menu/query-menu.component';
 import {QueryParametersComponent} from './project-view/query-view/query-parameters/query-parameters.component';
 import {QueryVisualComponent} from './project-view/query-view/query-visual-view/query-visual/query-visual.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -63,7 +63,8 @@ import {MatFormFieldModule, MatInputModule} from "@angular/material";
         QueryVisualComponent,
         NavigationComponent,
         NewQueryViewComponent,
-        DialogOverviewExampleDialogComponent
+        DialogOverviewExampleDialogComponent,
+        ExportDialogComponent
 
 
     ],
@@ -81,7 +82,7 @@ import {MatFormFieldModule, MatInputModule} from "@angular/material";
     ],
     providers: [],
     bootstrap: [AppComponent],
-    entryComponents: [DialogOverviewExampleDialogComponent]
+    entryComponents: [DialogOverviewExampleDialogComponent, ExportDialogComponent]
 })
 export class AppModule {
 }
