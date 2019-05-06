@@ -38,7 +38,7 @@ export class QueryMenuComponent implements AfterViewInit {
     }
 
     newQuery() {
-        this.navigationservice.GoBackRoute = ['/projekt', ''];
+        this.navigationservice.GoBackRoute = ['/projekt'];
         this.router.navigate(['/project_ny_soegning']);
     }
 

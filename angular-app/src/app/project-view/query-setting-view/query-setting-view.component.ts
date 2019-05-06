@@ -219,8 +219,8 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                     postList
                 )
             );
-
-            this.router.navigate(['/projekt', exportQuery.name]);
+            //this.router.navigate(['/projekt', exportQuery.name]);
+            this.router.navigate(['/projekt']);
         });
     }
 

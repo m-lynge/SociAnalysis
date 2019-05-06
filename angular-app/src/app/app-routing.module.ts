@@ -13,7 +13,7 @@ const routes: Routes = [{path: '', component: LoginViewComponent},
     {path: 'loading', component: LoadingViewComponent},
     {path: 'home', component: HomeViewComponent},
     {path: 'opretprojekt', component: NewProjectViewComponent},
-    {path: 'projekt/:queryName', component: ProjectViewComponent},
+    {path: 'projekt', component: ProjectViewComponent},
     {path: 'project_ny_soegning', component: QueryTypeSelectionViewComponent},
     {path: 'project_ny_soegning_brugerdef', component: QuerySettingViewComponent}
 ];

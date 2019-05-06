@@ -155,7 +155,7 @@ export class NewProjectService {
                               this.directoryservice.selectedProject = this.name;
                               this.navigationservice.GoBackRoute = ['/home'];
                               this.ViewingNewProject = false;
-                              this.router.navigate(['/projekt', '']);
+                              this.router.navigate(['/projekt']);
                             });
                         });
                       }
@@ -178,7 +178,7 @@ export class NewProjectService {
         ).done((handleData) => {
           this.navigationservice.GoBackRoute = ['/home'];
           this.ViewingNewProject = false;
-          this.router.navigate(['/projekt', '']);
+          this.router.navigate(['/projekt']);
         });
       });
   }
