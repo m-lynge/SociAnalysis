@@ -1,6 +1,9 @@
 import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { DirectoryService } from 'src/app/directory.service';
 import { QueryService } from 'src/app/query.service';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-query-selector',
@@ -13,6 +16,9 @@ export class QuerySelectorComponent implements AfterContentInit, OnDestroy {
   shownQueryNames: string[];
   private subscription;
   searchTerm = '';
+  // ml19
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
 
   constructor(private directoryservice: DirectoryService,
               private queryservice: QueryService) { }
@@ -21,22 +27,28 @@ export class QuerySelectorComponent implements AfterContentInit, OnDestroy {
     this.subscription = this.queryservice.selectedQuerySubject.subscribe(() => {
       this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
       .subscribe((queryArray) => {
-        this.retrievedQueryNames = queryArray;
-        this.shownQueryNames = this.retrievedQueryNames;
-        this.querytest = this.directoryservice.selectedQuery;
+        // this.retrievedQueryNames = queryArray;
+        this.shownQueryNames = queryArray;
+        // this.querytest = this.directoryservice.selectedQuery;
+        this.filteredOptions = this.myControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filter(value))
+        );
+        this.myControl.setValue(this.directoryservice.selectedQuery);
       });
     });
   }
 
-  findMatchingQueries(): void {
-    // called everytime the input field is changed
-    this.shownQueryNames = this.retrievedQueryNames.filter((query) => {
-      return query.toLowerCase().includes(this.searchTerm.toLowerCase());
-    });
-    if (this.searchTerm === '') {
-      this.shownQueryNames = this.retrievedQueryNames;
-    }
-  }
+  // findMatchingQueries(): void {
+  //   // called everytime the input field is changed
+  //   this.shownQueryNames = this.retrievedQueryNames.filter((query) => {
+  //     return query.toLowerCase().includes(this.searchTerm.toLowerCase());
+  //   });
+  //   if (this.searchTerm === '') {
+  //     this.shownQueryNames = this.retrievedQueryNames;
+  //   }
+  // }
 
   newQuerySelected(querySelected: any): void {
     this.directoryservice.selectedQuery = querySelected;
@@ -45,5 +57,12 @@ export class QuerySelectorComponent implements AfterContentInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.shownQueryNames.filter(option => option.toLowerCase().includes(filterValue));
   }
 }

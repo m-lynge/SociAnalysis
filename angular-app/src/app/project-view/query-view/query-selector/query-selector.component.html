@@ -1,12 +1,29 @@
 <ng-container class="container">
-    <div>
+    <!-- <div>
         <mat-form-field class="example-full-width">
             <mat-label>Søg i dine søgninger</mat-label>
             <input (ngModelChange)="findMatchingQueries()" [(ngModel)]="searchTerm" matInput placeholder="" value="">
         </mat-form-field>
-    </div>
+    </div> -->
 
     <div>
+        <mat-form-field class="example-full-width">
+            <input type="text" placeholder="Vælg en søgning" aria-label="Number" matInput [formControl]="myControl"
+                [matAutocomplete]="auto">
+                <button mat-button *ngIf="myControl.value" matSuffix mat-icon-button aria-label="Clear" (click)="myControl.setValue('')">
+                        <mat-icon>close</mat-icon>
+                </button>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="newQuerySelected($event.option.value)" >
+                  
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                    {{option}}
+                </mat-option>
+                    
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+
+    <!-- <div>
         <mat-form-field class="example-full-width">
             <mat-label>Vælg en søgning</mat-label>
             <mat-select (selectionChange)="newQuerySelected($event.value)" [(value)]='querytest'>
@@ -15,5 +32,5 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-    </div>
+    </div> -->
 </ng-container>

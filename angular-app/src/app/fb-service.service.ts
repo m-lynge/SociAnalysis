@@ -151,16 +151,35 @@ export class FBServiceService {
     }
 
     async DoAPISearchForQuery(newQuery: NewQuery) {
-
         const promises = newQuery.groups.map(async groupCall => {
             let limit = 0;
             newQuery.filter.max !== null ? limit = newQuery.filter.max : limit = 100;
+            // const url = '/' + groupCall.id + '/feed?fields=' + newQuery.params.map((check) => {
+            //     if (check === 'comments') {
+            //         if (newQuery.params.includes('likes')) {
+            //             return (check + '{comments{reactions,message,created_time,permalink_url},reactions,message,created_time,permalink_url}');
+            //         } else {
+            //             return (check + '{comments{reactions')
+            //         }
+            //     } else {
+            //         return check;
+            //     }
+            // }) + ',created_time,reactions' + '&limit=' + limit;
             const url = '/' + groupCall.id + '/feed?fields=' + newQuery.params.map((check) => {
-                if (check === 'comments') {
-                    return (check + '{comments{like_count,reactions,message,created_time,permalink_url},like_count,reactions,message,created_time,permalink_url}');
-                } else {
+                if (check !== 'comments') {
                     return check;
                 }
+                return 'comments{' + newQuery.params.map((secondcheck) => {
+                    if (secondcheck !== 'comments') {
+                        return secondcheck;
+                    } else {
+                        return 'comments{' + newQuery.params.filter((thirdcheck) => {
+                            if (thirdcheck!=='comments') {
+                                return thirdcheck;
+                            }
+                        }) + ',created_time}';
+                    }
+                }) + ',created_time}';
             }) + ',created_time' + '&limit=' + limit;
 
             console.log('this is the url: ', url);
