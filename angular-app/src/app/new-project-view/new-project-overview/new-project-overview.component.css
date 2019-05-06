@@ -21,7 +21,7 @@
 }
 #confirmBttn{
     
-    height: 100px;
+    height: 50px;
     width: 100%;
     position: fixed;
     bottom: 0px;
@@ -60,7 +60,6 @@
 
 .content{
     width:90%;
-    height: 45vh;
     align-content: center;
     overflow: hidden;
 }

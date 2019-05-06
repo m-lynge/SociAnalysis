@@ -3,11 +3,11 @@
     <p class="titleOverview">Projekt Overblik</p>
 
     <div class="descView">
-      <h2>Projekt titel:</h2>
+      <h5>Projekt titel:</h5>
       <br />
       <h3>{{ this.newprojectservice.name }}</h3>
       <br />
-      <h2>Projekt Beskrivelse:</h2>
+      <h5>Projekt Beskrivelse:</h5>
       <br />
       <div id="LEFT">
       <p>{{ this.newprojectservice.descr }}</p>
@@ -15,21 +15,23 @@
   </div>
 
   <div class="rightBox" id="chosenbois">
-    <br>
+    
     <h2 id="groupHD">Valgte Facebook grupper</h2>
     <div class="groupContainer">
-      <mat-card class="rightGroup" *ngFor="let group of this.newprojectservice.listOfSelectedGroups; let i = index">
-        <span class="card">
+      <mat-list class="rightGroup" *ngFor="let group of this.newprojectservice.listOfSelectedGroups; let i = index">
           <div class="content">
-            <div style="display: block" style="color:aliceblue">
-              {{ group.name }}
+            <div style="color:aliceblue">
+              <mat-list-item>
+               <h6 matLine>{{ group.name }}</h6> 
+              <p matLine> {{ group.desc }} </p>
+              </mat-list-item>
               <div style="color:white">
-                {{ group.desc }}
+                  <hr>
+
               </div>
             </div>
           </div>
-        </span>
-      </mat-card>
+      </mat-list>
     </div>
 
   </div>
