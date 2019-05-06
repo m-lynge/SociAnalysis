@@ -8,7 +8,15 @@ import {NewQuery} from 'src/app/NewQuery';
 import {Query} from 'src/app/Query';
 import {MatDialog, MatDialogRef} from "@angular/material";
 import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
+import { NewProjectService } from 'src/app/new-project.service';
 
+// interface ExportJSONQuery {
+//     groups: [{
+//         post: [{
+
+//         }]
+//     }]
+// }
 
 @Component({
     selector: 'app-query-menu',
@@ -25,6 +33,7 @@ export class QueryMenuComponent implements AfterViewInit {
                 public dialog: MatDialog
     ) {
     }
+
 
 
     ngAfterViewInit() {
@@ -214,6 +223,20 @@ export class ExportDialogComponent {
 
             };
             const messages = new Angular5Csv(emptyArray, 'BESKEDER', options);
+        });
+    }
+
+
+
+    exportJSON() {
+        this.directoryservice.getQuery(
+            this.directoryservice.selectedUser,
+            this.directoryservice.selectedProject,
+            this.directoryservice.selectedQuery
+        ).then((data: Query) => {
+            console.log('data: ');
+            console.log(data);
+
         });
     }
 
