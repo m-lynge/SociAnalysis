@@ -214,4 +214,15 @@ directoryRoute.post('/removeProject', (req, res) => {
     res.jsonp(true)
 })
 
+directoryRoute.post('/removeQuery', (req, res) => {
+    const user = req.body.user;
+    const project = req.body.projectName;
+    const query = req.body.queryName;
+    const projectPath = './users/' + user + '/' + project + '/query/*' + query ;
+    rimraf(projectPath, function () {
+        console.log('removed the query')
+    });
+    res.jsonp(true)
+})
+
 module.exports = directoryRoute;
