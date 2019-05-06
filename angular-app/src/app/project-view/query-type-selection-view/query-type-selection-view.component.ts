@@ -92,18 +92,8 @@ export class QueryTypeSelectionViewComponent implements OnInit {
     changeView(input: string) {
         if (input === 'brugerdefineret') {
             this.exportView.emit('1');
-
-
         } else if (input === 'standard') {
-            // new NewQuery('default',
-            //     ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
-            //     { from: '', till: '' },
-            //     [],
-            //     { max: 100, tags: [] }
-            // )
-            // this.fbService.retrievePosts();
             this.exportView.emit('2');
-
         }
     }
 
