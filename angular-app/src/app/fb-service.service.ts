@@ -157,7 +157,7 @@ export class FBServiceService {
             newQuery.filter.max !== null ? limit = newQuery.filter.max : limit = 100;
             const url = '/' + groupCall.id + '/feed?fields=' + newQuery.params.map((check) => {
                 if (check === 'comments') {
-                    return (check + '{permalink_url,message,comments{permalink_url,message}}');
+                    return (check + '{comments{like_count,reactions,message,created_time,permalink_url},like_count,reactions,message,created_time,permalink_url}');
                 } else {
                     return check;
                 }
