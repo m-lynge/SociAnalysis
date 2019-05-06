@@ -57,7 +57,7 @@ export class QueryTypeSelectionViewComponent implements OnInit {
             if (result) {
                 const exportQuery: NewQuery = new NewQuery(
                     this.name,
-                    ['message', 'comments', 'likes', 'reactions', 'picture', 'link'],
+                    ['message', 'comments', 'likes', 'reactions', 'permalink_url'],
                     { from: '', till: '' },
                     this.listOfGroups,
                     { max: 100, tags: [] }
@@ -79,13 +79,7 @@ export class QueryTypeSelectionViewComponent implements OnInit {
                             this.directoryservice.selectedQuery = this.name + '.json';
                         }
                     });
-
-
-
-
-
             }
-
         });
     }
 

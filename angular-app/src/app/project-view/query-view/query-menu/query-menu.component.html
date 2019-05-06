@@ -14,6 +14,16 @@
                 <p class="text">Ny søgning</p>
             </th>
         </tr>
+        <tr class="clickable-row" (click)="deleteQuery()" *ngIf='this.queryservice.hasQuerys'>
+            <th class="icons">
+                <div class="icon">
+                    <img class="logo" src="assets/logos/Logos-02.svg">
+                </div>
+            </th>
+            <th class="tableHorizontal">
+                <p class="text">Slet søgning</p>
+            </th>
+        </tr>
         <tr class="clickable-row" (click)="updateQuery()" *ngIf='this.queryservice.hasQuerys'>
             <th class="icons">
                 <div class="icon">

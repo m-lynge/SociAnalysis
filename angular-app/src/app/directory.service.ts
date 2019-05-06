@@ -191,4 +191,15 @@ export class DirectoryService {
             },
         });
     }
+
+    public removeQuerry(user: string, projectName: string, queryName: string) {
+        return $.ajax({
+            url: this.uri + '/removeQuery',
+            type: 'POST',
+            data: { user, projectName, queryName },
+            error: (XMLHttpRequest, textStatus, errorThrown) => {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            },
+        });
+    }
 }

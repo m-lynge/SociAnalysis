@@ -113,6 +113,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
 
     findMatchingGroups(): void {
+ 
         this.groupsShown = this.newprojectservice.listOfAllGroups.filter((group: Group) => {
             return group.name.toLowerCase().includes(this.searchTerm.trim().toLowerCase());
         });
