@@ -125,7 +125,8 @@ export class QueryTypeSelectionViewComponent implements OnInit {
                 query
             );
 
-            this.router.navigate(['/projekt', exportQuery.name]);
+            //this.router.navigate(['/projekt', exportQuery.name]);
+            this.router.navigate(['/projekt']);
 
 
         });
