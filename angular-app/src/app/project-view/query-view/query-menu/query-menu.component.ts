@@ -128,22 +128,29 @@ export class ExportDialogComponent {
                 if (comment.comments) {
                     comment.comments.data.forEach(tempCon => {
 
-                        let likesAmount = 0;
-                        let id = '';
-                        id = tempCon.id;
+
+                        let permalink;
+                        let createdTime;
+
+                        if (tempCon.created_time) {
+                            createdTime = tempCon.created_time;
+                        } else {
+                            createdTime = 'NaN';
+                        }
+
+
+
+                        if (tempCon.permalink_url) {
+                            permalink = tempCon.permalink_url;
+                        }
 
                         console.log(tempCon);
-                        // if (tempCon.likes) {
-                        //     likesAmount = tempCon.likes;
-                        // } else {
-                        //     likesAmount = 0;
-                        // }
-
-
                         emptyArray.push({
                             message: tempCon.message,
                             id: tempCon.id,
-                            likes: likesAmount
+                            likes: tempCon.like_count,
+                            link: permalink,
+                            created_Time: createdTime
                         });
                     });
 
@@ -154,10 +161,10 @@ export class ExportDialogComponent {
                 fieldSeparator: ';',
                 decimalseparator: ';',
                 showLabels: true,
-                headers: ['Besked', 'ID', 'Likes']
+                headers: ['Besked', 'ID', 'Likes', 'Link', 'Oprettet dato']
 
             };
-           // const messages = new Angular5Csv(emptyArray, 'KOMMENTARER', options);
+            // const messages = new Angular5Csv(emptyArray, 'KOMMENTARER', options);
         });
     }
 
