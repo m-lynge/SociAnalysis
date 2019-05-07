@@ -23,11 +23,11 @@
     padding-right: 40px;
 }
 .container{
-    padding: 5px;
+    padding: 15px 5px 5px;
     display: table;
     border-spacing: 10px 0px;
-    margin-left: 0;
-   
+    margin: 0 !important;
+   max-width: unset !important;
 }
 .projectTxt{
     text-align: center;
@@ -44,5 +44,6 @@
 }
 .navigator{
     width: 100%;
-   border-bottom: solid thin lightgrey;
+    height: 80px;
+   border-bottom: solid black;
 }
