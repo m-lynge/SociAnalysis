@@ -13,7 +13,7 @@
       <textarea input matInput #input matTextareaAutosize matAutosizeMinRows=4 matAutosizeMaxRows=3 maxlength="250"
                 placeholder="Project beskrivelse" name="ProjectDescription" id="Description"
                 [(ngModel)]="this.newprojectservice.descr" required
-                onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9|.|,||æåøÆØÅ]/g) === null"></textarea>
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9|.|,||æåøÆØÅ| ]/g) === null"></textarea>
             <mat-hint align="end">{{ input.value?.length || 0 }}/250</mat-hint>
         </mat-form-field>
         <br/><br/><br/>

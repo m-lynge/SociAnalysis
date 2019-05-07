@@ -1,14 +1,15 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { DirectoryService } from '../../../directory.service';
-import { Router } from '@angular/router';
-import { NavigationService } from 'src/app/navigation.service';
-import { QueryService } from 'src/app/query.service';
-import { FBServiceService } from 'src/app/fb-service.service';
-import { NewQuery } from 'src/app/NewQuery';
-import { Query } from 'src/app/Query';
-import { MatDialog, MatDialogRef } from "@angular/material";
-import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
-import { NewProjectService } from 'src/app/new-project.service';
+import {AfterViewInit, Component} from '@angular/core';
+import {DirectoryService} from '../../../directory.service';
+import {Router} from '@angular/router';
+import {NavigationService} from 'src/app/navigation.service';
+import {QueryService} from 'src/app/query.service';
+import {FBServiceService} from 'src/app/fb-service.service';
+import {NewQuery} from 'src/app/NewQuery';
+import {Query} from 'src/app/Query';
+import {MatDialog, MatDialogRef} from "@angular/material";
+import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
+import {DomSanitizer} from "@angular/platform-browser";
+import * as FileSaver from "file-saver";
 
 // interface ExportJSONQuery {
 //     groups: [{
@@ -26,11 +27,11 @@ import { NewProjectService } from 'src/app/new-project.service';
 export class QueryMenuComponent implements AfterViewInit {
 
     constructor(private directoryservice: DirectoryService,
-        private router: Router,
-        private navigationservice: NavigationService,
-        private fbservice: FBServiceService,
-        public queryservice: QueryService,
-        public dialog: MatDialog
+                private router: Router,
+                private navigationservice: NavigationService,
+                private fbservice: FBServiceService,
+                public queryservice: QueryService,
+                public dialog: MatDialog
     ) {
     }
 
@@ -64,14 +65,15 @@ export class QueryMenuComponent implements AfterViewInit {
         this.navigationservice.GoBackRoute = ['/projekt'];
         this.router.navigate(['/project_ny_soegning']);
     }
+
     deleteQuery() {
         if (confirm('Dette vil slette søgningen: ' + this.directoryservice.selectedQuery + ' - og alt dets data')) {
             this.directoryservice.removeQuerry(this.directoryservice.selectedUser,
                 this.directoryservice.selectedProject,
                 this.directoryservice.selectedQuery).then(() => {
-                    this.directoryservice.selectedQuery = '';
-                    this.updateList();
-                });
+                this.directoryservice.selectedQuery = '';
+                this.updateList();
+            });
         }
     }
 
@@ -414,8 +416,10 @@ export class ExportDialogComponent {
             this.directoryservice.selectedQuery
         ).then((data: Query) => {
 
-            console.log('data: ');
-            console.log(data);
+            console.log('read');
+            const theJSON = JSON.stringify(data);
+           // const uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
+
 
         });
     }

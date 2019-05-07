@@ -1,1 +1,7 @@
-<app-query-visual></app-query-visual>
+<p class="VisHed">Word Cloud  </p> 
+<p *ngIf='this.queryservice.stopWordsActive === true'>Med stopord</p>
+<p *ngIf='this.queryservice.stopWordsActive !== true'>Uden stopord</p>
+
+<div class="visBod">
+    <app-query-visual></app-query-visual>
+</div>

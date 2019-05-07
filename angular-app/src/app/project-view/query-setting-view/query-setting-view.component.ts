@@ -1,14 +1,14 @@
-import { AfterContentInit, Component, OnInit } from '@angular/core';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { COMMA, ENTER, SPACE, B } from '@angular/cdk/keycodes';
-import { Group } from '../../Group';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DirectoryService } from 'src/app/directory.service';
-import { FBServiceService } from 'src/app/fb-service.service';
-import { Query } from '../../Query';
-import { Project } from '../../Project';
-import { NewQuery } from 'src/app/NewQuery';
-import { Router } from '@angular/router';
+import {AfterContentInit, Component, OnInit} from '@angular/core';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
+import {Group} from '../../Group';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {DirectoryService} from 'src/app/directory.service';
+import {FBServiceService} from 'src/app/fb-service.service';
+import {Project} from '../../Project';
+import {Router} from '@angular/router';
+import {NewQuery} from "../../NewQuery";
+import {Query} from "../../Query";
 
 export interface QuerySettingsInterface {
     name: string;
@@ -62,6 +62,14 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
         private router: Router) {
     }
 
+    checkForms() {
+        if ($('.fullsizeFormElement input:checkbox:checked').length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     numberOnly(event): boolean {
         const charCode = (event.which) ? event.which : event.keyCode;
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -72,6 +80,10 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
     }
 
     ngOnInit(): void {
+        if (!this.directoryservice.selectedUser) {
+            this.router.navigate(['/']);
+        }
+
         this.myForm = this.formBuilder.group({
             name: ['', [
                 Validators.required,
@@ -82,7 +94,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                 Validators.pattern('asd')
             ]],
         });
-
+        this.checkForms();
         this.myForm.valueChanges.subscribe(console.log);
     }
 
@@ -131,7 +143,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
 
         if (alreadyExist === false) {
             if ((value || '').trim()) {
-                this.searchTags.push({ tag: value.trim() });
+                this.searchTags.push({tag: value.trim()});
             }
             if (input) {
                 input.value = '';
@@ -151,31 +163,37 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
     }
 
     StartQuery() {
-        this.directoryservice.queryExists(
-            this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.queryName + '.json')
-            .subscribe((queryExists) => {
-                if (queryExists === true) {
-                    const hasConfirmed = confirm('Ved at acceptere følgende sletter du en tidligere søgning med samme navn');
-                    if (hasConfirmed === true) {
+
+        if (!this.checkForms()) {
+            alert('Du skal vælge mindst 1 søge paramentre');
+        } else {
+            this.directoryservice.queryExists(
+                this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.queryName + '.json')
+                .subscribe((queryExists) => {
+                    if (queryExists === true) {
+                        const hasConfirmed = confirm('Ved at acceptere følgende sletter du en tidligere søgning med samme navn');
+                        if (hasConfirmed === true) {
+                            this.showLoading = true;
+                            this.directoryservice.selectedQuery = this.queryName + '.json';
+                            this.SaveQuery();
+                        }
+                    } else {
                         this.showLoading = true;
                         this.directoryservice.selectedQuery = this.queryName + '.json';
                         this.SaveQuery();
                     }
-                } else {
-                    this.showLoading = true;
-                    this.directoryservice.selectedQuery = this.queryName + '.json';
-                    this.SaveQuery();
-                }
-            });
+                });
+        }
+
     }
 
     SaveQuery() {
         const allParams: any = [
-            { name: 'message', clicked: this.postsCheck.value },
-            { name: 'comments', clicked: this.commentsCheck.value },
-            { name: 'likes', clicked: this.likesCheck.value },
-            { name: 'reactions', clicked: this.reactionsCheck.value },
-            { name: 'permalink_url', clicked: this.linksCheck.value }
+            {name: 'message', clicked: this.postsCheck.value},
+            {name: 'comments', clicked: this.commentsCheck.value},
+            {name: 'likes', clicked: this.likesCheck.value},
+            {name: 'reactions', clicked: this.reactionsCheck.value},
+            {name: 'permalink_url', clicked: this.linksCheck.value}
         ];
 
         const chosenParams = allParams.filter((param: any) => {
@@ -240,7 +258,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                 till: endDate
             },
             groups: this.groupsSelected,
-            filter: { max: this.maxInput.value, tags: chosenTags }
+            filter: {max: this.maxInput.value, tags: chosenTags}
         };
 
         this.fbservice.DoAPISearchForQuery(exportQuery).then((response) => {
@@ -271,6 +289,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
             );
             this.router.navigate(['/projekt']);
         });
+
     }
 
     fixDate(date: number): string {
@@ -294,6 +313,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
             }
         });
     }
+
     withinDates(check: string, beginDate: string, endDate: string): boolean {
         const cDate = Date.parse(check);
         const bDate = Date.parse(beginDate);
@@ -344,9 +364,11 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                     }
                 }
             });
-            return returnBool === true;
+            return returnBool;
         });
         return returnContent;
+
+
     }
 
     ngAfterContentInit(): void {

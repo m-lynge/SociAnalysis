@@ -169,6 +169,19 @@ export class FBServiceService {
                 if (check !== 'comments') {
                     return check;
                 }
+                if (!newQuery.params.includes('message')){
+                    return 'message,comments{message,' + newQuery.params.map((secondcheck) => {
+                        if (secondcheck !== 'comments') {
+                            return secondcheck;
+                        } else {
+                            return 'comments{message,' + newQuery.params.filter((thirdcheck) => {
+                                if (thirdcheck !== 'comments') {
+                                    return thirdcheck;
+                                }
+                            }) + ',created_time}';
+                        }
+                    }) + ',created_time}';
+                }
                 return 'comments{' + newQuery.params.map((secondcheck) => {
                     if (secondcheck !== 'comments') {
                         return secondcheck;
@@ -274,7 +287,7 @@ export class FBServiceService {
                     }
                 }
             });
-            return returnBool === true;
+            return returnBool;
         });
         return returnContent;
     }

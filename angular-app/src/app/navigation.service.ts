@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class NavigationService {
   private naviIsActive: boolean;
-  private backButtonIsActive: boolean;
+  public backButtonIsActive: boolean;
 
   private goBackRoute: string[];
   private withinNewProject: boolean;

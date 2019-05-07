@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { QueryService } from 'src/app/query.service';
 
 @Component({
   selector: 'app-query-visual-view',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QueryVisualViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(public queryservice: QueryService) { }
 
   ngOnInit() {
   }

@@ -25,6 +25,7 @@ export class QueryVisualComponent implements OnDestroy {
   private max: any;
   private stopWordsActive = true;
   private subscription = new Subscription();
+  private text2: any;
 
 
 
@@ -97,6 +98,7 @@ export class QueryVisualComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.queryservice.stopWordsActive = true;
   }
 
   private Init() {
@@ -119,14 +121,16 @@ export class QueryVisualComponent implements OnDestroy {
 
     this.svg.on('click', () => {
       this.svg.selectAll('*').remove();
-      this.stopWordsActive = !this.stopWordsActive;
+      //this.stopWordsActive = !this.stopWordsActive;
+      this.queryservice.stopWordsActive = !this.queryservice.stopWordsActive;
       this.DrawCirles();
+
     });
     // mapping the domain to a range for calculating the correct radius for the circles
   }
 
   private DrawCirles() {
-    if (this.stopWordsActive) {
+    if (this.queryservice.stopWordsActive) {
       this.dataforCircles = this.sortedStatsArrayWithStopWords;
       this.max = this.sortedStatsArrayWithStopWords[0].number;
     } else {
@@ -149,7 +153,8 @@ export class QueryVisualComponent implements OnDestroy {
       .data(this.dataforCircles)
       .enter()
       .append('text')
-      .text((d) => d.word);
+      .text((d) => (d.word + ': ' + d.number));
+
     this.RunSimulation();
   }
 

@@ -1,5 +1,8 @@
 <mat-toolbar color="primary" class="navigationBar">
-    <button mat-raised-button class="buttonNavigation" color="warn" (click)="goBack()">Gå tilbage</button>
+    <div *ngIf="this.navigationservice.backButtonIsActive === true">
+        <button mat-raised-button class="buttonNavigation" color="accent" (click)="goBack()">Gå tilbage</button>
+    </div>
+
 
     <div class="mainLogo">
         <img (click)="routeToHome()" src="assets/logos/Logos-02.png ">
@@ -13,4 +16,3 @@
 </mat-toolbar>
 
 <div class="addMargin"></div>
-

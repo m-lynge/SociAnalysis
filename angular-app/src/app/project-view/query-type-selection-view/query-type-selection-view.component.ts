@@ -38,6 +38,10 @@ export class QueryTypeSelectionViewComponent implements OnInit {
 
 
     ngOnInit() {
+        if (!this.directoryservice.selectedUser) {
+            this.router.navigate(['/']);
+        }
+
         this.directoryservice.getProject(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((projects: string) => {
                 const tempProject: Project = JSON.parse(projects);
