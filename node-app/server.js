@@ -26,9 +26,9 @@ const credentials = {
 };
 
 const app = express();
-app.use(bodyParser.json({limit: '10mb', extended: true}));
+app.use(bodyParser.json({limit: '100mb', extended: true}));
 // app.use(cors());
-app.use(bodyParser.urlencoded({limit: '10mb', extended: true, parameterLimit: 10000}) );
+app.use(bodyParser.urlencoded({limit: '100mb', extended: true, parameterLimit: 900000}) );
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "https://localhost:4201");
