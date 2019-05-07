@@ -32,7 +32,6 @@
   z-index: 4000;
 }
 .mainLogo img{
-  height: 100%;
   max-width: 250px;
   cursor: pointer;
 }
