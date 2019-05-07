@@ -1,14 +1,18 @@
 #confirmBttn {
-    height: 60px;
-    width: 110px;
+    width: 100%;
+    height: 70px;
+}
+.headerText{
+    margin-top: 25px;
+    font-size: 25px;
+    font-weight: bold;
 }
 
 .buttonContainer {
     position: absolute;
     align-content: center;
-    margin-top: 33%; 
+    bottom: 0;
     width: 100%;
-    margin-left: 35%;
 }
 
 .wrapper {
@@ -18,39 +22,43 @@
     text-align: center;
     align-content: center;
 }
+.box{
+    margin: 0 auto;
+    width: 80%;
+}
 
 
 .groupContainer {
     width: 100%;
-    height: 45vh;
+    height: 50vh;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-left: 15%;
-    padding-right: 15%;
+    padding: 15px;
+    border: solid grey thin;
 }
 #selectedContainer{
     width: 100%;
-    height: 45vh;
+    height: 50vh;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-left: 15%;
-    padding-right: 15%;
-    margin-top: 11.5%;
+    padding: 15px;
+    border: solid grey thin;
+    margin-top: 72px;
 }
 .card{
     cursor: pointer;
     background-color:rgb(87, 152, 196);
-    height: 13vh;
-    padding-left: 5%
+    min-height: 50px;
+    justify-content: center;
+    align-items: center;
 }
 .mat-card{
     padding:0;
-    margin-bottom: 5%;
+    margin-bottom: 10px;
 
 }
 .content{
     width:90%;
-    height: 45vh;
     align-content: center;
     overflow: hidden;
 }

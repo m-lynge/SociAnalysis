@@ -1,22 +1,27 @@
 <div class="center">
-  <form>
-    <h2>{{this.newprojectservice.headerProjectName}}</h2>
-    <br>
-    <mat-form-field class="textTitle" hintlabel="Max 25 tegn">
-      <input matInput #input maxlength="25" placeholder="Projekt titel" value="" name="projectName"
-        [(ngModel)]="this.newprojectservice.name" required
-        onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9|æåøÆØÅ]/g) === null" />
-    </mat-form-field>
-    <br /><br /><br />
-    <mat-form-field class="textBox" hintLabel="Max 250 tegn">
+    <form>
+        <p class="headerText">{{this.newprojectservice.headerProjectName}}</p>
+        <hr>
+        <br>
+        <mat-form-field class="textTitle" hintlabel="Max 25 tegn">
+            <input matInput #input maxlength="25" placeholder="Projekt titel" value="" name="projectName"
+                   [(ngModel)]="this.newprojectservice.name" required
+                   onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9|æåøÆØÅ]/g) === null"/>
+        </mat-form-field>
+        <br/><br/><br/>
+        <mat-form-field class="textBox" hintLabel="Max 250 tegn">
       <textarea input matInput #input matTextareaAutosize matAutosizeMinRows=4 matAutosizeMaxRows=3 maxlength="250"
-        placeholder="Project beskrivelse" name="ProjectDescription" id="Description"
-        [(ngModel)]="this.newprojectservice.descr" required
-        onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9|.|,||æåøÆØÅ]/g) === null"></textarea>
-      <mat-hint align="end">{{ input.value?.length || 0 }}/250</mat-hint>
-    </mat-form-field>
-    <br /><br /><br />
-    <button mat-raised-button type="submit" color="accent" value="{{this.newprojectservice.nextButton}}" id="confirmBttn" name=""
-      (click)="buttonClicked()">{{this.newprojectservice.nextButton}}</button>
-  </form>
+                placeholder="Project beskrivelse" name="ProjectDescription" id="Description"
+                [(ngModel)]="this.newprojectservice.descr" required
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9|.|,||æåøÆØÅ]/g) === null"></textarea>
+            <mat-hint align="end">{{ input.value?.length || 0 }}/250</mat-hint>
+        </mat-form-field>
+        <br/><br/><br/>
+
+        <div class="buttonContainer">
+        <button mat-raised-button type="submit" color="accent" value="{{this.newprojectservice.nextButton}}"
+                id="confirmBttn" name=""
+                (click)="buttonClicked()">{{this.newprojectservice.nextButton}}</button>
+        </div>
+    </form>
 </div>
