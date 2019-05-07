@@ -1,11 +1,16 @@
 .error{
     color: red;
 }
-
+.loginButtonDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 .loginButton{
-    position: fixed;
-    width: 30%;
-    height: 15%;
-    margin-left: 35%;
-    margin-top: 100px;
+    min-width: 600px;
+    min-height: 300px;
+    font-size: 55px;
+    letter-spacing: 3px;
+    font-weight: lighter;
 }
