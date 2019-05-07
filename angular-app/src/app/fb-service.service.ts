@@ -193,7 +193,7 @@ export class FBServiceService {
         // do filtering based on filter
         let filteredArray = queryData;
 
-        if (tags.length > 0) {
+        if (tags && tags.length > 0) {
             filteredArray = this.filterByTag(tags, filteredArray);
         }
 
