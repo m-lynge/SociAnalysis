@@ -5,10 +5,15 @@
     padding-bottom: 100%;
     vertical-align: top;
     overflow: hidden;
+    margin-top: 35px;
 }
 .svg-content-responsive {
     display: inline-block;
     position: absolute;
     top: 10px;
     left: 0;
+
+}
+.mat-figure{
+    align-items: first;
 }
