@@ -14,6 +14,7 @@ export class QueryService {
     allPostsTextSubject: Subject<string> = new Subject<string>();
     selectedQuerySubject: Subject<Query> = new Subject<Query>();
     queryArray;
+    stopWordsActive = true;
 
     constructor(private directoryservice: DirectoryService) {
     }
