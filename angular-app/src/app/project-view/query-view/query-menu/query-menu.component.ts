@@ -1,13 +1,13 @@
-import {AfterViewInit, Component} from '@angular/core';
-import {DirectoryService} from '../../../directory.service';
-import {Router} from '@angular/router';
-import {NavigationService} from 'src/app/navigation.service';
-import {QueryService} from 'src/app/query.service';
-import {FBServiceService} from 'src/app/fb-service.service';
-import {NewQuery} from 'src/app/NewQuery';
-import {Query} from 'src/app/Query';
-import {MatDialog, MatDialogRef} from "@angular/material";
-import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
+import { AfterViewInit, Component } from '@angular/core';
+import { DirectoryService } from '../../../directory.service';
+import { Router } from '@angular/router';
+import { NavigationService } from 'src/app/navigation.service';
+import { QueryService } from 'src/app/query.service';
+import { FBServiceService } from 'src/app/fb-service.service';
+import { NewQuery } from 'src/app/NewQuery';
+import { Query } from 'src/app/Query';
+import { MatDialog, MatDialogRef } from "@angular/material";
+import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import { NewProjectService } from 'src/app/new-project.service';
 
 // interface ExportJSONQuery {
@@ -26,23 +26,28 @@ import { NewProjectService } from 'src/app/new-project.service';
 export class QueryMenuComponent implements AfterViewInit {
 
     constructor(private directoryservice: DirectoryService,
-                private router: Router,
-                private navigationservice: NavigationService,
-                private fbservice: FBServiceService,
-                public queryservice: QueryService,
-                public dialog: MatDialog
+        private router: Router,
+        private navigationservice: NavigationService,
+        private fbservice: FBServiceService,
+        public queryservice: QueryService,
+        public dialog: MatDialog
     ) {
     }
 
-
-
-    ngAfterViewInit() {
+    updateList() {
+        // ml19
+        console.log('calling update list');
         this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((queryArray) => {
+                // ml19 
+                console.log('Query-meny: ', queryArray);
                 if (queryArray && queryArray[0]) {
+                    console.log('Query-menu: calling get selected query');
                     if (!this.directoryservice.selectedQuery || this.directoryservice.selectedQuery === '') {
                         this.directoryservice.selectedQuery = queryArray[0];
                     }
+                    this.queryservice.queryArray = [];
+                    this.queryservice.queryArray = queryArray;
                     this.queryservice.getSelectedQuery();
                     this.queryservice.hasQuerys = true;
                 } else {
@@ -51,15 +56,25 @@ export class QueryMenuComponent implements AfterViewInit {
             });
     }
 
+    ngAfterViewInit() {
+        this.updateList();
+    }
+
     newQuery() {
         this.navigationservice.GoBackRoute = ['/projekt'];
         this.router.navigate(['/project_ny_soegning']);
     }
     deleteQuery() {
-        this.directoryservice.removeQuerry(this.directoryservice.selectedUser,
-            this.directoryservice.selectedProject,
-            this.directoryservice.selectedQuery );
-        this.directoryservice.selectedQuery = '';
+        if (confirm('Dette vil slette søgningen: ' + this.directoryservice.selectedQuery + ' - og alt dets data')) {
+            const log = this.directoryservice.removeQuerry(this.directoryservice.selectedUser,
+                this.directoryservice.selectedProject,
+                this.directoryservice.selectedQuery).then(() => {
+                    this.directoryservice.selectedQuery = '';
+                    this.updateList();
+                });
+            // ml19
+            //this.updateList();
+        }
     }
 
     updateQuery() {
@@ -239,15 +254,13 @@ export class ExportDialogComponent {
         });
     }
 
-
-
     exportJSON() {
         this.directoryservice.getQuery(
             this.directoryservice.selectedUser,
             this.directoryservice.selectedProject,
             this.directoryservice.selectedQuery
         ).then((data: Query) => {
-            
+
             console.log('data: ');
             console.log(data);
 

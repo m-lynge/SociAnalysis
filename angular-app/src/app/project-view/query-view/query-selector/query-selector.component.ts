@@ -1,9 +1,9 @@
 import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { DirectoryService } from 'src/app/directory.service';
 import { QueryService } from 'src/app/query.service';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-query-selector',
@@ -21,22 +21,31 @@ export class QuerySelectorComponent implements AfterContentInit, OnDestroy {
   filteredOptions: Observable<string[]>;
 
   constructor(private directoryservice: DirectoryService,
-              private queryservice: QueryService) { }
+    private queryservice: QueryService) { }
 
   ngAfterContentInit(): void {
     this.subscription = this.queryservice.selectedQuerySubject.subscribe(() => {
-      this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
-      .subscribe((queryArray) => {
-        // this.retrievedQueryNames = queryArray;
-        this.shownQueryNames = queryArray;
-        // this.querytest = this.directoryservice.selectedQuery;
-        this.filteredOptions = this.myControl.valueChanges
+      // ml19
+      console.log('Query-selector: selectedQuerySubject');
+      // this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
+      // .subscribe((queryArray) => {
+      //   this.shownQueryNames = queryArray;
+
+      //   this.filteredOptions = this.myControl.valueChanges
+      //   .pipe(
+      //     startWith(''),
+      //     map(value => this._filter(value))
+      //   );
+      //   this.myControl.setValue(this.directoryservice.selectedQuery);
+      // });
+      this.shownQueryNames = this.queryservice.queryArray;
+
+      this.filteredOptions = this.myControl.valueChanges
         .pipe(
           startWith(''),
           map(value => this._filter(value))
         );
-        this.myControl.setValue(this.directoryservice.selectedQuery);
-      });
+      this.myControl.setValue(this.directoryservice.selectedQuery);
     });
   }
 
@@ -56,6 +65,8 @@ export class QuerySelectorComponent implements AfterContentInit, OnDestroy {
   }
 
   ngOnDestroy() {
+     // ml19
+     console.log('query-selector: unsubscribe');
     this.subscription.unsubscribe();
   }
 
