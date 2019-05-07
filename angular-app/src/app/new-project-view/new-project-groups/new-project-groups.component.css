@@ -1,5 +1,6 @@
 #confirmBttn {
     width: 100%;
+    height: 70px;
 }
 .headerText{
     margin-top: 25px;
@@ -23,24 +24,28 @@
     text-align: center;
     align-content: center;
 }
+.box{
+    margin: 0 auto;
+    width: 80%;
+}
 
 
 .groupContainer {
     width: 100%;
-    height: 45vh;
+    height: 50vh;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-left: 15%;
-    padding-right: 15%;
+    padding: 15px;
+    border: solid grey thin;
 }
 #selectedContainer{
     width: 100%;
-    height: 45vh;
+    height: 50vh;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-left: 15%;
-    padding-right: 15%;
-    margin-top: 11.5%;
+    padding: 15px;
+    border: solid grey thin;
+    margin-top: 72px;
 }
 .card{
     cursor: pointer;

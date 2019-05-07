@@ -1,67 +1,74 @@
 <div class="wrapper" *ngIf='showList'>
 
-  <p class="headerText">Tilføj Grupper til projekt</p>
-  <hr>
+    <p class="headerText">Tilføj Grupper til projekt</p>
+    <hr>
 
-  <form>
-    <div class="divContainer" id="leftBox">
-      <div>
-        <h4>Tilgængelige grupper</h4>
-        <h6>Disse grupper er tilgængelige til at hente data fra</h6>
-        <mat-form-field>
-          <input name="GroupSearcher" value="" (ngModelChange)="findMatchingGroups()" [(ngModel)]="searchTerm" matInput
-            placeholder="Søg i grupper">
-        </mat-form-field>
-      </div>
+    <form>
+        <div class="divContainer" id="leftBox">
+            <div>
+                <h4>Tilgængelige grupper</h4>
+                <h6>Disse grupper er tilgængelige til at hente data fra</h6>
+                <mat-form-field>
+                    <input name="GroupSearcher" value="" (ngModelChange)="findMatchingGroups()" [(ngModel)]="searchTerm"
+                           matInput
+                           placeholder="Søg i grupper">
+                </mat-form-field>
+            </div>
 
-      <div class="groupContainer">
-        <mat-card *ngFor="let group of groupsShown; let i = index" (click)="addToSelected(i)">
-          <div class="card">
+            <div class="box">
+                <div class="groupContainer">
+
+                    <mat-card *ngFor="let group of groupsShown; let i = index" (click)="addToSelected(i)">
+                        <div class="card">
             <span class="content">
               <div style="display: block" style="color:aliceblue" class="gTitle">
                 {{ group.name }}
-                <div style="color:black" class="gDesc">
+                  <div style="color:black" class="gDesc">
                   {{ group.desc }}
                 </div>
               </div>
             </span>
-          </div>
-        </mat-card>
-      </div>
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
 
-    </div>
-
-
-    <div class="divContainer" id="rightBox">
-      <div id="headRight">
-        <h4>Valgte grupper</h4>
-        <h6>Disse grupper har du valgt til dit projekt</h6>
-      </div>
+        </div>
 
 
-      <div id="selectedContainer">
-        <mat-card *ngFor="let group of groupsSelected; let i = index" (click)="addToAvailable(i)" color="primary">
+        <div class="divContainer" id="rightBox">
+            <div id="headRight">
+                <h4>Valgte grupper</h4>
+                <h6>Disse grupper har du valgt til dit projekt</h6>
+            </div>
+
+            <div class="box">
+                <div id="selectedContainer">
+                    <mat-card *ngFor="let group of groupsSelected; let i = index" (click)="addToAvailable(i)"
+                              color="primary">
           <span class="card">
             <div class="content">
               <div style="display: block" style="color:aliceblue" class="gTitle">
                 {{ group.name }}
-                <div style="color:black" class="gDesc">
+                  <div style="color:black" class="gDesc">
                   {{ group.desc }}
                 </div>
               </div>
             </div>
           </span>
-        </mat-card>
-      </div>
+                    </mat-card>
+                </div>
+            </div>
 
 
-
-    </div>
-    <div class=buttonContainer>
-      <button mat-raised-button type="submit" color="accent" value="{{this.newprojectservice.nextButton}}" id="confirmBttn" name=""
-        (click)="showNext()">{{this.newprojectservice.nextButton}}</button>
-    </div>
-  </form>
+        </div>
+        <div class="vLine"></div>
+        <div class=buttonContainer>
+            <button mat-raised-button type="submit" color="accent" value="{{this.newprojectservice.nextButton}}"
+                    id="confirmBttn" name=""
+                    (click)="showNext()">{{this.newprojectservice.nextButton}}</button>
+        </div>
+    </form>
 </div>
 
 <p *ngIf='!showList'>Henter grupper...</p>
