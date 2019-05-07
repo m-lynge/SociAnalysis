@@ -1,2 +1,6 @@
+<button mat-raised-button class="button" (click)="stopOrdKnap()">
+    <p *ngIf='this.queryservice.stopWordsActive === true'>Tilføj stopord</p>
+    <p *ngIf='this.queryservice.stopWordsActive !== true'>Fjern stopord</p>
+</button>
 <svg></svg>
 
