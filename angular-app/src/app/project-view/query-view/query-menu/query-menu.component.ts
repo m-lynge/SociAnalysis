@@ -143,7 +143,7 @@ export class ExportDialogComponent {
     data: any;
 
     constructor(
-        public dialogRef: MatDialogRef<ExportDialogComponent>, private directoryservice: DirectoryService, private saver: FileSaver) {
+        public dialogRef: MatDialogRef<ExportDialogComponent>, private directoryservice: DirectoryService) {
     }
 
     exportComments() {
@@ -418,7 +418,7 @@ export class ExportDialogComponent {
 
             console.log('read');
             const theJSON = JSON.stringify(data);
-            const uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
+           // const uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
 
 
         });
