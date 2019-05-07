@@ -72,6 +72,10 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
     }
 
     ngOnInit(): void {
+        if (!this.directoryservice.selectedUser) {
+            this.router.navigate(['/']);
+        }
+
         this.myForm = this.formBuilder.group({
             name: ['', [
                 Validators.required,
