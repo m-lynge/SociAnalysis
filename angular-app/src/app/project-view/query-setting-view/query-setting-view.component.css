@@ -16,10 +16,10 @@ h2{
     width: 200%;
 }
 .notSelected{
-    background-color: red;
+    background-color: rgb(201, 69, 69);
 }
 .selected {
-    background-color: green;
+    background-color: rgb(92, 223, 92);
 }
 h3{
     font-size: 20px;
@@ -75,4 +75,7 @@ h3{
 }
 .useDateField{
     float: left;
+}
+#bttnContainer{
+    padding-bottom: 5%;
 }
