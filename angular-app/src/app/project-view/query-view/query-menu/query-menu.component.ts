@@ -8,7 +8,6 @@ import {NewQuery} from 'src/app/NewQuery';
 import {Query} from 'src/app/Query';
 import {MatDialog, MatDialogRef} from "@angular/material";
 import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
-import { NewProjectService } from 'src/app/new-project.service';
 
 // interface ExportJSONQuery {
 //     groups: [{
@@ -33,7 +32,6 @@ export class QueryMenuComponent implements AfterViewInit {
                 public dialog: MatDialog
     ) {
     }
-
 
 
     ngAfterViewInit() {
@@ -127,43 +125,109 @@ export class ExportDialogComponent {
             data.fbData.forEach(comment => {
                 if (comment.comments) {
                     comment.comments.data.forEach(tempCon => {
-
-//                         {…}
-// ​
-// comments: {…}
-// ​​
-// data: Array [ {…} ]
-//                     ​​
-// paging: Object { cursors: {…} }
-// ​​
-// <prototype>: Object { … }
-// ​
-// created_time: "2019-05-06T11:06:38+0000"
-// ​
-// id: "570832779989187"
+                        let likeCount = 0;
+                        let loveCount = 0;
+                        let hahaCount = 0;
+                        let wowCount = 0;
+                        let sadCount = 0;
+                        let angryCount = 0;
+                        let permalink;
+                        let createdTime;
 
                         if (tempCon.comments) {
                             tempCon.comments.data.forEach(conInCon => {
+
+                                let likeCountTemp = 0;
+                                let loveCountTemp = 0;
+                                let hahaCountTemp = 0;
+                                let wowCountTemp = 0;
+                                let sadCountTemp = 0;
+                                let angryCountTemp = 0;
+
+                                if (conInCon.hasOwnProperty('reactions')) {
+                                    conInCon.reactions.data.forEach(react => {
+
+                                        switch (react.type) {
+                                            case 'LIKE': {
+                                                likeCountTemp++;
+                                                break;
+                                            }
+                                            case 'LOVE': {
+                                                loveCountTemp++;
+                                                break;
+                                            }
+                                            case 'HAHA': {
+                                                hahaCountTemp++;
+                                                break;
+                                            }
+                                            case 'WOW': {
+                                                wowCountTemp++;
+                                                break;
+                                            }
+                                            case 'SAD': {
+                                                sadCountTemp++;
+                                                break;
+                                            }
+                                            case 'ANGRY': {
+                                                angryCountTemp++;
+                                                break;
+                                            }
+                                        }
+                                    });
+                                }
+
                                 emptyArray.push({
                                     message: conInCon.message,
                                     id: conInCon.id,
-                                    likes: conInCon.like_count,
                                     link: conInCon.permalink_url,
-                                    created_Time: conInCon.created_time
+                                    created_Time: conInCon.created_time,
+                                    likeCounts: likeCountTemp,
+                                    loveCounts: loveCountTemp,
+                                    hahaCounts: hahaCountTemp,
+                                    wowCounts: wowCountTemp,
+                                    sadCounts: sadCountTemp,
+                                    angryCounts: angryCountTemp,
                                 });
                             });
                         }
 
+                        if (tempCon.hasOwnProperty('reactions')) {
+                            tempCon.reactions.data.forEach(react => {
 
-                        let permalink;
-                        let createdTime;
+                                switch (react.type) {
+                                    case 'LIKE': {
+                                        likeCount++;
+                                        break;
+                                    }
+                                    case 'LOVE': {
+                                        loveCount++;
+                                        break;
+                                    }
+                                    case 'HAHA': {
+                                        hahaCount++;
+                                        break;
+                                    }
+                                    case 'WOW': {
+                                        wowCount++;
+                                        break;
+                                    }
+                                    case 'SAD': {
+                                        sadCount++;
+                                        break;
+                                    }
+                                    case 'ANGRY': {
+                                        angryCount++;
+                                        break;
+                                    }
+                                }
+                            });
+                        }
 
                         if (tempCon.created_time) {
                             createdTime = tempCon.created_time;
                         } else {
                             createdTime = 'NaN';
                         }
-
 
 
                         if (tempCon.permalink_url) {
@@ -174,9 +238,14 @@ export class ExportDialogComponent {
                         emptyArray.push({
                             message: tempCon.message,
                             id: tempCon.id,
-                            likes: tempCon.like_count,
                             link: permalink,
-                            created_Time: createdTime
+                            created_Time: createdTime,
+                            likeCounts: likeCount,
+                            loveCounts: loveCount,
+                            hahaCounts: hahaCount,
+                            wowCounts: wowCount,
+                            sadCounts: sadCount,
+                            angryCounts: angryCount,
                         });
                     });
 
@@ -187,10 +256,15 @@ export class ExportDialogComponent {
                 fieldSeparator: ';',
                 decimalseparator: ';',
                 showLabels: true,
-                headers: ['Besked', 'ID', 'Likes', 'Link', 'Oprettet dato']
+                headers: ['Besked', 'ID', 'Link', 'Oprettet dato', 'LikeCount'
+                    , 'loveCount'
+                    , 'hahaCount'
+                    , 'wowCount'
+                    , 'sadCount'
+                    , 'angryCount']
 
             };
-             const messages = new Angular5Csv(emptyArray, 'KOMMENTARER', options);
+            const messages = new Angular5Csv(emptyArray, 'KOMMENTARER', options);
         });
     }
 
@@ -206,14 +280,48 @@ export class ExportDialogComponent {
             data.fbData.forEach(post => {
 
                 if (post.message) {
-                    const usesLikes = data.params.includes('likes');
-                    const usesUrl = data.params.includes('link');
+                    const usesLikes = data.params.includes('reactions');
+                    const usesUrl = data.params.includes('permalink_url');
                     let likesAmount;
                     let url;
                     let createdTime;
 
-                    if (usesLikes && post.likes) {
-                        likesAmount = post.likes.data.length;
+                    let likeCount = 0;
+                    let loveCount = 0;
+                    let hahaCount = 0;
+                    let wowCount = 0;
+                    let sadCount = 0;
+                    let angryCount = 0;
+
+                    if (usesLikes && post.reactions) {
+                        post.reactions.data.forEach(react => {
+                            switch (react.type) {
+                                case 'LIKE': {
+                                    likeCount++;
+                                    break;
+                                }
+                                case 'LOVE': {
+                                    loveCount++;
+                                    break;
+                                }
+                                case 'HAHA': {
+                                    hahaCount++;
+                                    break;
+                                }
+                                case 'WOW': {
+                                    wowCount++;
+                                    break;
+                                }
+                                case 'SAD': {
+                                    sadCount++;
+                                    break;
+                                }
+                                case 'ANGRY': {
+                                    angryCount++;
+                                    break;
+                                }
+                            }
+                        });
                     } else if (usesLikes) {
                         likesAmount = 0;
                     } else {
@@ -227,7 +335,7 @@ export class ExportDialogComponent {
                     } else {
                         url = 'NaN';
                     }
-                    console.log(post);
+
                     if (post.created_time) {
                         createdTime = post.created_time;
                     } else {
@@ -240,9 +348,14 @@ export class ExportDialogComponent {
                     emptyArray.push({
                         message: postMessage,
                         id: postID,
-                        likes: likesAmount,
-                        link: url,
-                        oprettet_dato: createdTime
+                        permaLink: post.permalink_url,
+                        oprettet_dato: createdTime,
+                        likeCounts: likeCount,
+                        loveCounts: loveCount,
+                        hahaCounts: hahaCount,
+                        wowCounts: wowCount,
+                        sadCounts: sadCount,
+                        angryCounts: angryCount,
                     });
 
                 }
@@ -252,13 +365,17 @@ export class ExportDialogComponent {
                 fieldSeparator: ';',
                 decimalseparator: ';',
                 showLabels: true,
-                headers: ['Besked', 'ID', 'Likes', 'URL', 'Oprettet Dato']
+                headers: ['Besked', 'ID', 'Link', 'Oprettet Dato', 'LikeCount'
+                    , 'loveCount'
+                    , 'hahaCount'
+                    , 'wowCount'
+                    , 'sadCount'
+                    , 'angryCount']
 
             };
             const messages = new Angular5Csv(emptyArray, 'BESKEDER', options);
         });
     }
-
 
 
     exportJSON() {
@@ -267,7 +384,7 @@ export class ExportDialogComponent {
             this.directoryservice.selectedProject,
             this.directoryservice.selectedQuery
         ).then((data: Query) => {
-            
+
             console.log('data: ');
             console.log(data);
 
