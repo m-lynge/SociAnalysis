@@ -2,16 +2,23 @@
   <!--<mat-list-item>Ingen projekter at vise!</mat-list-item>-->
 </mat-list>
 
+<p class="projekterHeader">Projekter</p>
+
 <mat-nav-list *ngIf='!noProjects'>
-  <div *ngFor="let project of projects">
-    <mat-list-item id="list">
-      <div class="text" (click)='this.newprojectservice.NewProject=false;this.directoryservice.selectedProject=project;
-      selectProject(project.name)'>
-        <a matLine>{{project.name}}</a>
-        <p matLine> {{project.desc}}</p>
+  <div class="cardContainer" *ngFor="let project of projects">
+
+      <mat-card class="matCard-Back" (click)='this.newprojectservice.NewProject=false;this.directoryservice.selectedProject=project;
+      selectProject(project.name)' >
+        <button class="deleteButton" mat-button (click)="deleteProject(project.name)">Slet</button>
+      <div class="text">
+
+        <span class="projectTitle">{{project.name}}</span><br>
+        {{project.desc}}
+
       </div>
-      <button class="deleteButton" mat-button (click)="deleteProject(project.name)">Slet</button>
-    </mat-list-item>
+
+      </mat-card>
+
   </div>
 
 
