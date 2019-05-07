@@ -1,16 +1,14 @@
 <div id="wrapper">
 
   <p class="titleOverview">Projekt Overblik</p>
-
+  <hr>
   <div class="descView">
-    <h5>Projekt titel:</h5>
-    <br />
-    <h3>{{ this.newprojectservice.name }}</h3>
-    <br />
-    <h5>Projekt Beskrivelse:</h5>
-    <br />
+    <p>Projekt titel:</p>
+    <h3 class="projectNameTitle">{{ this.newprojectservice.name }}</h3>
+
+    <p>Projekt Beskrivelse:</p>
     <div id="LEFT">
-      <p>{{ this.newprojectservice.descr }}</p>
+      <span class="descText">{{ this.newprojectservice.descr }}</span>
     </div>
   </div>
 
