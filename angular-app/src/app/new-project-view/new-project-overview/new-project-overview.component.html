@@ -1,36 +1,36 @@
 <div id="wrapper">
 
-    <p class="titleOverview">Projekt Overblik</p>
+  <p class="titleOverview">Projekt Overblik</p>
 
-    <div class="descView">
-      <h5>Projekt titel:</h5>
-      <br />
-      <h3>{{ this.newprojectservice.name }}</h3>
-      <br />
-      <h5>Projekt Beskrivelse:</h5>
-      <br />
-      <div id="LEFT">
+  <div class="descView">
+    <h5>Projekt titel:</h5>
+    <br />
+    <h3>{{ this.newprojectservice.name }}</h3>
+    <br />
+    <h5>Projekt Beskrivelse:</h5>
+    <br />
+    <div id="LEFT">
       <p>{{ this.newprojectservice.descr }}</p>
     </div>
   </div>
 
   <div class="rightBox" id="chosenbois">
-    
-    <h2 id="groupHD">Valgte Facebook grupper</h2>
+
+    <h4 id="groupHD">Valgte Facebook grupper</h4>
     <div class="groupContainer">
       <mat-list class="rightGroup" *ngFor="let group of this.newprojectservice.listOfSelectedGroups; let i = index">
-          <div class="content">
-            <div style="color:aliceblue">
-              <mat-list-item>
-               <h6 matLine>{{ group.name }}</h6> 
+        <div class="content">
+          <div style="color:aliceblue">
+            <mat-list-item>
+              <h6 matLine>{{ group.name }}</h6>
               <p matLine> {{ group.desc }} </p>
-              </mat-list-item>
-              <div style="color:white">
-                  <hr>
+            </mat-list-item>
+            <div style="color:white">
+              <hr>
 
-              </div>
             </div>
           </div>
+        </div>
       </mat-list>
     </div>
 
