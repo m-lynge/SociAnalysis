@@ -4,11 +4,13 @@
 }
 
 .buttonContainer {
+    width: 12% !important;
+    height: 10%;
     position: absolute;
-    align-content: center;
-    margin-top: 33%; 
+    /*align-content: center;*/
+    margin-top: 70vh; 
     width: 100%;
-    margin-left: 35%;
+    margin-left: 80%;
 }
 
 .wrapper {
