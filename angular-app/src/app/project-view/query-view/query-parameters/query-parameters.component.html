@@ -1,4 +1,5 @@
 <div>
+    <p class="paramHead">Søge Oplysninger</p>
     <p> <b>Navn:</b> {{QueryParams.name}}</p>
     <p><b>Søgeparametre:</b> <a *ngFor='let params of QueryParams.params'>#{{params}} </a></p>
     <div *ngIf="QueryParams.timeperiod.from !=='' && QueryParams.timeperiod.till !==''">
