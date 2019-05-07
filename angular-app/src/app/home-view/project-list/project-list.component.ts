@@ -13,6 +13,7 @@ import { Project } from '../../Project';
 import { Router } from '@angular/router';
 import { NewProjectService } from 'src/app/new-project.service';
 import { DOCUMENT } from '@angular/common';
+import { NavigationService } from 'src/app/navigation.service';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   constructor(
     private directoryservice: DirectoryService,
     private router: Router,
-    private newprojectservice: NewProjectService
+    private newprojectservice: NewProjectService,
+    private navigationservice: NavigationService
   ) {
     this.noProjects = true;
 
@@ -47,6 +49,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   selectProject(projectName: string) {
     this.directoryservice.selectedProject = projectName;
     this.directoryservice.selectedQuery = '';
+    this.navigationservice.backButtonIsActive = true;
     this.router.navigate(['projekt']);
   }
   ngOnInit() {
