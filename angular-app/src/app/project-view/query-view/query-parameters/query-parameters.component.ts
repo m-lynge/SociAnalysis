@@ -25,7 +25,11 @@ export class QueryParametersComponent implements OnInit, OnDestroy {
       // ml19
       console.log('Query-parameters: selectedQuerySubject');
       this.QueryParams = data;
-      this.amountOfPosts = this.QueryParams.fbData.length;
+      if (this.QueryParams.hasOwnProperty('fbData') === true) {
+        this.amountOfPosts = this.QueryParams.fbData.length;
+      } else {
+        this.amountOfPosts = 0;
+      }
     });
   }
 

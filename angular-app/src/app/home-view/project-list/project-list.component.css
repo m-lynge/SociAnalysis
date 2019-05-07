@@ -1,8 +1,29 @@
 .deleteButton{
-    height: 100%;
+    height: 60px;
     color: red;
+    float: right;
+}
+.projectTitle{
+    font-weight: bold;
 }
 .text{
-    width:100%;
-    height: 100%;
+    padding: 5px;
+}
+.cardContainer{
+    width: 85%;
+    cursor: pointer;
+    margin: 10px auto;
+}
+.matCard-Back:hover{
+    background-color: #DCDCDC !important;
+}
+.projekterHeader{
+    font-size: 25px;
+    margin-top: 25px;
+    text-align: center;
+    font-weight: bold;
+}
+.matCard-Back{
+    transition: 0.3s;
+    background-color: whitesmoke;
 }
