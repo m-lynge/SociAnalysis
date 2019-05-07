@@ -1,6 +1,6 @@
-<div class="left">
+<div class="left" [ngClass]="{'my-class': !hasProjects}">
   <app-new-project></app-new-project>
 </div>
 <div class="right">
-  <app-project-list></app-project-list>
+  <app-project-list (projectsIncluded)="checkIfNoProjects($event)"></app-project-list>
 </div>
