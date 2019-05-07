@@ -419,7 +419,7 @@ export class ExportDialogComponent {
 
             const theJSON = JSON.stringify(data.fbData);
             const datas = new Blob([theJSON], { type: 'text/json;charset=utf-8' });
-            FileSaver.saveAs(datas, 'BLOB.json');
+            FileSaver.saveAs(datas, this.directoryservice.selectedQuery);
 
         });
     }
