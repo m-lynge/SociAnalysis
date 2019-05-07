@@ -1,7 +1,8 @@
 .newProject{
-    position: fixed;
     width: 40%;
-    height: 70%;
-    margin-left: 5%; 
-    margin-top: 30px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 50px;
 }

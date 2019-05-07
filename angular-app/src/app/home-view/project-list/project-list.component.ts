@@ -1,4 +1,13 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  ViewChildren,
+  ElementRef,
+  EventEmitter,
+  Output
+} from '@angular/core';
 import { DirectoryService } from 'src/app/directory.service';
 import { Project } from '../../Project';
 import { Router } from '@angular/router';
@@ -14,6 +23,7 @@ import { DOCUMENT } from '@angular/common';
 export class ProjectListComponent implements OnInit, AfterViewInit {
   projects: Project[];
   noProjects: boolean;
+  @Output() projectsIncluded = new EventEmitter();
 
   constructor(
     private directoryservice: DirectoryService,
@@ -40,6 +50,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
     this.router.navigate(['projekt']);
   }
   ngOnInit() {
+
   }
 
   public deleteProject(projectName: string) {
@@ -50,8 +61,14 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
           if (this.projects && this.projects[0]) {
             if (!this.projects[0].hasOwnProperty('name')) {
               this.noProjects = true;
+              if (this.projects.length > 0) {
+                this.projectsIncluded.emit(false);
+              }
             } else {
               this.noProjects = false;
+              if (this.projects.length > 0) {
+                this.projectsIncluded.emit(true);
+              }
             }
           }
         });
@@ -65,8 +82,15 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
       if (this.projects && this.projects[0]) {
         if (!this.projects[0].hasOwnProperty('name')) {
           this.noProjects = true;
+          if (this.projects.length > 0) {
+            this.projectsIncluded.emit(false);
+          }
+
         } else {
           this.noProjects = false;
+          if (this.projects.length > 0) {
+            this.projectsIncluded.emit(true);
+          }
         }
       }
     });
