@@ -66,14 +66,12 @@ export class QueryMenuComponent implements AfterViewInit {
     }
     deleteQuery() {
         if (confirm('Dette vil slette søgningen: ' + this.directoryservice.selectedQuery + ' - og alt dets data')) {
-            const log = this.directoryservice.removeQuerry(this.directoryservice.selectedUser,
+            this.directoryservice.removeQuerry(this.directoryservice.selectedUser,
                 this.directoryservice.selectedProject,
                 this.directoryservice.selectedQuery).then(() => {
                     this.directoryservice.selectedQuery = '';
                     this.updateList();
                 });
-            // ml19
-            //this.updateList();
         }
     }
 

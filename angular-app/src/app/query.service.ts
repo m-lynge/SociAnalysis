@@ -21,8 +21,8 @@ export class QueryService {
     getSelectedQuery() {
         // ml19
         console.log('Query-service: ', this.directoryservice.selectedUser,
-        this.directoryservice.selectedProject,
-        this.directoryservice.selectedQuery);
+            this.directoryservice.selectedProject,
+            this.directoryservice.selectedQuery);
         this.directoryservice.getQuery(
             this.directoryservice.selectedUser,
             this.directoryservice.selectedProject,
@@ -37,21 +37,24 @@ export class QueryService {
     }
 
     makeAllPostsToString() {
-        const fbData = this.selectedQuery.fbData;
-        fbData.forEach((post: any) => {
-            if (post.hasOwnProperty('message')) {
-                this.allPostsText += ' ' + post.message;
-            }
 
-            if (post.hasOwnProperty('comments')) {
-                post.comments.data.forEach((fun: any) => {
-                    if (fun.hasOwnProperty('message')) {
-                        this.allPostsText += ' ' + fun.message;
-                    }
-                });
+        if (this.selectedQuery.fbData) {
+            const fbData = this.selectedQuery.fbData;
+            fbData.forEach((post: any) => {
+                if (post.hasOwnProperty('message')) {
+                    this.allPostsText += ' ' + post.message;
+                }
 
-            }
-        });
+                if (post.hasOwnProperty('comments')) {
+                    post.comments.data.forEach((fun: any) => {
+                        if (fun.hasOwnProperty('message')) {
+                            this.allPostsText += ' ' + fun.message;
+                        }
+                    });
+
+                }
+            });
+        }
 
         //  this.allPostsText = 'a a a a a a is is is ist ist ist ist test test test test test';
         this.allPostsTextSubject.next(this.allPostsText);
