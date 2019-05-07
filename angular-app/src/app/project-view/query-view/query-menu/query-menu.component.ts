@@ -92,19 +92,28 @@ export class QueryMenuComponent implements AfterViewInit {
                     });
                 });
 
+                let useDate = false;
+                if (newquery.timeperiod.from !== '') {
+                    useDate = true;
+                }
+                // do filtering based on filter
+                const filteredArray = this.fbservice.filterQuery(postList, newquery.filter.tags,
+                    useDate, newquery.timeperiod.from, newquery.timeperiod.till);
+
+                this.queryservice.isLoading = false;
                 const query = new Query(
                     data.name,
                     data.params,
                     data.timeperiod,
                     data.groups,
                     data.filter,
-                    postList);
+                    filteredArray);
                 this.directoryservice.createQueryJSON(
                     this.directoryservice.selectedUser,
                     this.directoryservice.selectedProject,
                     query
                 );
-                this.queryservice.isLoading = false;
+
             });
 
 

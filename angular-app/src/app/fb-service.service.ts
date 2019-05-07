@@ -174,7 +174,7 @@ export class FBServiceService {
                         return secondcheck;
                     } else {
                         return 'comments{' + newQuery.params.filter((thirdcheck) => {
-                            if (thirdcheck!=='comments') {
+                            if (thirdcheck !== 'comments') {
                                 return thirdcheck;
                             }
                         }) + ',created_time}';
@@ -187,7 +187,96 @@ export class FBServiceService {
         });
 
         return await Promise.all(promises);
-
-
     }
+
+    filterQuery(queryData: any[], tags: string[], useDate: boolean, beginDate, endDate): any[] {
+        // do filtering based on filter
+        let filteredArray = queryData;
+
+        if (tags.length > 0) {
+            filteredArray = this.filterByTag(tags, filteredArray);
+        }
+
+        if (useDate && beginDate !== '0' && endDate !== '0') {
+            filteredArray = this.filterByDate(beginDate, endDate, filteredArray);
+        }
+        return filteredArray;
+    }
+
+    fixDate(date: number): string {
+        let returnDate = '';
+        if (date < 10) {
+            returnDate = '0' + date;
+        } else {
+            returnDate = '' + date;
+        }
+        return returnDate;
+    }
+
+    filterByDate(beginDate, endDate, contentToFilter): any[] {
+        return contentToFilter.filter((post: any) => {
+            const returnBool = false;
+            console.log('beginDate:', beginDate, ' , endDate:', endDate);
+            console.log('post:', post.created_time.split('T')[0]);
+            console.log(' is within:', this.withinDates(post.created_time.split('T')[0], beginDate, endDate));
+            if (this.withinDates(post.created_time.split('T')[0], beginDate, endDate) === true) {
+                return post;
+            }
+        });
+    }
+    withinDates(check: string, beginDate: string, endDate: string): boolean {
+        const cDate = Date.parse(check);
+        const bDate = Date.parse(beginDate);
+        const eDate = Date.parse(endDate);
+
+        if ((cDate <= eDate && cDate >= bDate)) {
+            return true;
+        }
+        return false;
+    }
+
+    filterByTag(tags: string[], contentToFilter): any[] {
+        const returnContent = contentToFilter.filter((post: any) => {
+            // if post message
+            let returnBool = false;
+            tags.forEach((tag) => {
+                if (post.hasOwnProperty('message')) {
+                    if (post.message.includes(tag)) {
+                        console.log('postmessage: ', post.message, ' - includes: ', tag);
+                        returnBool = true;
+                    }
+                }
+                if (returnBool !== true) {
+                    // if comment message
+                    if (post.hasOwnProperty('comments')) {
+                        post.comments.data.forEach(comment => {
+                            if (comment.hasOwnProperty('message')) {
+                                if (comment.message.includes(tag)) {
+                                    console.log('commentmessage: ', comment.message, ' - includes: ', tag);
+                                    returnBool = true;
+                                }
+                            }
+                            if (returnBool !== true) {
+                                // if comment's commment message
+                                if (comment.hasOwnProperty('comments')) {
+                                    comment.comments.data.forEach(commentOfcomment => {
+                                        if (commentOfcomment.hasOwnProperty('message')) {
+                                            if (commentOfcomment.message.includes(tag)) {
+                                                console.log('commentofcommentmessage: ',
+                                                    commentOfcomment.message, ' - includes: ', tag);
+                                                returnBool = true;
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            return returnBool === true;
+        });
+        return returnContent;
+    }
+
 }
