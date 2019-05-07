@@ -36,28 +36,31 @@ export class NavigationComponent implements OnInit, AfterViewInit {
           this.newprojectservice.Toggle = this.newprojectservice.Toggle - 1;
         } else {
           this.newprojectservice.ViewingNewProject = false;
+          this.navigationservice.backButtonIsActive = false;
           this.router.navigate(['/home']);
         }
       } else {
         this.newprojectservice.ViewingNewProject = false;
+        this.navigationservice.backButtonIsActive = true;
         this.navigationservice.GoBackRoute = ['/home'];
         this.router.navigate(['/projekt']);
 
       }
     } else {
+      this.navigationservice.backButtonIsActive = false;
       this.router.navigate(this.navigationservice.GoBackRoute);
     }
-
-    // this.location.back();
   }
 
   routeToHome() {
+    this.navigationservice.backButtonIsActive = false;
     this.router.navigate(['/home']);
   }
 
   logoutOfFacebook() {
     this.fbservice.logout();
     this.navigationservice.setNavi = false;
+    this.navigationservice.backButtonIsActive = false;
     this.router.navigate(['']);
   }
 

@@ -13,6 +13,7 @@ import { Project } from '../Project';
 })
 
 export class LoginViewComponent {
+  
   returnValue: boolean;
   loading: boolean;
   failed: boolean;
@@ -42,11 +43,13 @@ export class LoginViewComponent {
           if (!response) {
             this.directoryservice.createUserDirectory(id.userID).subscribe((created) => {
               this.navigationservice.setNavi = true;
+              this.navigationservice.backButtonIsActive = false;
               this.router.navigate(['/home']);
               console.log('Created user path/ ', id.userID);
             });
           } else {
             this.navigationservice.setNavi = true;
+            this.navigationservice.backButtonIsActive = false;
             this.router.navigate(['/home']);
             console.log('User already exists/ ', id.userID);
             this.fbService.getAndSetUserName();
