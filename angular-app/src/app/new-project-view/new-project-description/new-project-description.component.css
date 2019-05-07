@@ -7,6 +7,11 @@
     align-content: center;
     margin-top: 2%;
 }
+.headerText{
+    margin-top: 25px;
+    font-size: 25px;
+    font-weight: bold;
+}
 
 .textTitle {
     width: 30%;

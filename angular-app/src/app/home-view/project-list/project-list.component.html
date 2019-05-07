@@ -1,6 +1,7 @@
 <mat-list *ngIf='noProjects;'>
-  <mat-list-item>Ingen projekter at vise!</mat-list-item>
+  <!--<mat-list-item>Ingen projekter at vise!</mat-list-item>-->
 </mat-list>
+
 <mat-nav-list *ngIf='!noProjects'>
   <div *ngFor="let project of projects">
     <mat-list-item id="list">

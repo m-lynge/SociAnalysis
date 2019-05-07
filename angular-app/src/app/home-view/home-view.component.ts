@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { DirectoryService } from '../directory.service';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {DirectoryService} from '../directory.service';
 
 @Component({
     selector: 'app-home-view',
@@ -9,7 +9,14 @@ import { DirectoryService } from '../directory.service';
 })
 export class HomeViewComponent implements OnInit, AfterViewInit {
 
+    hasProjects: boolean;
+
     constructor(private router: Router, private directoryservice: DirectoryService) {
+    }
+
+    checkIfNoProjects(event) {
+        this.hasProjects = event;
+        console.log(event);
     }
 
     ngOnInit() {
