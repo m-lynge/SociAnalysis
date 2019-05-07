@@ -13,16 +13,22 @@ export class QueryService {
     hasQuerys = false;
     allPostsTextSubject: Subject<string> = new Subject<string>();
     selectedQuerySubject: Subject<Query> = new Subject<Query>();
+    queryArray;
 
     constructor(private directoryservice: DirectoryService) {
     }
 
     getSelectedQuery() {
+        // ml19
+        console.log('Query-service: ', this.directoryservice.selectedUser,
+        this.directoryservice.selectedProject,
+        this.directoryservice.selectedQuery);
         this.directoryservice.getQuery(
             this.directoryservice.selectedUser,
             this.directoryservice.selectedProject,
             this.directoryservice.selectedQuery).
             then((data => {
+                console.log('Query-service: data: ', data);
                 this.selectedQuery = data;
                 this.translateParameters();
                 this.makeAllPostsToString();
