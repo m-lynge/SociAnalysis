@@ -1,14 +1,33 @@
+p{
+  margin: 0;
+  padding: 0;
+  letter-spacing: 1.5px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.descText{
+
+}
 .descView {
   float: left;
   width: 50%;
-  padding: 2%;
+  margin-left: auto;
+  margin-right: auto;
   height: 50vh;
+  text-align: center;
+  border-right: solid thin lightgrey;
 }
 .titleOverview {
   font-size: 25px;
   margin-top: 25px;
   font-weight: bold;
   text-align: center;
+}
+.projectNameTitle{
+  font-size: 4.5rem;
+  margin-bottom: 25px;
+  letter-spacing: 4px;
 }
 .buttonContainer {
   width: 99%;
@@ -69,6 +88,8 @@
 
 #LEFT {
   width: 50%;
+  margin: 0 auto;
+  text-align: left;
 }
 #chosenbois {
   float: right;

@@ -344,7 +344,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                     }
                 }
             });
-            return returnBool === true;
+            return returnBool;
         });
         return returnContent;
     }
