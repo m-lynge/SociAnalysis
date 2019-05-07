@@ -274,7 +274,7 @@ export class FBServiceService {
                     }
                 }
             });
-            return returnBool === true;
+            return returnBool;
         });
         return returnContent;
     }
