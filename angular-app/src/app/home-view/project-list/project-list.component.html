@@ -7,10 +7,10 @@
 <mat-nav-list *ngIf='!noProjects'>
   <div class="cardContainer" *ngFor="let project of projects">
 
-      <mat-card class="matCard-Back" (click)='this.newprojectservice.NewProject=false;this.directoryservice.selectedProject=project;
-      selectProject(project.name)' >
+      <mat-card class="matCard-Back" >
         <button class="deleteButton" mat-button (click)="deleteProject(project.name)">Slet</button>
-      <div class="text">
+      <div class="text" (click)='this.newprojectservice.NewProject=false;this.directoryservice.selectedProject=project;
+      selectProject(project.name)' >
 
         <span class="projectTitle">{{project.name}}</span><br>
         {{project.desc}}

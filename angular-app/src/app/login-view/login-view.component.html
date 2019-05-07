@@ -1,5 +1,5 @@
-<div>
-    <button class='loginButton' *ngIf="showButton" (click)="loginToFacebook()" mat-raised-button> Log ind </button>
+<div class="loginButtonDiv">
+    <button color="primary" class='loginButton' *ngIf="showButton" (click)="loginToFacebook()" mat-raised-button> Log ind </button>
     <app-loading-view *ngIf="loading" [customTitle]="'Logger ind...'"></app-loading-view>
     <p *ngIf="failed">Login fejlede, prøv igen!</p>
 </div>
