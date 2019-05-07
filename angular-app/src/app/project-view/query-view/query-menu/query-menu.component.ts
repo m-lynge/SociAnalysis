@@ -416,10 +416,10 @@ export class ExportDialogComponent {
             this.directoryservice.selectedQuery
         ).then((data: Query) => {
 
-            console.log('read');
-            const theJSON = JSON.stringify(data);
-           // const uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
 
+            const theJSON = JSON.stringify(data.fbData);
+            const datas = new Blob([theJSON], { type: 'text/json;charset=utf-8' });
+            FileSaver.saveAs(datas, 'BLOB.json');
 
         });
     }
