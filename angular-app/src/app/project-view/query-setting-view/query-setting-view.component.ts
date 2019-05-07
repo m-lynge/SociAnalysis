@@ -1,14 +1,14 @@
 import { AfterContentInit, Component, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
+import { COMMA, ENTER, SPACE, B } from '@angular/cdk/keycodes';
 import { Group } from '../../Group';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DirectoryService } from 'src/app/directory.service';
 import { FBServiceService } from 'src/app/fb-service.service';
-import { Query } from "../../Query";
+import { Query } from '../../Query';
 import { Project } from '../../Project';
 import { NewQuery } from 'src/app/NewQuery';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 export interface QuerySettingsInterface {
     name: string;
@@ -155,7 +155,7 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
             this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.queryName + '.json')
             .subscribe((queryExists) => {
                 if (queryExists === true) {
-                    const hasConfirmed = confirm('Ved at acceptere følgende sletter du en tidligere søgning med samme navn')
+                    const hasConfirmed = confirm('Ved at acceptere følgende sletter du en tidligere søgning med samme navn');
                     if (hasConfirmed === true) {
                         this.showLoading = true;
                         this.directoryservice.selectedQuery = this.queryName + '.json';
@@ -195,8 +195,36 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
 
         if (this.useDate) {
             if (this.beginDate.value !== false && this.endDate.value !== false) {
-                beginDate = this.beginDate.value.toLocaleDateString();
-                endDate = this.endDate.value.toLocaleDateString();
+                // console.log('VALUE', this.endDate.value.getMonth());
+                // console.log('test1', this.endDate.value.getDate());
+                // console.log('test2', this.endDate.value.getFullYear());
+                // console.log('test3', this.endDate.value.getUTCMonth());
+                // console.log('test4', this.endDate.value.getUTCDate());
+                // console.log('test5', this.endDate.value.getUTCFullYear());
+                // console.log('test6', this.endDate.value.toDateString());
+
+
+                // console.log('pre', this.beginDate.value.getDay());
+                // console.log('beginDAY', this.fixDate(Number(this.beginDate.value.getDay())));
+                // console.log('pre', this.beginDate.value.getMonth());
+                // console.log('beginDATE', this.fixDate(Number(this.beginDate.value.getMonth())));
+
+                // console.log('pre', this.endDate.value.getDay());
+                // console.log('endDAY', this.fixDate(Number(this.endDate.value.getDay())));
+                // console.log('pre', this.endDate.value.getMonth());
+                // console.log('endDATE', this.fixDate(Number(this.endDate.value.getMonth())));
+                // console.log('endDATE', this.fixDate(Number(this.endDate.value.getUTCDate())));
+                const beginUTFDate = (this.beginDate.value.getFullYear()) + '-'
+                    + this.fixDate(Number(this.beginDate.value.getMonth()) + 1) + '-'
+                    + this.fixDate(Number(this.beginDate.value.getDate()));
+
+
+                const endUTFDate = (this.endDate.value.getFullYear()) + '-'
+                    + this.fixDate(Number(this.endDate.value.getMonth()) + 1) + '-'
+                    + this.fixDate(Number(this.endDate.value.getDate()));
+
+                beginDate = beginUTFDate.replace(/' '/g, '');
+                endDate = endUTFDate.replace(/' '/g, '');
             }
         } else {
             beginDate = '0';
@@ -223,51 +251,24 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                 });
             });
 
-            //do filtering based on filter
-            const filteresArray = postList.filter((post: any) => {
-                //if post message
-                let returnBool = false;
-                exportQuery.filter.tags.forEach((tag) => {
-                    if (post.hasOwnProperty('message')) {
-                        if (post.message.includes(tag)) {
-                            console.log('postmessage: ', post.message, ' - includes: ', tag);
-                            returnBool = true;
-                        }
-                    }
-                    if (returnBool !== true) {
-                        //if comment message
-                        if (post.hasOwnProperty('comments')) {
-                            post.comments.data.forEach(comment => {
-                                if (comment.hasOwnProperty('message')) {
-                                    if (comment.message.includes(tag)) {
-                                        console.log('commentmessage: ', comment.message, ' - includes: ', tag);
-                                        returnBool = true;
-                                    }
-                                }
-                                if (returnBool !== true) {
-                                    if (comment.hasOwnProperty('comments')) {
-                                        comment.comments.data.forEach(commentOfcomment => {
-                                            if (commentOfcomment.hasOwnProperty('message')) {
-                                                if (commentOfcomment.message.includes(tag)) {
-                                                    console.log('commentofcommentmessage: ', commentOfcomment.message, ' - includes: ', tag);
-                                                    returnBool = true;
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            });
-                        }
-                    }
-                
+            // do filtering based on filter
+            let filteredArray = postList;
 
-                });
-                
-                return returnBool === true;
-          
-            });
+            if (this.searchTags.length > 0) {
+                filteredArray = this.filterByTag(exportQuery.filter.tags, postList);
+            }
+
+            if (this.useDate && beginDate !== '0' && endDate !== '0') {
+                filteredArray = this.filterByDate(beginDate, endDate, filteredArray);
+            }
+
+
+
+            // const dateFilteredArray
+
+
             console.log('POSTDATA', postList);
-            console.log('FILTEREDDATA', filteresArray);
+            console.log('FILTEREDDATA', filteredArray);
             this.directoryservice.createQueryJSON(
                 this.directoryservice.selectedUser,
                 this.directoryservice.selectedProject,
@@ -277,12 +278,87 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                     exportQuery.timeperiod,
                     exportQuery.groups,
                     exportQuery.filter,
-                    filteresArray
+                    filteredArray
                 )
             );
-            //this.router.navigate(['/projekt', exportQuery.name]);
             this.router.navigate(['/projekt']);
         });
+    }
+
+    fixDate(date: number): string {
+        let returnDate = '';
+        if (date < 10) {
+            returnDate = '0' + date;
+        } else {
+            returnDate = '' + date;
+        }
+        return returnDate;
+    }
+
+    filterByDate(beginDate, endDate, contentToFilter): any[] {
+        return contentToFilter.filter((post: any) => {
+            const returnBool = false;
+            console.log('beginDate:', beginDate, ' , endDate:', endDate);
+            console.log('post:', post.created_time.split('T')[0]);
+            console.log(' is within:', this.withinDates(post.created_time.split('T')[0], beginDate, endDate));
+            if (this.withinDates(post.created_time.split('T')[0], beginDate, endDate) === true) {
+                return post;
+            }
+        });
+    }
+    withinDates(check: string, beginDate: string, endDate: string): boolean {
+        const cDate = Date.parse(check);
+        const bDate = Date.parse(beginDate);
+        const eDate = Date.parse(endDate);
+
+        if ((cDate <= eDate && cDate >= bDate)) {
+            return true;
+        }
+        return false;
+    }
+
+    filterByTag(tags: string[], contentToFilter): any[] {
+        const returnContent = contentToFilter.filter((post: any) => {
+            // if post message
+            let returnBool = false;
+            tags.forEach((tag) => {
+                if (post.hasOwnProperty('message')) {
+                    if (post.message.includes(tag)) {
+                        console.log('postmessage: ', post.message, ' - includes: ', tag);
+                        returnBool = true;
+                    }
+                }
+                if (returnBool !== true) {
+                    // if comment message
+                    if (post.hasOwnProperty('comments')) {
+                        post.comments.data.forEach(comment => {
+                            if (comment.hasOwnProperty('message')) {
+                                if (comment.message.includes(tag)) {
+                                    console.log('commentmessage: ', comment.message, ' - includes: ', tag);
+                                    returnBool = true;
+                                }
+                            }
+                            if (returnBool !== true) {
+                                // if comment's commment message
+                                if (comment.hasOwnProperty('comments')) {
+                                    comment.comments.data.forEach(commentOfcomment => {
+                                        if (commentOfcomment.hasOwnProperty('message')) {
+                                            if (commentOfcomment.message.includes(tag)) {
+                                                console.log('commentofcommentmessage: ',
+                                                    commentOfcomment.message, ' - includes: ', tag);
+                                                returnBool = true;
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            return returnBool === true;
+        });
+        return returnContent;
     }
 
     ngAfterContentInit(): void {
