@@ -149,7 +149,7 @@ export class QueryVisualComponent implements OnDestroy {
       .data(this.dataforCircles)
       .enter()
       .append('text')
-      .text((d) => d.word);
+      .text((d) => (d.word + ': ' + d.number));
     this.RunSimulation();
   }
 
