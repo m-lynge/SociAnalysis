@@ -24,9 +24,14 @@
 }
 
 #confirmBttn {
-    margin-left: 80%;
-    height: 60px;
-    width: 110px;
-    
+
+    height: 70px;
+    width: 100%;
+}
+.buttonContainer{
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+
 }
 
