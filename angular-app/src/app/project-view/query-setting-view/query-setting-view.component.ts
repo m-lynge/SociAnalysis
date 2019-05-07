@@ -227,8 +227,8 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
                 endDate = endUTFDate.replace(/' '/g, '');
             }
         } else {
-            beginDate = '0';
-            endDate = '0';
+            beginDate = '';
+            endDate = '';
         }
 
         // to fb service
@@ -252,20 +252,8 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
             });
 
             // do filtering based on filter
-            let filteredArray = postList;
-
-            if (this.searchTags.length > 0) {
-                filteredArray = this.filterByTag(exportQuery.filter.tags, postList);
-            }
-
-            if (this.useDate && beginDate !== '0' && endDate !== '0') {
-                filteredArray = this.filterByDate(beginDate, endDate, filteredArray);
-            }
-
-
-
-            // const dateFilteredArray
-
+            const filteredArray = this.fbservice.filterQuery(postList, exportQuery.filter.tags,
+                this.useDate.value, beginDate, endDate);
 
             console.log('POSTDATA', postList);
             console.log('FILTEREDDATA', filteredArray);
