@@ -22,12 +22,16 @@ export class QueryParametersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.queryservice.selectedQuerySubject.subscribe((data) => {
+      // ml19
+      console.log('Query-parameters: selectedQuerySubject');
       this.QueryParams = data;
       this.amountOfPosts = this.QueryParams.fbData.length;
     });
   }
 
   ngOnDestroy() {
+    // ml19
+    console.log('Query-parameters: unsubscribe');
     this.subscription.unsubscribe();
   }
 
