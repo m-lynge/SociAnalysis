@@ -1,11 +1,12 @@
 .icon{
     margin-right: 10px;
     height: 50px;
-    width: 50px;
+    width: 80px;
     display: table-cell;
     padding: 3px;
-    border: solid black thin;
     border-spacing: 10px;
+    font-size: 8px;
+    text-align: center;
     cursor: pointer;
     /* padding-left: 20px */
 }
@@ -19,11 +20,12 @@
     font-size: 2rem;
     letter-spacing: 2.5px;
     float: left;
+    padding-top: 10px;
     line-height: initial;
     padding-right: 40px;
 }
 .container{
-    padding: 15px 5px 5px;
+    padding: 3px 5px 5px;
     display: table;
     border-spacing: 10px 0px;
     margin: 0 !important;
@@ -35,6 +37,9 @@
     letter-spacing: 1.5px;
     padding: 0;
     margin: 0;
+}
+.theIMG{
+    border: solid black thin;
 }
 
 .iconcontainer{
