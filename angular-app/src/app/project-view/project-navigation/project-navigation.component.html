@@ -1,25 +1,35 @@
 <!-- NAME -->
 <div class="navigator">
-  <div class="container">
-    <div class="projectName">
-     <p class="projectTxt"> Projekt: </p>
-      {{this.directoryservice.selectedProject}}
-    </div>
-    <div class="icon-container">
+    <div class="container">
+        <div class="projectName">
+            <p class="projectTxt"> Projekt: </p>
+            {{this.directoryservice.selectedProject}}
+        </div>
+        <div class="icon-container">
 
-        <div class="icon">
-          <img src="assets/logos/description.svg" (click)='editProject(0)'>
-        </div>
-        <div class="icon">
-          <img src="assets/logos/groups.svg" (click)='editProject(1)'>
-        </div>
-        <div class="icon">
-          <img src="assets/logos/overview.svg" (click)='editProject(2)'>
-        </div>
+            <div class="icon">
+                Ændre beskrivelse
+                <div class="theIMG">
+                    <img src="assets/logos/description.svg" (click)='editProject(0)'>
+                </div>
+            </div>
+            <div class="icon">
 
+                Tilføj/Fjern grupper
+                <div class="theIMG">
+                    <img src="assets/logos/groups.svg" (click)='editProject(1)'>
+                </div>
+            </div>
+            <div class="icon">
+                Overblik
+                <div class="theIMG">
+                    <img src="assets/logos/overview.svg" (click)='editProject(2)'>
+                </div>
+            </div>
+
+        </div>
+        <!-- <button (click)="callUpdate()">FORCE NAME UPDATE</button> -->
     </div>
-    <!-- <button (click)="callUpdate()">FORCE NAME UPDATE</button> -->
-  </div>
 </div>
 
 

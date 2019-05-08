@@ -1,6 +1,7 @@
 #confirmBttn {
     width: 100%;
-    height: 100%;
+    height: 60px;
+    margin-bottom: 5px;
 }
 .headerText{
     margin-top: 25px;
@@ -11,7 +12,6 @@
 .buttonContainer {
     width: 99%;
     bottom: 5px;
-    position: absolute;
     height: 12%;
     left: 0;
     right: 0;
@@ -20,7 +20,6 @@
 }
 
 .wrapper {
-    overflow-y: hidden;
     width: 100%;
     height: 80%;
     text-align: center;
@@ -72,6 +71,7 @@
 }
 .divContainer#leftBox{
     float: left;
+    padding-bottom: 25px;
 }
 .divContainer#rightBox{
     float: right;

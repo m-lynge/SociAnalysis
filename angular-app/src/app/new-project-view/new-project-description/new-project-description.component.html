@@ -4,7 +4,7 @@
         <hr>
         <br>
         <mat-form-field class="textTitle" hintlabel="Max 25 tegn">
-            <input matInput #input maxlength="25" placeholder="Projekt titel" value="" name="projectName"
+            <input matInput #input maxlength="15" placeholder="Projekt titel" value="" name="projectName"
                    [(ngModel)]="this.newprojectservice.name" required
                    onkeypress="return String.fromCharCode(event.charCode).match(/[^a-zA-Z0-9|æåøÆØÅ]/g) === null"/>
         </mat-form-field>
