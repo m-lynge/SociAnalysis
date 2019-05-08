@@ -9,7 +9,7 @@
                 <h4>Tilgængelige grupper</h4>
                 <h6>Disse grupper er tilgængelige til at hente data fra</h6>
                 <mat-form-field>
-                    <input name="GroupSearcher" value="" (ngModelChange)="findMatchingGroups()" [(ngModel)]="searchTerm"
+                    <input name="GroupSearcher" value=""  [(ngModel)]="searchTerm" (ngModelChange)="findMatchingGroups()"
                            matInput
                            placeholder="Søg i grupper">
                 </mat-form-field>

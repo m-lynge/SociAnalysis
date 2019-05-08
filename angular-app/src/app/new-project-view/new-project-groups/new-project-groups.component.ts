@@ -113,10 +113,23 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
 
     findMatchingGroups(): void {
+        if (this.searchTerm === '') {
+            console.log('emtpy');
+            let segmentedGroups = this.newprojectservice.listOfAllGroups.filter(n => !this.groupsSelected.includes(n));
+
+            this.groupsShown = segmentedGroups;
+        } else {
+            console.log('available?', this.newprojectservice.listOfAllGroups);
+            // let segmentedGroups = this.newprojectservice.listOfAllGroups.filter(n => !this.groupsSelected.includes(n));
+
+            // console.log('segmentedGroups:', segmentedGroups);
+            let segmentedGroups = this.newprojectservice.listOfAllGroups.filter(n => !this.groupsSelected.includes(n));
+
+            this.groupsShown = segmentedGroups.filter((group: Group) => {
+                return group.name.toLowerCase().includes(this.searchTerm.trim().toLowerCase());
+            });
+        }
  
-        this.groupsShown = this.newprojectservice.listOfAllGroups.filter((group: Group) => {
-            return group.name.toLowerCase().includes(this.searchTerm.trim().toLowerCase());
-        });
     }
 
     showNext(): void {
