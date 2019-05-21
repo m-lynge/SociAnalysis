@@ -43,11 +43,11 @@ export class DirectoryService {
         this.selected.query = v;
     }
 
-    public getAllUsers(): Observable<object> {
-        return this
-            .http
-            .get(`${this.uri}/getUsers`);
-    }
+    // public getAllUsers(): Observable<object> {
+    //     return this
+    //         .http
+    //         .get(`${this.uri}/getUsers`);
+    // }
 
     public getAllProjects(user: string): Observable<any> {
         return this
