@@ -10,9 +10,9 @@ import { Query } from "./Query";
 export class FBServiceService {
 
     userName: Subject<string> = new Subject<string>();
-    userID = '';
-    accessToken = '';
-    listOfPosts = [];
+    private userID = '';
+    private accessToken = '';
+    private listOfPosts = [];
 
     constructor(private zone: NgZone, private directoryService: DirectoryService, private router: Router) {
         (window as any).fbAsyncInit = () => {
@@ -45,14 +45,11 @@ export class FBServiceService {
                     this.userID = response.authResponse.userID;
                     this.directoryService.selectedUser = response.authResponse.userID;
                     this.accessToken = response.authResponse.accessToken;
-
                     resolve(response.authResponse);
-
                 } else {
                     reject('Login Failed');
                 }
             }, { scope: 'groups_access_member_info' });
-            // , auth_type: 'reauthenticate'
         });
     }
 
@@ -63,15 +60,15 @@ export class FBServiceService {
         return;
     }
 
-    updatePostList(fun: any[]) {
-        if (fun !== undefined) {
-            this.zone.run(() =>
-                fun.map((object) => {
-                    // Check only save groups you're administrator off.
-                    this.listOfPosts.push(object);
-                }));
-        }
-    }
+    // updatePostList(fun: any[]) {
+    //     if (fun !== undefined) {
+    //         this.zone.run(() =>
+    //             fun.map((object) => {
+    //                 // Check only save groups you're administrator off.
+    //                 this.listOfPosts.push(object);
+    //             }));
+    //     }
+    // }
 
     getAndSetUserName() {
         FB.api(
@@ -216,17 +213,17 @@ export class FBServiceService {
         return filteredArray;
     }
 
-    fixDate(date: number): string {
-        let returnDate = '';
-        if (date < 10) {
-            returnDate = '0' + date;
-        } else {
-            returnDate = '' + date;
-        }
-        return returnDate;
-    }
+    // fixDate(date: number): string {
+    //     let returnDate = '';
+    //     if (date < 10) {
+    //         returnDate = '0' + date;
+    //     } else {
+    //         returnDate = '' + date;
+    //     }
+    //     return returnDate;
+    // }
 
-    filterByDate(beginDate, endDate, contentToFilter): any[] {
+    private filterByDate(beginDate, endDate, contentToFilter): any[] {
         return contentToFilter.filter((post: any) => {
             const returnBool = false;
             console.log('beginDate:', beginDate, ' , endDate:', endDate);
@@ -237,7 +234,7 @@ export class FBServiceService {
             }
         });
     }
-    withinDates(check: string, beginDate: string, endDate: string): boolean {
+    private withinDates(check: string, beginDate: string, endDate: string): boolean {
         const cDate = Date.parse(check);
         const bDate = Date.parse(beginDate);
         const eDate = Date.parse(endDate);
@@ -248,7 +245,7 @@ export class FBServiceService {
         return false;
     }
 
-    filterByTag(tags: string[], contentToFilter): any[] {
+    private filterByTag(tags: string[], contentToFilter): any[] {
         const returnContent = contentToFilter.filter((post: any) => {
             // if post message
             let returnBool = false;

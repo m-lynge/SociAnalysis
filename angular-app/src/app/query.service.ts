@@ -20,16 +20,11 @@ export class QueryService {
     }
 
     getSelectedQuery() {
-        // ml19
-        console.log('Query-service: ', this.directoryservice.selectedUser,
-            this.directoryservice.selectedProject,
-            this.directoryservice.selectedQuery);
         this.directoryservice.getQuery(
             this.directoryservice.selectedUser,
             this.directoryservice.selectedProject,
             this.directoryservice.selectedQuery).
             then((data => {
-                console.log('Query-service: data: ', data);
                 this.selectedQuery = data;
                 this.translateParameters();
                 this.makeAllPostsToString();
@@ -38,7 +33,6 @@ export class QueryService {
     }
 
     makeAllPostsToString() {
-
         if (this.selectedQuery.fbData) {
             const fbData = this.selectedQuery.fbData;
             fbData.forEach((post: any) => {
@@ -56,8 +50,6 @@ export class QueryService {
                 }
             });
         }
-
-        //  this.allPostsText = 'a a a a a a is is is ist ist ist ist test test test test test';
         this.allPostsTextSubject.next(this.allPostsText);
         this.allPostsText = '';
     }
