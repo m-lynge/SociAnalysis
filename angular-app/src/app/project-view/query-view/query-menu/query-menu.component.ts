@@ -6,10 +6,10 @@ import {QueryService} from 'src/app/query.service';
 import {FBServiceService} from 'src/app/fb-service.service';
 import {NewQuery} from 'src/app/NewQuery';
 import {Query} from 'src/app/Query';
-import {MatDialog, MatDialogRef} from "@angular/material";
-import {Angular5Csv} from "angular5-csv/dist/Angular5-csv";
-import {DomSanitizer} from "@angular/platform-browser";
-import * as FileSaver from "file-saver";
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {Angular5Csv} from 'angular5-csv/dist/Angular5-csv';
+import {DomSanitizer} from '@angular/platform-browser';
+import * as FileSaver from 'file-saver';
 
 // interface ExportJSONQuery {
 //     groups: [{
@@ -40,7 +40,7 @@ export class QueryMenuComponent implements AfterViewInit {
         console.log('calling update list');
         this.directoryservice.getAllQueries(this.directoryservice.selectedUser, this.directoryservice.selectedProject)
             .subscribe((queryArray) => {
-                // ml19 
+                // ml19
                 console.log('Query-meny: ', queryArray);
                 if (queryArray && queryArray[0]) {
                     console.log('Query-menu: calling get selected query');

@@ -6,11 +6,8 @@ import { QueryService } from 'src/app/query.service';
   templateUrl: './query-visual-view.component.html',
   styleUrls: ['./query-visual-view.component.css']
 })
-export class QueryVisualViewComponent implements OnInit {
+export class QueryVisualViewComponent {
 
   constructor(public queryservice: QueryService) { }
-
-  ngOnInit() {
-  }
 
 }

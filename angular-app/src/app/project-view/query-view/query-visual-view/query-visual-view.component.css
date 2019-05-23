@@ -4,8 +4,10 @@
     font-size: 21px;
     text-decoration: underline;
     margin-bottom: 0;
+    padding-bottom: 65px;
 }
 
 .visBod{
-
+    width: 350px;
+    margin: 0 auto;
 }

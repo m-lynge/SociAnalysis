@@ -1,25 +1,19 @@
-import { AfterContentInit, Component, EventEmitter, OnInit, Output } from "@angular/core";
-import { MatChipInputEvent } from "@angular/material/chips";
-import { Group } from "../../Group";
-import { SearchTag } from 'src/app/project-view/query-setting-view/query-setting-view.component';
-import { NewProjectService } from 'src/app/new-project.service';
-import { DirectoryService } from 'src/app/directory.service';
-import { Router } from '@angular/router';
-import { NavigationService } from 'src/app/navigation.service';
-import { Query } from 'src/app/Query';
-import { group } from '@angular/animations';
+import {AfterContentInit, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {Group} from '../../Group';
+import {NewProjectService} from 'src/app/new-project.service';
+import {SearchTag} from '../../query-setting-view/query-setting-view.component';
+import {DirectoryService} from 'src/app/directory.service';
+import {Query} from 'src/app/Query';
 
 
 @Component({
-    selector: "app-new-project-groups",
-    templateUrl: "./new-project-groups.component.html",
-    styleUrls: ["./new-project-groups.component.css"]
+    selector: 'app-new-project-groups',
+    templateUrl: './new-project-groups.component.html',
+    styleUrls: ['./new-project-groups.component.css']
 })
-export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
+export class NewProjectGroupsComponent implements AfterContentInit {
     @Output() show: EventEmitter<number> = new EventEmitter();
-
-    retrievedQueryNames: string[];
-    showQueryNames: string[];
 
     searchTerm = '';
 
@@ -32,9 +26,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
 
     constructor(
         public newprojectservice: NewProjectService,
-        private directoryservice: DirectoryService,
-        private router: Router,
-        private navigationservice: NavigationService) {
+        private directoryservice: DirectoryService) {
     }
 
 
@@ -46,34 +38,6 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
     addToAvailable(i: number) {
         this.groupsShown.push(this.groupsSelected[i]);
         this.groupsSelected.splice(i, 1);
-    }
-
-    add(event: MatChipInputEvent): void {
-        const input = event.input;
-        const value = event.value;
-
-        // Add our fruit
-        if ((value || '').trim()) {
-            this.searchTags.push({ tag: value.trim() });
-        }
-
-        // Reset the input value
-        if (input) {
-            input.value = '';
-        }
-
-    }
-
-    remove(tag: SearchTag): void {
-        const index = this.searchTags.indexOf(tag);
-
-        if (index >= 0) {
-            this.searchTags.splice(index, 1);
-        }
-    }
-
-
-    ngOnInit() {
     }
 
     ngAfterContentInit(): void {
@@ -115,7 +79,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
     findMatchingGroups(): void {
         if (this.searchTerm === '') {
             console.log('emtpy');
-            let segmentedGroups = this.newprojectservice.listOfAllGroups.filter(n => !this.groupsSelected.includes(n));
+            const segmentedGroups = this.newprojectservice.listOfAllGroups.filter(n => !this.groupsSelected.includes(n));
 
             this.groupsShown = segmentedGroups;
         } else {
@@ -123,13 +87,13 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
             // let segmentedGroups = this.newprojectservice.listOfAllGroups.filter(n => !this.groupsSelected.includes(n));
 
             // console.log('segmentedGroups:', segmentedGroups);
-            let segmentedGroups = this.newprojectservice.listOfAllGroups.filter(n => !this.groupsSelected.includes(n));
+            const segmentedGroups = this.newprojectservice.listOfAllGroups.filter(n => !this.groupsSelected.includes(n));
 
             this.groupsShown = segmentedGroups.filter((group: Group) => {
                 return group.name.toLowerCase().includes(this.searchTerm.trim().toLowerCase());
             });
         }
- 
+
     }
 
     showNext(): void {
@@ -182,7 +146,6 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
     }
 
     groupAttatchedToQuery(groups: Group[], allQueries: Query[]): any {
-        let returnBool: boolean = false;
 
         const affectedGroups = groups.map((groupInstance) => {
             const usedInQueries = allQueries.filter((query: Query) => {
@@ -199,7 +162,7 @@ export class NewProjectGroupsComponent implements AfterContentInit, OnInit {
                 return bool;
             });
             if (usedInQueries.length > 0) {
-                return { usedInQueries, groupInstance };
+                return {usedInQueries, groupInstance};
             } else {
                 return;
             }

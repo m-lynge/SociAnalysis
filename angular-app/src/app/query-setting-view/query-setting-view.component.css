@@ -45,9 +45,6 @@ h3{
     text-align: left;
     margin: 3%;
 }
-.leftFull{
-    left: 0;
-}
 .cardContainer mat-card{
     margin-bottom: 5px;
     cursor: pointer;

@@ -1,5 +1,5 @@
-import { Component, OnInit, EventEmitter, Output, AfterContentInit } from "@angular/core";
-import { NewProjectService } from "src/app/new-project.service";
+import { Component, OnInit, EventEmitter, Output, AfterContentInit } from '@angular/core';
+import { NewProjectService } from 'src/app/new-project.service';
 import { FBServiceService } from 'src/app/fb-service.service';
 import { Project } from '../../Project';
 import { DirectoryService } from 'src/app/directory.service';
@@ -31,11 +31,11 @@ export class NewProjectOverviewComponent implements OnInit, AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    //It's a new project 
+    // It's a new project
     if (this.newprojectservice.NewProject) {
       this.navigationservice.GoBackRoute = ['/projekt'];
     } else {
-      //It's an old project
+      // It's an old project
       // this.router.navigate(['/projekt', '']);
     }
   }

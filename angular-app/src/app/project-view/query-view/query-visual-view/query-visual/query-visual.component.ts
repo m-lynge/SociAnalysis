@@ -14,9 +14,6 @@ import {Subscription} from 'rxjs';
     styleUrls: ['./query-visual.component.css']
 })
 export class QueryVisualComponent implements OnDestroy {
-
-    private height: number;
-    private width: number;
     private svg;
     private circles: any;
     private text: any;
@@ -27,7 +24,6 @@ export class QueryVisualComponent implements OnDestroy {
     private text2: any;
 
     // Variable used for the word freq counter:
-    // tslint:disable-next-line: max-line-length
     private textOccurrencesWithStopWords: any;
     private textOccurrencesWithOutStopWords: any;
     private statsArrayWithStopWords: any;
@@ -35,7 +31,6 @@ export class QueryVisualComponent implements OnDestroy {
     private sortedStatsArrayWithOutStopWords;
     private simulation;
     private statsArrayWithOutStopWords;
-    private chartDiv: any;
     private stopwords = ['ad', 'af', 'aldrig', 'alle', 'alt', 'anden', 'andet',
         'andre', 'at', 'bare', 'begge', 'blev', 'blive', 'bliver', 'da', 'de', 'dem',
         'den', 'denne', 'der', 'deres', 'det', 'dette', 'dig', 'din', 'dine', 'disse',
@@ -73,7 +68,24 @@ export class QueryVisualComponent implements OnDestroy {
         'further', 'get', 'give', 'go', 'had', 'has', 'hasnt', 'have', 'he', 'hence', 'her', 'here',
         'hereafter', 'hereby', 'herein', 'hereupon', 'hers', 'herself', 'him', 'himself', 'his', 'how',
         'however', 'hundred', 'ie', 'if', 'in', 'inc', 'indeed', 'interest', 'into', 'is', 'it', 'its',
-        'itself', 'keep', 'last', 'latter', 'latterly', 'least', 'less', 'ltd', 'made', 'many', 'may', 'me', 'meanwhile', 'might', 'mill', 'mine', 'more', 'moreover', 'most', 'mostly', 'move', 'much', 'must', 'my', 'myself', 'name', 'namely', 'neither', 'never', 'nevertheless', 'next', 'nine', 'no', 'nobody', 'none', 'noone', 'nor', 'not', 'nothing', 'now', 'nowhere', 'of', 'off', 'often', 'on', 'once', 'one', 'only', 'onto', 'or', 'other', 'others', 'otherwise', 'our', 'ours', 'ourselves', 'out', 'over', 'own', 'part', 'per', 'perhaps', 'please', 'put', 'rather', 're', 'same', 'see', 'seem', 'seemed', 'seeming', 'seems', 'serious', 'several', 'she', 'should', 'show', 'side', 'since', 'sincere', 'six', 'sixty', 'so', 'some', 'somehow', 'someone', 'something', 'sometime', 'sometimes', 'somewhere', 'still', 'such', 'system', 'take', 'ten', 'than', 'that', 'the', 'their', 'them', 'themselves', 'then', 'thence', 'there', 'thereafter', 'thereby', 'therefore', 'therein', 'thereupon', 'these', 'they', 'thickv', 'thin', 'third', 'this', 'those', 'though', 'three', 'through', 'throughout', 'thru', 'thus', 'to', 'together', 'too', 'top', 'toward', 'towards', 'twelve', 'twenty', 'two', 'un', 'under', 'until', 'up', 'upon', 'us', 'very', 'via', 'was', 'we', 'well', 'were', 'what', 'whatever', 'when', 'whence', 'whenever', 'where', 'whereafter', 'whereas', 'whereby', 'wherein', 'whereupon', 'wherever', 'whether', 'which', 'while', 'whither', 'who', 'whoever', 'whole', 'whom', 'whose', 'why', 'will', 'with', 'within', 'without', 'would', 'yet', 'you', 'your', 'yours', 'yourself', 'yourselves', 'the'];
+        'itself', 'keep', 'last', 'latter', 'latterly', 'least', 'less', 'ltd', 'made', 'many', 'may', 'me',
+        'meanwhile', 'might', 'mill', 'mine', 'more', 'moreover', 'most', 'mostly', 'move', 'much', 'must',
+        'my', 'myself', 'name', 'namely', 'neither', 'never', 'nevertheless', 'next', 'nine', 'no',
+        'nobody', 'none', 'noone', 'nor', 'not', 'nothing', 'now', 'nowhere', 'of', 'off', 'often',
+        'on', 'once', 'one', 'only', 'onto', 'or', 'other', 'others', 'otherwise', 'our', 'ours',
+        'ourselves', 'out', 'over', 'own', 'part', 'per', 'perhaps', 'please', 'put', 'rather',
+        're', 'same', 'see', 'seem', 'seemed', 'seeming', 'seems', 'serious', 'several', 'she',
+        'should', 'show', 'side', 'since', 'sincere', 'six', 'sixty', 'so', 'some', 'somehow',
+        'someone', 'something', 'sometime', 'sometimes', 'somewhere', 'still', 'such', 'system',
+        'take', 'ten', 'than', 'that', 'the', 'their', 'them', 'themselves', 'then', 'thence',
+        'there', 'thereafter', 'thereby', 'therefore', 'therein', 'thereupon', 'these', 'they',
+        'thickv', 'thin', 'third', 'this', 'those', 'though', 'three', 'through', 'throughout',
+        'thru', 'thus', 'to', 'together', 'too', 'top', 'toward', 'towards', 'twelve', 'twenty',
+        'two', 'un', 'under', 'until', 'up', 'upon', 'us', 'very', 'via', 'was', 'we', 'well',
+        'were', 'what', 'whatever', 'when', 'whence', 'whenever', 'where', 'whereafter',
+        'whereas', 'whereby', 'wherein', 'whereupon', 'wherever', 'whether', 'which', 'while',
+        'whither', 'who', 'whoever', 'whole', 'whom', 'whose', 'why', 'will', 'with', 'within',
+        'without', 'would', 'yet', 'you', 'your', 'yours', 'yourself', 'yourselves', 'the'];
 
     private dataforCircles: any;
 
@@ -101,24 +113,17 @@ export class QueryVisualComponent implements OnDestroy {
 
     stopOrdKnap() {
         this.svg.selectAll('*').remove();
-        //this.stopWordsActive = !this.stopWordsActive;
+        // this.stopWordsActive = !this.stopWordsActive;
         this.queryservice.stopWordsActive = !this.queryservice.stopWordsActive;
         this.DrawCirles();
     }
 
     private Init() {
-        // this.svg = d3.select('svg')
-        //   .attr('height', this.height)
-        //   .attr('width', this.width)
-        //   .style('text-anchor', 'middle')
-        //   .append('g')
-        //   .attr('transform', 'translate(250,250)');
-
         this.svg = d3.select('svg')
-            .classed("svg-container", true)
-            .attr("preserveAspectRatio", "xMinYMin meet")
-            .attr("viewBox", "0 0 600 400")
-            .classed("svg-content-responsive", true)
+            .classed('svg-container', true)
+            .attr('preserveAspectRatio', 'xMinYMin meet')
+            .attr('viewBox', '0 0 600 400')
+            .classed('svg-content-responsive', true)
             .style('text-anchor', 'middle')
             .append('g')
             .style('transform', 'translate(50%,50%)');

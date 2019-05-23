@@ -18,7 +18,7 @@
     display: table-cell;
     vertical-align: middle;
     font-size: 2rem;
-    letter-spacing: 2.5px;
+    letter-spacing: 3px;
     float: left;
     padding-top: 10px;
     line-height: initial;
@@ -27,25 +27,19 @@
 .container{
     padding: 3px 5px 5px;
     display: table;
-    border-spacing: 10px 0px;
+    border-spacing: 10px 0;
     margin: 0 !important;
    max-width: unset !important;
 }
 .projectTxt{
     text-align: center;
     font-size: 0.7rem;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     padding: 0;
     margin: 0;
 }
 .theIMG{
     border: solid black thin;
-}
-
-.iconcontainer{
-    display: table-cell;
-    /* padding-left: 40px; */
-    float: right;
 }
 .navigator{
     width: 100%;

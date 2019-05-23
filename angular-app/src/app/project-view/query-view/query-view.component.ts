@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
-import { DirectoryService } from "../../directory.service";
+import { DirectoryService } from '../../directory.service';
 import { NavigationService } from 'src/app/navigation.service';
 import { QueryService } from 'src/app/query.service';
 

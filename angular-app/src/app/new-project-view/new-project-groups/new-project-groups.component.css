@@ -55,11 +55,6 @@
     justify-content: center;
     align-items: center;
 }
-.mat-card{
-    padding:0;
-    margin-bottom: 10px;
-
-}
 .content{
     width:90%;
     align-content: center;
@@ -76,12 +71,6 @@
 .divContainer#rightBox{
     float: right;
 }
-.gTitle{
-    font-style: bold;
-}
 .gDesc{
     font-size: 10px;
-}
-#headright{
-    padding-bottom: 20px;
 }

@@ -5,13 +5,11 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './loading-view.component.html',
   styleUrls: ['./loading-view.component.css']
 })
-export class LoadingViewComponent implements OnInit {
+export class LoadingViewComponent {
   @Input()
   customTitle: string;
 
   constructor() { }
 
-  ngOnInit() {
-  }
 
 }

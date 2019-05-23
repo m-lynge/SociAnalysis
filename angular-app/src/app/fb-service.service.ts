@@ -1,9 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
 import { DirectoryService } from './directory.service';
-import { NewQuery } from "./NewQuery";
-import { Router } from "@angular/router";
-import { Subject } from "rxjs";
-import { Query } from "./Query";
+import { NewQuery } from './NewQuery';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { Query } from './Query';
 @Injectable({
     providedIn: 'root'
 })
@@ -88,7 +88,7 @@ export class FBServiceService {
     }
 
     async getGroups(url) {
-        const fragment = await (this.getGroupFragment(url))
+        const fragment = await (this.getGroupFragment(url));
         if (fragment.nextPage) {
             return fragment.data.concat(await this.getGroups(fragment.nextPage));
         } else {
@@ -151,22 +151,11 @@ export class FBServiceService {
         const promises = newQuery.groups.map(async groupCall => {
             let limit = 0;
             newQuery.filter.max !== null ? limit = newQuery.filter.max : limit = 100;
-            // const url = '/' + groupCall.id + '/feed?fields=' + newQuery.params.map((check) => {
-            //     if (check === 'comments') {
-            //         if (newQuery.params.includes('likes')) {
-            //             return (check + '{comments{reactions,message,created_time,permalink_url},reactions,message,created_time,permalink_url}');
-            //         } else {
-            //             return (check + '{comments{reactions')
-            //         }
-            //     } else {
-            //         return check;
-            //     }
-            // }) + ',created_time,reactions' + '&limit=' + limit;
             const url = '/' + groupCall.id + '/feed?fields=' + newQuery.params.map((check) => {
                 if (check !== 'comments') {
                     return check;
                 }
-                if (!newQuery.params.includes('message')){
+                if (!newQuery.params.includes('message')) {
                     return 'message,comments{message,' + newQuery.params.map((secondcheck) => {
                         if (secondcheck !== 'comments') {
                             return secondcheck;

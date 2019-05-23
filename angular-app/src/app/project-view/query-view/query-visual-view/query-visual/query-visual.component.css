@@ -1,26 +1,9 @@
-.svg-container {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%;
-    vertical-align: top;
-    overflow: hidden;
-    margin-top: 35px;
-}
 .button{
     position: absolute;
     z-index: 2;
+    right: 175px;
+    top: 45px;
 }
 .button p {
     margin-bottom: 0;
-}
-.svg-content-responsive {
-    display: inline-block;
-    position: absolute;
-    top: 50px;
-    left: 0;
-
-}
-.mat-figure{
-    align-items: first;
 }

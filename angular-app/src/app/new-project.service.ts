@@ -32,9 +32,9 @@ export class NewProjectService {
   laterPushOfAllGroups: Subject<Group[]> = new Subject<Group[]>();
   laterPushOfSelectedGroups: Subject<Group[]> = new Subject<Group[]>();
   constructor(private fbservice: FBServiceService,
-    private directoryservice: DirectoryService,
-    private navigationservice: NavigationService,
-    private router: Router) {
+              private directoryservice: DirectoryService,
+              private navigationservice: NavigationService,
+              private router: Router) {
   }
   public get Toggle(): number {
     return this.toggle;

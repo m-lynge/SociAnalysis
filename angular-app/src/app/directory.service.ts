@@ -119,7 +119,7 @@ export class DirectoryService {
             type: 'POST',
             data: { user, project, projectInfoObject },
             error: (XMLHttpRequest, textStatus, errorThrown) => {
-                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                alert('Status: ' + textStatus); alert('Error: ' + errorThrown);
             },
         });
 
@@ -176,7 +176,7 @@ export class DirectoryService {
             type: 'POST',
             data: { user, oldProjectName, newProjectName, queryName },
             error: (XMLHttpRequest, textStatus, errorThrown) => {
-                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                alert('Status: ' + textStatus); alert('Error: ' + errorThrown);
             },
         });
     }
@@ -187,7 +187,7 @@ export class DirectoryService {
             type: 'POST',
             data: { user, projectName },
             error: (XMLHttpRequest, textStatus, errorThrown) => {
-                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                alert('Status: ' + textStatus); alert('Error: ' + errorThrown);
             },
         });
     }
@@ -198,7 +198,7 @@ export class DirectoryService {
             type: 'POST',
             data: { user, projectName, queryName },
             error: (XMLHttpRequest, textStatus, errorThrown) => {
-                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                alert('Status: ' + textStatus); alert('Error: ' + errorThrown);
             },
         });
     }

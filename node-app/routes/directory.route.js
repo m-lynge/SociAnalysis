@@ -11,7 +11,7 @@ directoryRoute.get('/getUsers', (req, res) => {
     fs.readdir(path, function (err, items) {
         res.jsonp(items);
     });
-})
+});
 
 // returns all the project's paths from a user
 // found in the directory
@@ -24,20 +24,20 @@ directoryRoute.route('/getProjects/:user').get(function (req, res) {
                     newPath = path + projectName + '/' + 'projectinfo.json';
                     projectInfo = fs.readFileSync(newPath, 'utf8', (err, data) => {
                         if (err) throw err;
-                    })
+                    });
                     return {
                         "name": JSON.parse(projectInfo).name,
                         "desc": JSON.parse(projectInfo).desc,
                         "group": JSON.parse(projectInfo).group
                     }
-                })
+                });
                 res.jsonp(finalProejct);
             } else {
                 res.jsonp([{}]);
             }
         }
     });
-})
+});
 
 // returns all the Query paths from a given project from a given user
 // found in the directory
@@ -46,7 +46,7 @@ directoryRoute.route('/getQueries/:user/:project').get(function (req, res) {
     fs.readdir(path, function (err, items) {
         res.jsonp(items);
     });
-})
+});
 
 // returns the json file for a given project from a given user 
 directoryRoute.route('/getProject/:user/:project').get(function (req, res) {
@@ -54,9 +54,9 @@ directoryRoute.route('/getProject/:user/:project').get(function (req, res) {
         '/' + 'projectinfo.json';
     returnProject = fs.readFileSync(path, 'utf8', (err, data) => {
         if (err) throw err;
-    })
+    });
     res.jsonp(returnProject)
-})
+});
 
 // returns the json file for a given query from a given project 
 // from a given user 
@@ -65,9 +65,9 @@ directoryRoute.route('/getQuery/:user/:project/:query').get(function (req, res) 
         '/' + 'query' + '/' + req.params.query;
     returnQuery = fs.readFileSync(path, 'utf8', (err, data) => {
         if (err) throw err;
-    })
+    });
     res.jsonp(returnQuery)
-})
+});
 
 // checks if directory given already exists, returns true or false
 directoryRoute.route('/dirExists/:path').get(function (req, res) {
@@ -77,7 +77,7 @@ directoryRoute.route('/dirExists/:path').get(function (req, res) {
     } else {
         res.jsonp(false)
     }
-})
+});
 
 // checks if directory given already exists, returns true or false
 directoryRoute.route('/dirExists/:user/:project').get(function (req, res) {
@@ -87,7 +87,7 @@ directoryRoute.route('/dirExists/:user/:project').get(function (req, res) {
     } else {
         res.jsonp(false)
     }
-})
+});
 
 // checks if directory given already exists, returns true or false
 directoryRoute.route('/dirExists/:user/:project/:query').get(function (req, res) {
@@ -97,7 +97,7 @@ directoryRoute.route('/dirExists/:user/:project/:query').get(function (req, res)
     } else {
         res.jsonp(false)
     }
-})
+});
 
 // creates a folder in the path passed through the arguments 
 directoryRoute.route('/makeDir/:user').get(function (req, res) {
@@ -110,7 +110,7 @@ directoryRoute.route('/makeDir/:user').get(function (req, res) {
             res.jsonp(true)
         }
     })
-})
+});
 
 directoryRoute.route('/makeDir/:user/:project').get(function (req, res) {
     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/';
@@ -122,7 +122,7 @@ directoryRoute.route('/makeDir/:user/:project').get(function (req, res) {
             res.jsonp(true)
         }
     })
-})
+});
 
 directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req, res) {
     const finalPath = './users/' + req.params.user + '/' + req.params.project + '/' + req.params.groupOrQuery + '/';
@@ -134,7 +134,7 @@ directoryRoute.route('/makeDir/:user/:project/:groupOrQuery').get(function (req,
             res.jsonp(true)
         }
     })
-})
+});
 
 directoryRoute.post('/saveQueryJSON', (req, res) => {
     let username = req.body.user;
@@ -161,7 +161,7 @@ directoryRoute.post('/getQueryJson', (req, res) => {
     const finalPath = './users/' + username + '/' + project + '/' + 'query' + '/' + queryName;
     returnQuery = fs.readFileSync(finalPath, 'utf8', (err, data) => {
         if (err) throw err;
-    })
+    });
     res.jsonp(returnQuery);
 });
 
@@ -189,7 +189,7 @@ directoryRoute.post('/getProjectJson', (req, res) => {
     const finalPath = './users/' + username + '/' + projectName + '/' + 'projectinfo.json';
     returnProject = fs.readFileSync(finalPath, 'utf8', (err, data) => {
         if (err) throw err;
-    })
+    });
     res.jsonp(returnProject);
 });
 
@@ -202,7 +202,7 @@ directoryRoute.post('/copyFile', (req, res) => {
     const newPath = './users/' + user + '/' + newProject + '/query/' + queryName;
     fs_extra.copyFileSync(oldPath, newPath);
     res.jsonp(true)
-})
+});
 
 directoryRoute.post('/removeProject', (req, res) => {
     const user = req.body.user;
@@ -212,7 +212,7 @@ directoryRoute.post('/removeProject', (req, res) => {
         console.log('removed the previous project')
     });
     res.jsonp(true)
-})
+});
 
 directoryRoute.post('/removeQuery', (req, res) => {
     const user = req.body.user;
@@ -223,6 +223,6 @@ directoryRoute.post('/removeQuery', (req, res) => {
         console.log('removed the query')
     });
     res.jsonp(true)
-})
+});
 
 module.exports = directoryRoute;

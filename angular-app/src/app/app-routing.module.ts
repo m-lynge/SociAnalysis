@@ -5,9 +5,8 @@ import {LoadingViewComponent} from './loading-view/loading-view.component';
 import {HomeViewComponent} from './home-view/home-view.component';
 import {NewProjectViewComponent} from './new-project-view/new-project-view.component';
 import {ProjectViewComponent} from './project-view/project-view.component';
-import {QueryTypeSelectionViewComponent} from './project-view/query-type-selection-view/query-type-selection-view.component';
-import {QuerySettingViewComponent} from './project-view/query-setting-view/query-setting-view.component';
-
+import {QuerySettingViewComponent} from './query-setting-view/query-setting-view.component';
+import {QueryTypeSelectionViewComponent} from './query-type-selection-view/query-type-selection-view.component';
 
 const routes: Routes = [{path: '', component: LoginViewComponent},
     {path: 'loading', component: LoadingViewComponent},

@@ -1,14 +1,14 @@
 import {AfterContentInit, Component, OnInit} from '@angular/core';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
-import {Group} from '../../Group';
+import {Group} from '../Group';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DirectoryService} from 'src/app/directory.service';
 import {FBServiceService} from 'src/app/fb-service.service';
-import {Project} from '../../Project';
+import {Project} from '../Project';
 import {Router} from '@angular/router';
-import {NewQuery} from "../../NewQuery";
-import {Query} from "../../Query";
+import {NewQuery} from '../NewQuery';
+import {Query} from '../Query';
 
 export interface QuerySettingsInterface {
     name: string;
@@ -63,19 +63,13 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
     }
 
     checkForms() {
-        if ($('.fullsizeFormElement input:checkbox:checked').length > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $('.fullsizeFormElement input:checkbox:checked').length > 0;
     }
 
     numberOnly(event): boolean {
         const charCode = (event.which) ? event.which : event.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        }
-        return true;
+        return !(charCode > 31 && (charCode < 48 || charCode > 57));
+
 
     }
 
@@ -319,10 +313,8 @@ export class QuerySettingViewComponent implements AfterContentInit, OnInit {
         const bDate = Date.parse(beginDate);
         const eDate = Date.parse(endDate);
 
-        if ((cDate <= eDate && cDate >= bDate)) {
-            return true;
-        }
-        return false;
+        return (cDate <= eDate && cDate >= bDate);
+
     }
 
     filterByTag(tags: string[], contentToFilter): any[] {

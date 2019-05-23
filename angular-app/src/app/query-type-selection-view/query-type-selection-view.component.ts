@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { FBServiceService } from "../../fb-service.service";
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material";
-import { NewQuery } from "../../NewQuery";
-import { DirectoryService } from "../../directory.service";
-import { Project } from "../../Project";
-import { Group } from "../../Group";
-import { Query } from "../../Query";
-import { Router } from "@angular/router";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {FBServiceService} from "../fb-service.service";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {NewQuery} from '../NewQuery';
+import {DirectoryService} from '../directory.service';
+import {Project} from '../Project';
+import {Group} from '../Group';
+import {Query} from '../Query';
+import {Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 export interface name {
     name: string;
@@ -52,7 +52,7 @@ export class QueryTypeSelectionViewComponent implements OnInit {
     openDialog() {
         const dialogRef = this.dialog.open(DialogOverviewExampleDialogComponent, {
             width: '300px',
-            data: { name: this.name }
+            data: {name: this.name}
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -62,16 +62,16 @@ export class QueryTypeSelectionViewComponent implements OnInit {
                 const exportQuery: NewQuery = new NewQuery(
                     this.name,
                     ['message', 'comments', 'likes', 'reactions', 'permalink_url'],
-                    { from: '', till: '' },
+                    {from: '', till: ''},
                     this.listOfGroups,
-                    { max: 100, tags: [] }
+                    {max: 100, tags: []}
                 );
 
                 this.directoryservice.queryExists(
                     this.directoryservice.selectedUser, this.directoryservice.selectedProject, this.name + '.json')
                     .subscribe((queryExists) => {
                         if (queryExists === true) {
-                            const hasConfirmed = confirm('Ved at acceptere følgende sletter du en tidligere søgning med samme navn')
+                            const hasConfirmed = confirm('Ved at acceptere følgende sletter du en tidligere søgning med samme navn');
                             if (hasConfirmed === true) {
                                 this.isLoading = true;
                                 this.directoryservice.selectedQuery = this.name + '.json';

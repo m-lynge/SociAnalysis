@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, AfterContentInit } from "@angular/core";
-import { NewProjectService } from "src/app/new-project.service";
+import { Component, OnInit, Output, EventEmitter, AfterContentInit } from '@angular/core';
+import { NewProjectService } from 'src/app/new-project.service';
 import { Router } from '@angular/router';
 import { NavigationService } from 'src/app/navigation.service';
 import { DirectoryService } from 'src/app/directory.service';
@@ -22,7 +22,7 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
   ngOnInit() { }
 
   ngAfterContentInit(): void {
-    // It's a new project 
+    // It's a new project
     if (this.newprojectservice.NewProject) {
       this.navigationservice.GoBackRoute = ['/home'];
     } else {
@@ -34,7 +34,7 @@ export class NewProjectDescriptionComponent implements OnInit, AfterContentInit 
   buttonClicked(): void {
     this.directoryservice.projectExists(this.directoryservice.selectedUser, this.newprojectservice.name).subscribe((projectExists) => {
       if (projectExists !== true) {
-        // It's a new project 
+        // It's a new project
         if (this.newprojectservice.NewProject) {
           if (this.newprojectservice.name.length > 0 && this.newprojectservice.descr.length > 0) {
             this.newprojectservice.Toggle = 1;

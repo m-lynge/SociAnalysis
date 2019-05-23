@@ -13,8 +13,8 @@ const directoryRoute = require('./routes/directory.route');
 
 
 
-const privatekey = fs.readFileSync('../social.key', 'utf8')
-const certificate = fs.readFileSync('../social.crt', 'utf8')
+const privatekey = fs.readFileSync('../social.key', 'utf8');
+const certificate = fs.readFileSync('../social.crt', 'utf8');
 
 
 const pf = 'mta19635';

@@ -1,11 +1,6 @@
 .query-selector {
     display: table-cell;
-   
 }
-.wrapper{
-
-}
-
 .query-menu {
     display: table-cell;
    
@@ -19,13 +14,10 @@
     width: 20%;
 }
 #gridContainer{
-
     display: inline-block;
     width: 70%;
     padding: 20px;
 }
-
-
 .wrapper{
     width: 100%;
     height: 100%;
@@ -36,5 +28,10 @@
     padding: 20px;
     width: min-content;
     border-right: solid thin lightgrey;
+}
+.mat-figure{
+
+}
+.mat-grid-tile {
 
 }

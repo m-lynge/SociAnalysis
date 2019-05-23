@@ -7,7 +7,7 @@ import {DirectoryService} from '../directory.service';
     templateUrl: './home-view.component.html',
     styleUrls: ['./home-view.component.css']
 })
-export class HomeViewComponent implements OnInit, AfterViewInit {
+export class HomeViewComponent implements AfterViewInit {
 
     hasProjects: boolean;
 
@@ -19,18 +19,11 @@ export class HomeViewComponent implements OnInit, AfterViewInit {
         console.log(event);
     }
 
-    ngOnInit() {
-    }
-
-    changeToLoginView() {
-        this.router.navigate(['/projekt']);
-    }
-
     ngAfterViewInit(): void {
-        //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-        //Add 'implements AfterViewInit' to the class.
+        // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+        // Add 'implements AfterViewInit' to the class.
         if (!this.directoryservice.selectedUser) {
-            
+
             this.router.navigate(['/']);
         }
 

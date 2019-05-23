@@ -1,7 +1,7 @@
 p{
   margin: 0;
   padding: 0;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   font-size: 12px;
   text-transform: uppercase;
   font-weight: bold;
@@ -56,10 +56,6 @@ p{
   width: 100%;
   overflow-y: hidden;
 }
-#rightGroup {
-  float: right;
-  width: 50%;
-}
 .groupContainer {
   width: 100%;
   height: 50vh;
@@ -75,11 +71,6 @@ p{
   height: 13vh;
   padding-left: 5%;
 }
-.mat-card {
-  padding: 0;
-  margin-bottom: 5%;
-}
-
 .content {
   width: 90%;
   align-content: center;
